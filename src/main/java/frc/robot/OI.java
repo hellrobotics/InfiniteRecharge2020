@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class OI {
   public Joystick stick = new Joystick(0);
+  public Joystick stick2 = new Joystick(1);
 
     private static OI m_instance;
 	public static synchronized OI getInstance() {
