@@ -7,9 +7,18 @@
 
 package frc.robot;
 
+import java.util.Vector;
+
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.vision.VisionThread;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.drive.Vector2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ExampleCommand;
@@ -28,8 +37,26 @@ public class Robot extends TimedRobot {
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
+  private static final String kDefaultAuto = "Default";
+  private static final String kCustomAuto = "My Auto";
+  private String m_autoSelected;
+
+
 
   Command testRun = new ExampleCommand();
+  private static final int IMG_WIDTH = 320;
+  private static final int IMG_HEIGHT = 240;
+  
+	private int IMG_EXPOSURE = 30;
+	private VisionThread visionThread;
+  private double centerX = (0);
+  private final Object imgLock = new Object();
+
+  NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
+  private static NetworkTableEntry centerXEntry;
+
+  public static double visionError = 0.0;
+  
 
   /**
    * This function is run when the robot is first started up and should be
@@ -42,7 +69,15 @@ public class Robot extends TimedRobot {
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
     testRun.start();
+    SmartDashboard.putData("Auto choices", m_chooser);
+    SmartDashboard.putNumber("Exposure", IMG_EXPOSURE);
 
+    
+
+
+    NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
+    NetworkTable table = ntinst.getTable("OpenSight");
+    centerXEntry = table.getEntry("centerX-x"); 
   }
 
   /**
@@ -55,6 +90,22 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+ 
+    IMG_EXPOSURE = (int)SmartDashboard.getNumber("Exposure", 50);
+    centerX = centerXEntry.getDouble(-1);
+    System.out.println("Center = " + centerX);
+    double centerXp;
+    synchronized (imgLock) {
+      centerXp = this.centerX;
+    }
+    if (centerXp != -1) {
+      visionError = centerXp - (IMG_WIDTH / 2.0*0.25);
+      System.out.println(centerXp + " " + visionError);
+      //testMotor.set((turn*-0.3)/(IMG_WIDTH / 2*0.25));
+    } else {
+      System.out.println("RÆVA MI E KLAR!!!!!!");
+      visionError = 0.0;
+    }
   }
 
   /**
@@ -105,6 +156,26 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
+
+    switch (m_autoSelected) {
+      case kCustomAuto:
+        // Put custom auto code here
+        break;
+      case kDefaultAuto:
+      default:
+        double centerX;
+        synchronized (imgLock) {
+          centerX = this.centerX;
+        }
+        if (centerX != -1) {
+          visionError = centerX - (IMG_WIDTH / 2*0.25);
+          //System.out.println(turn/(IMG_WIDTH / 2*0.25) + " " + centerX);
+          //testMotor.set((turn*-0.3)/(IMG_WIDTH / 2*0.25));
+        } else {
+          visionError = 0;
+        }
+        break;
+    }
   }
 
   @Override
@@ -127,6 +198,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     testRun.start();
+    
 
   }
 
