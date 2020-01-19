@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
   private static NetworkTableEntry centerXEntry;
 
   public static double visionError = 0.0;
-  
+  public static double CenteX = 0.0;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -93,19 +93,22 @@ public class Robot extends TimedRobot {
  
     IMG_EXPOSURE = (int)SmartDashboard.getNumber("Exposure", 50);
     centerX = centerXEntry.getDouble(-1);
-    System.out.println("Center = " + centerX);
+    //System.out.println("Center = " + centerX);
+    CenteX = ((centerX/255) -0.5);
+    //System.out.println(CenteX);
     double centerXp;
     synchronized (imgLock) {
       centerXp = this.centerX;
     }
     if (centerXp != -1) {
       visionError = centerXp - (IMG_WIDTH / 2.0*0.25);
-      System.out.println(centerXp + " " + visionError);
+      //System.out.println(centerXp + " " + visionError);
       //testMotor.set((turn*-0.3)/(IMG_WIDTH / 2*0.25));
     } else {
       System.out.println("RÆVA MI E KLAR!!!!!!");
       visionError = 0.0;
     }
+
   }
 
   /**

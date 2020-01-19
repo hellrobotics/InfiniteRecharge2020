@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
+import frc.robot.Robot;
 import frc.robot.subsystems.EncoderSub;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.pneumaticSub;
@@ -36,10 +37,10 @@ public class ExampleCommand extends Command {
   }
 
 
-  private void requires(pneumaticSub ssPneu2) {
+  private void requires(final pneumaticSub ssPneu2) {
   }
 
-  private void requires(EncoderSub ssGrab2) {
+  private void requires(final EncoderSub ssGrab2) {
   }
 
   // Called just before this Command runs the first time
@@ -50,27 +51,27 @@ public class ExampleCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    int refference = (int) (oi.stick.getRawAxis(3)*1000);
+    final int refference = (int) (oi.stick.getRawAxis(3)*1000);
     int pos = ssGrab.getEncoderPos1();
     if(!ssGrab.getEndstop1()){
     pos = ssGrab.getEncoderPos1();
 
-    double error = refference - pos;
-    double SPeD = error * 0.05;
+    final double error = refference - pos;
+    final double SPeD = error * 0.05;
     SmartDashboard.putNumber("grabPos", pos);
     SmartDashboard.putNumber("SPeD", SPeD);
     ssRun.RunMotor2((SPeD) * -1);
     
     try {
       Thread.sleep(10);
-    } catch (InterruptedException e) {
+    } catch (final InterruptedException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
 
   } else{
-    double error = 0 - pos;
-    double SPeD = error * 0.05;
+    final double error = 0 - pos;
+    final double SPeD = error * 0.05;
     SmartDashboard.putNumber("grabPos", pos);
     SmartDashboard.putNumber("SPeD", SPeD);
   }
@@ -79,23 +80,25 @@ public class ExampleCommand extends Command {
   
   
     if (oi.stick.getRawButton(1)) {
-      ssRun.RunMotor1(1);
-    } else if (oi.stick.getRawButton(2)) {
-      ssRun.RunMotor1(-1);
-    } else {
-      ssRun.RunMotor1(0);
+   double error = 0 -  Robot.CenteX;
+   double speed = error * 0.15;
+        System.out.println(speed);
+        ssRun.RunMotor2(speed);
+      
     }
+    
 
-    if (oi.stick.getRawButton(3)) {
-      ssRun.RunMotor2(1);
+    else if (oi.stick.getRawButton(3)) {
+      ssRun.RunMotor2(0.1);
     } 
     else if (oi.stick.getRawButton(4)){
-    ssRun.RunMotor2(-1);
+    ssRun.RunMotor2(-0.1);
 
       }   else{
       ssRun.RunMotor2(0);
     }
 
+/*
     if(oi.stick.getRawButton(8)){
       ssPneu.Solenoid0(true);
     } else{
@@ -126,7 +129,7 @@ public class ExampleCommand extends Command {
     } else{
       ssPneu.Solenoid5(false);
     }
- 
+ */
   }
 
   // Make this return true when this Command no longer needs to run execute()

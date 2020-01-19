@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 /**
@@ -57,6 +58,7 @@ public class ExampleSubsystem extends Subsystem {
   public void RunMotor4(double speed) {
     motor4.set(speed);
   }
+
 /*
 
   */
