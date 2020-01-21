@@ -6,19 +6,12 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
-
-import java.util.Vector;
-
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.vision.VisionThread;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.drive.Vector2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ExampleCommand;
@@ -45,10 +38,8 @@ public class Robot extends TimedRobot {
 
   Command testRun = new ExampleCommand();
   private static final int IMG_WIDTH = 320;
-  private static final int IMG_HEIGHT = 240;
   
 	private int IMG_EXPOSURE = 30;
-	private VisionThread visionThread;
   private double centerX = (0);
   private final Object imgLock = new Object();
 

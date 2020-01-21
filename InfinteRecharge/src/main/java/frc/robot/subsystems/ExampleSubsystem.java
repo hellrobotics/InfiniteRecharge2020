@@ -1,9 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
 
@@ -12,15 +6,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 
-/**
- * An example subsystem. You can replace with me with your own subsystem.
- */
+
 public class ExampleSubsystem extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+  // Inserting all Motorcontrollers
   public WPI_VictorSPX motor1 = new WPI_VictorSPX(RobotMap.MOTOR1);
   public WPI_VictorSPX motor2 = new WPI_VictorSPX(RobotMap.MOTOR2);
   public WPI_VictorSPX motor3 = new WPI_VictorSPX(RobotMap.MOTOR3);
@@ -31,8 +21,8 @@ public class ExampleSubsystem extends Subsystem {
 
   @Override
   protected void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+
+    
   }
 
  
@@ -45,7 +35,7 @@ public class ExampleSubsystem extends Subsystem {
   }
   
  
-  
+  //Function for motor speed controll
   public void RunMotor1(double speed) {
     motor1.set(speed);
   }
@@ -59,9 +49,8 @@ public class ExampleSubsystem extends Subsystem {
     motor4.set(speed);
   }
 
-/*
 
-  */
+  //Idk tbh
   private static ExampleSubsystem m_instance;
 	public static synchronized ExampleSubsystem getInstance() {
 		if (m_instance == null){
