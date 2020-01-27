@@ -18,7 +18,7 @@ public class OI {
   public Joystick stick = new Joystick(0);
 
 	//Controller
-
+	public Joystick controller = new Joystick(1);
 	//Gyro
 
 

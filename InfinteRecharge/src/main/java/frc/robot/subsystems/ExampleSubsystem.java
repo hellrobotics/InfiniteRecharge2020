@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
@@ -15,7 +14,6 @@ public class ExampleSubsystem extends Subsystem {
   public WPI_VictorSPX motor2 = new WPI_VictorSPX(RobotMap.MOTOR2);
   public WPI_VictorSPX motor3 = new WPI_VictorSPX(RobotMap.MOTOR3);
   public WPI_VictorSPX motor4 = new WPI_VictorSPX(RobotMap.MOTOR4);
-
 
 
 
@@ -48,7 +46,6 @@ public class ExampleSubsystem extends Subsystem {
   public void RunMotor4(double speed) {
     motor4.set(speed);
   }
-
 
   //Idk tbh
   private static ExampleSubsystem m_instance;

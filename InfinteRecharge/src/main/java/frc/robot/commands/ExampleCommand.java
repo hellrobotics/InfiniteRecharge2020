@@ -1,11 +1,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.subsystems.EncoderSub;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.ServoSub;
 import frc.robot.subsystems.pneumaticSub;
 
 
@@ -15,6 +15,7 @@ public class ExampleCommand extends Command {
   private final OI oi;
   private final ExampleSubsystem ssRun;
   private final EncoderSub ssGrab;
+  private final ServoSub  ssServ;
   private final pneumaticSub ssPneu;
 
   public ExampleCommand() {
@@ -25,11 +26,16 @@ public class ExampleCommand extends Command {
     requires(ssGrab);
     ssPneu = pneumaticSub.getInstance();
     requires(ssPneu);
+    ssServ = ServoSub.getInstance();
+    requires(ssServ);
     oi = OI.getInstance();
 
   }
 
-//Add requires() for ssPneu and ssGrab
+  private void requires(ServoSub ssServ2) {
+  }
+
+  // Add requires() for ssPneu and ssGrab
   private void requires(final pneumaticSub ssPneu2) {
   }
 
@@ -43,6 +49,8 @@ public class ExampleCommand extends Command {
   @Override
   protected void execute() {
 
+
+    /*
     //Encoder testing
     final int refference = (int) (oi.stick.getRawAxis(3)*1000);
     int pos = ssGrab.getEncoderPos1();
@@ -52,6 +60,7 @@ public class ExampleCommand extends Command {
     //More encoder testing
     final double error = refference - pos;
     final double SPeD = error * 0.05;
+
     SmartDashboard.putNumber("grabPos", pos);
     SmartDashboard.putNumber("SPeD", SPeD);
     ssRun.RunMotor2((SPeD) * -1);
@@ -70,31 +79,26 @@ public class ExampleCommand extends Command {
     SmartDashboard.putNumber("SPeD", SPeD);
   }
   
-  
+  */
   
     //Vision control
-    if (oi.stick.getRawButton(1)) {
+    if (oi.controller.getRawButton(1)) {
    double error = 0 -  Robot.CenteX;
-   double speed = error * 0.15;
+   double speed = error * 1;
         System.out.println(speed);
-        ssRun.RunMotor2(speed);
-      
+        ssRun.RunMotor2(error);
+    }
+    else{
+    ssRun.RunMotor2(oi.controller.getRawAxis(0)/(-3));
+
     }
     
     //Run motors
-    else if (oi.stick.getRawButton(3)) {
-      ssRun.RunMotor2(0.1);
-    } 
-    else if (oi.stick.getRawButton(4)){
-    ssRun.RunMotor2(-0.1);
+   
 
-      }   else{
-      ssRun.RunMotor2(0);
-    }
-
-
+  
     //Solenoid controll
-/*
+
     if(oi.stick.getRawButton(8)){
       ssPneu.Solenoid0(true);
     } else{
@@ -125,7 +129,7 @@ public class ExampleCommand extends Command {
     } else{
       ssPneu.Solenoid5(false);
     }
- */
+ 
   }
 
   @Override

@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -17,13 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the TimedRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.gradle file in the
- * project.
- */
+
 public class Robot extends TimedRobot {
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
   public static OI m_oi;
@@ -41,14 +28,17 @@ public class Robot extends TimedRobot {
   
 	private int IMG_EXPOSURE = 30;
   private double centerX = (0);
+  private double centerY = (0);
+
   private final Object imgLock = new Object();
 
   NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
   private static NetworkTableEntry centerXEntry;
+  private static NetworkTableEntry centerYEntry;
 
   public static double visionError = 0.0;
   public static double CenteX = 0.0;
-
+  public static double CenteY = 0.0;
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -69,6 +59,7 @@ public class Robot extends TimedRobot {
     NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
     NetworkTable table = ntinst.getTable("OpenSight");
     centerXEntry = table.getEntry("centerX-x"); 
+    centerYEntry = table.getEntry("centerX-y");
   }
 
   /**
@@ -84,9 +75,12 @@ public class Robot extends TimedRobot {
  
     IMG_EXPOSURE = (int)SmartDashboard.getNumber("Exposure", 50);
     centerX = centerXEntry.getDouble(-1);
+    centerY = centerYEntry.getDouble(-1);
+
     //System.out.println("Center = " + centerX);
     CenteX = ((centerX/255) -0.5);
-    //System.out.println(CenteX);
+    CenteY = ((centerY/255) -0.5);
+    System.out.println(CenteY);
     double centerXp;
     synchronized (imgLock) {
       centerXp = this.centerX;
