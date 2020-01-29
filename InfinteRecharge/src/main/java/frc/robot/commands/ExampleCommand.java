@@ -83,7 +83,7 @@ public class ExampleCommand extends Command {
   
     //Vision control
     if (oi.controller.getRawButton(1)) {
-   double error = 0 -  Robot.CenteX;
+   double error = 0 -  Robot.visionError;
    double speed = error * 1;
         System.out.println(speed);
         ssRun.RunMotor2(error);
