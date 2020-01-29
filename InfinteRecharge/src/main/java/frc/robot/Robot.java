@@ -26,7 +26,6 @@ public class Robot extends TimedRobot {
   Command testRun = new ExampleCommand();
   private static final int IMG_WIDTH = 320;
   
-	private int IMG_EXPOSURE = 30;
   private double centerX = (0);
   private double centerY = (0);
 
@@ -37,6 +36,7 @@ public class Robot extends TimedRobot {
   private static NetworkTableEntry centerYEntry;
 
   public static double visionError = 0.0;
+  public static double visionErrorY = 0.0;
   public static double CenteX = 0.0;
   public static double CenteY = 0.0;
   /**
@@ -47,11 +47,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_oi = new OI();
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
-    // chooser.addOption("My Auto", new MyAutoCommand());
-    SmartDashboard.putData("Auto mode", m_chooser);
+
     testRun.start();
-    SmartDashboard.putData("Auto choices", m_chooser);
-    SmartDashboard.putNumber("Exposure", IMG_EXPOSURE);
 
     
 
@@ -73,7 +70,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
  
-    IMG_EXPOSURE = (int)SmartDashboard.getNumber("Exposure", 50);
     centerX = centerXEntry.getDouble(-1);
     centerY = centerYEntry.getDouble(-1);
 
@@ -82,6 +78,7 @@ public class Robot extends TimedRobot {
     CenteY = ((centerY/255) -0.5);
     System.out.println(CenteY);
     double centerXp;
+    double centerYp;
     synchronized (imgLock) {
       centerXp = this.centerX;
     }
@@ -90,8 +87,18 @@ public class Robot extends TimedRobot {
       //System.out.println(centerXp + " " + visionError);
       //testMotor.set((turn*-0.3)/(IMG_WIDTH / 2*0.25));
     } else {
-      System.out.println("RÆVA MI E KLAR!!!!!!");
+      System.out.println("No targets X-axis");
       visionError = 0.0;
+    }
+    synchronized(imgLock){
+    centerYp = this.centerY;
+    }
+    if (centerYp != -1){
+      visionErrorY =centerYp - (IMG_WIDTH / 2.0*0.25);
+
+    } else{
+      System.out.println("No targets Y-axis");
+      visionErrorY = 0.0;
     }
 
   }

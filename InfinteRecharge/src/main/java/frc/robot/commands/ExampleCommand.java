@@ -92,6 +92,12 @@ public class ExampleCommand extends Command {
     ssRun.RunMotor2(oi.controller.getRawAxis(0)/(-3));
 
     }
+    if(oi.controller.getRawButton(2)){
+      ssServ.ServoPos(1);
+    }
+    else if(oi.controller.getRawButton(3)){
+      ssServ.ServoPos(0);
+    }
     
     //Run motors
    
