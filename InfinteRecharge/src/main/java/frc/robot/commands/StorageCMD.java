@@ -7,7 +7,7 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.command.Command;
 
 public class StorageCMD extends Command {
   /**
@@ -27,9 +27,8 @@ public class StorageCMD extends Command {
   public void execute() {
   }
 
-  // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
+  protected void end() {
   }
 
   // Returns true when the command should end.

@@ -195,6 +195,11 @@ public class Robot extends TimedRobot {
     // continue until interrupted by another command, remove
     // this line or comment it out.
     testRun.start();
+    cannonRun.start();
+    driveRun.start();
+    intakeRun.start();
+    storageRun.start();
+
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
@@ -208,7 +213,10 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     testRun.start();
-    
+    cannonRun.start();
+    driveRun.start();
+    intakeRun.start();
+    storageRun.start();
 
   }
 
