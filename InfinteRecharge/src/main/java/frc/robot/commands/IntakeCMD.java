@@ -9,7 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class IntakeCMD extends CommandBase {
+public class IntakeCMD extends Command {
   /**
    * Creates a new IntakeCMD.
    */
