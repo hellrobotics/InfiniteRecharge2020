@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.subsystems.EncoderSub;
@@ -8,15 +9,16 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.ServoSub;
 import frc.robot.subsystems.pneumaticSub;
 
-
 public class ExampleCommand extends Command {
 
-  //Add HID device and Subsystem grabs
+  // Add HID device and Subsystem grabs
   private final OI oi;
   private final ExampleSubsystem ssRun;
   private final EncoderSub ssGrab;
-  private final ServoSub  ssServ;
+  private final ServoSub ssServ;
   private final pneumaticSub ssPneu;
+  private int LastPos = 0;
+  private double Speed2 = 0.0;
 
   public ExampleCommand() {
     //Finalise adding of subsystem grabs and HID
@@ -50,36 +52,37 @@ public class ExampleCommand extends Command {
   protected void execute() {
 
 
-    /*
-    //Encoder testing
-    final int refference = (int) (oi.stick.getRawAxis(3)*1000);
-    int pos = ssGrab.getEncoderPos1();
-    if(!ssGrab.getEndstop1()){
-    pos = ssGrab.getEncoderPos1();
-
-    //More encoder testing
-    final double error = refference - pos;
-    final double SPeD = error * 0.05;
-
-    SmartDashboard.putNumber("grabPos", pos);
-    SmartDashboard.putNumber("SPeD", SPeD);
-    ssRun.RunMotor2((SPeD) * -1);
     
-    try {
-      Thread.sleep(10);
-    } catch (final InterruptedException e) {
-      
-      e.printStackTrace();
+    //Encoder testing
+    int pos = ssGrab.getEncoderPos1();
+    if(oi.stick.getRawButton(1)){
+    pos = ssGrab.getEncoderPos1();
+    if(pos - LastPos > 13){
+      Speed2 -= 0.1;
+    }
+   if(12 > pos - LastPos ){
+      Speed2 += 0.1;
     }
 
-  } else{
+    if(!ssGrab.getEndstop1()){
+      System.out.println("YEET");
+    }
+    
+    //More encoder testing
+    /*
     final double error = 0 - pos;
-    final double SPeD = error * 0.05;
+    final double Speed2 = error * 0.05;
+*/
+     
     SmartDashboard.putNumber("grabPos", pos);
-    SmartDashboard.putNumber("SPeD", SPeD);
+    SmartDashboard.putNumber("Speed2", Speed2*0.8);
+    SmartDashboard.putNumber("Speed difference ", pos - LastPos);
+
+    LastPos = pos;
+
   }
   
-  */
+  
   
     //Vision control
     if (oi.controller.getRawButton(1)) {
@@ -100,9 +103,12 @@ public class ExampleCommand extends Command {
     }
     
     //Run motors
-   
-
-  
+   if(oi.stick.getRawButton(2)){
+     ssRun.RunMotor1(Speed2*0.8);
+   }
+   else{
+     ssRun.RunMotor1(0);
+   }
     //Solenoid controll
 
     if(oi.stick.getRawButton(8)){

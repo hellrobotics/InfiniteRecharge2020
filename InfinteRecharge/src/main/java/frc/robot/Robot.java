@@ -1,4 +1,5 @@
 package frc.robot;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -6,8 +7,11 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.CannonCMD;
+import frc.robot.commands.DriveCMD;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.IntakeCMD;
+import frc.robot.commands.StorageCMD;
 import frc.robot.subsystems.ExampleSubsystem;
 
 
@@ -24,6 +28,11 @@ public class Robot extends TimedRobot {
 
 
   Command testRun = new ExampleCommand();
+  Command driveRun = new DriveCMD();
+  Command cannonRun = new CannonCMD();
+  Command intakeRun = new IntakeCMD();
+  Command storageRun = new StorageCMD();
+
   private static final int IMG_WIDTH = 320;
   
   private double centerX = (0);
@@ -49,12 +58,15 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
 
     testRun.start();
-
+    cannonRun.start();
+    driveRun.start();
+    intakeRun.start();
+    storageRun.start();
     
 
 
-    NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
-    NetworkTable table = ntinst.getTable("OpenSight");
+    final NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
+    final NetworkTable table = ntinst.getTable("OpenSight");
     centerXEntry = table.getEntry("centerX-x"); 
     centerYEntry = table.getEntry("centerX-y");
   }
@@ -73,9 +85,11 @@ public class Robot extends TimedRobot {
     centerX = centerXEntry.getDouble(-1);
     centerY = centerYEntry.getDouble(-1);
 
-    //System.out.println("Center = " + centerX);
+    /*
     CenteX = ((centerX/255) -0.5);
     CenteY = ((centerY/255) -0.5);
+    */
+    
     System.out.println(CenteY);
     double centerXp;
     double centerYp;
@@ -84,8 +98,8 @@ public class Robot extends TimedRobot {
     }
     if (centerXp != -1) {
       visionError = centerXp - (IMG_WIDTH / 2.0*0.25);
-      //System.out.println(centerXp + " " + visionError);
-      //testMotor.set((turn*-0.3)/(IMG_WIDTH / 2*0.25));
+      System.out.println(centerXp + " " + visionError);
+
     } else {
       System.out.println("No targets X-axis");
       visionError = 0.0;
@@ -95,6 +109,7 @@ public class Robot extends TimedRobot {
     }
     if (centerYp != -1){
       visionErrorY =centerYp - (IMG_WIDTH / 2.0*0.25);
+      System.out.println(centerYp + " " + visionError);
 
     } else{
       System.out.println("No targets Y-axis");
