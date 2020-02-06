@@ -9,7 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class CannonCMD extends CommandBase {
+public class CannonCMD extends Command {
   /**
    * Creates a new CannonCMD.
    */
