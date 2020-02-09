@@ -64,9 +64,7 @@ public class ExampleCommand extends Command {
       Speed2 += 0.1;
     }
 
-    if(!ssGrab.getEndstop1()){
-      System.out.println("YEET");
-    }
+   
     
     //More encoder testing
     /*
@@ -110,7 +108,19 @@ public class ExampleCommand extends Command {
      ssRun.RunMotor1(0);
    }
     //Solenoid controll
-
+/*
+    if(!ssGrab.getEndstopC()) {
+      ssServ.ServoPos(0);
+    }
+    else if (!ssGrab.getEndstopA()){
+      ssServ.ServoPos(1);
+    }
+    else if (!ssGrab.getEndstopB()){
+      ssServ.ServoPos(1);
+    }
+    else{
+      ssServ.ServoPos(0);
+    }*/
     if(oi.stick.getRawButton(8)){
       ssPneu.Solenoid0(true);
     } else{

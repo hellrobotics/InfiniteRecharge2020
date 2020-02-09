@@ -9,6 +9,13 @@ import frc.robot.RobotMap;
 public class EncoderSub extends SubsystemBase {
   //Add endstop and encoder
   public DigitalInput endStop1 = new DigitalInput(RobotMap.ENDSTOP1);
+
+  public DigitalInput endStopA = new DigitalInput(RobotMap.ENDSTOPA);
+
+  public DigitalInput endStopB = new DigitalInput(RobotMap.ENDSTOPB);
+
+  public DigitalInput endStopC = new DigitalInput(RobotMap.ENDSTOPC);
+
   public Encoder encoder1 = new Encoder(RobotMap.ENCODER1, RobotMap.ENCODER2);
 
 
@@ -28,6 +35,15 @@ public class EncoderSub extends SubsystemBase {
   //Grab endstop state
   public boolean getEndstop1() {
     return endStop1.get();
+  }
+  public boolean getEndstopA() {
+    return endStopA.get();
+  }
+  public boolean getEndstopB() {
+    return endStopB.get();
+  }
+  public boolean getEndstopC() {
+    return endStopC.get();
   }
   
   //Idk tbh

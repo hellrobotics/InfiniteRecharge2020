@@ -90,7 +90,7 @@ public class Robot extends TimedRobot {
     CenteY = ((centerY/255) -0.5);
     */
     
-    System.out.println(CenteY);
+    //System.out.println(CenteY);
     double centerXp;
     double centerYp;
     synchronized (imgLock) {
@@ -98,10 +98,10 @@ public class Robot extends TimedRobot {
     }
     if (centerXp != -1) {
       visionError = centerXp - (IMG_WIDTH / 2.0*0.25);
-      System.out.println(centerXp + " " + visionError);
+      //System.out.println(centerXp + " " + visionError);
 
     } else {
-      System.out.println("No targets X-axis");
+     //System.out.println("No targets X-axis");
       visionError = 0.0;
     }
     synchronized(imgLock){
@@ -109,10 +109,10 @@ public class Robot extends TimedRobot {
     }
     if (centerYp != -1){
       visionErrorY =centerYp - (IMG_WIDTH / 2.0*0.25);
-      System.out.println(centerYp + " " + visionError);
+      //System.out.println(centerYp + " " + visionError);
 
     } else{
-      System.out.println("No targets Y-axis");
+      //System.out.println("No targets Y-axis");
       visionErrorY = 0.0;
     }
 

@@ -15,24 +15,15 @@ public class ExampleSubsystem extends Subsystem {
   public WPI_VictorSPX motor3 = new WPI_VictorSPX(RobotMap.MOTOR3);
   public WPI_VictorSPX motor4 = new WPI_VictorSPX(RobotMap.MOTOR4);
 
-
-
   @Override
-  protected void initDefaultCommand() {
-
-    
+  protected void initDefaultCommand() {  
   }
 
- 
-  
-
-  
   @Override
   public Command getCurrentCommand() {
     return super.getCurrentCommand();
   }
-  
- 
+
   //Function for motor speed controll
   public void RunMotor1(double speed) {
     motor1.set(speed);
@@ -46,7 +37,6 @@ public class ExampleSubsystem extends Subsystem {
   public void RunMotor4(double speed) {
     motor4.set(speed);
   }
-
   //Idk tbh
   private static ExampleSubsystem m_instance;
 	public static synchronized ExampleSubsystem getInstance() {

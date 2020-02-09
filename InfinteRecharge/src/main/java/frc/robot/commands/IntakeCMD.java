@@ -8,13 +8,22 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.subsystems.ServoSub;
 
 public class IntakeCMD extends Command {
   /**
    * Creates a new IntakeCMD.
    */
+  private final ServoSub ssServ;
+
   public IntakeCMD() {
     // Use addRequirements() here to declare subsystem dependencies.
+    ssServ = ServoSub.getInstance();
+    requires(ssServ);
+  }
+
+  private void requires(ServoSub ssServ2) {
   }
 
   // Called when the command is initially scheduled.
@@ -25,6 +34,8 @@ public class IntakeCMD extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    ssServ.ServoPos(1);
   }
 
   // Called once the command ends or is interrupted.

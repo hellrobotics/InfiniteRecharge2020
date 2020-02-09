@@ -34,6 +34,10 @@ public class RobotMap {
   public static int ENCODER2 = 1;
   public static int ENDSTOP1 = 2;
 
+  public static int ENDSTOPA = 8;
+  public static int ENDSTOPB = 7;
+  public static int ENDSTOPC =9;
+
   //PWM
   public static int SERVO1 = 0;
   
