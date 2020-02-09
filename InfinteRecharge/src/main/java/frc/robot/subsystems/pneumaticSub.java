@@ -8,7 +8,7 @@ import frc.robot.RobotMap;
 public class pneumaticSub extends SubsystemBase {
 
   //Add all solenoids
-  public Solenoid solenoid0 = new Solenoid(RobotMap.SOLENOID0);
+  //public Solenoid solenoid0 = new Solenoid(RobotMap.SOLENOID0);
   public Solenoid solenoid1 = new Solenoid(RobotMap.SOLENOID1);
   public Solenoid solenoid2 = new Solenoid(RobotMap.SOLENOID2);
   public Solenoid solenoid3 = new Solenoid(RobotMap.SOLENOID3);
@@ -24,7 +24,7 @@ public class pneumaticSub extends SubsystemBase {
     //Functions to controll solenoid states
   }
   public void Solenoid0(boolean extend){
-    solenoid0.set(extend);
+    //solenoid0.set(extend);
   }
   public void Solenoid1(boolean extend){
     solenoid1.set(extend);

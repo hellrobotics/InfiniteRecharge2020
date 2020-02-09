@@ -7,17 +7,26 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
-public class IntakeSubsystem extends SubsystemBase {
+public class IntakeSubsystem extends Subsystem {
 
   public Solenoid intakeSolenoid = new Solenoid(RobotMap.SOLENOID0);
-  public VictorSPX intakeMotor = new VictorSPX(0);
+  public VictorSPX intakeMotor = new VictorSPX(RobotMap.INTAKEMOTOR);
+  public boolean intakeRaised = true;
 
+  private static IntakeSubsystem m_instance;
+	public static synchronized IntakeSubsystem getInstance() {
+		if (m_instance == null){
+			m_instance = new IntakeSubsystem();
+    }
+    return m_instance;
+  }
   /**
    * Creates a new IntakeSubsystem.
    */
@@ -25,8 +34,23 @@ public class IntakeSubsystem extends SubsystemBase {
 
   }
 
+  
+
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  public void initDefaultCommand() {
+    
+  }
+
+  public void RunIntake(double power) {
+    intakeMotor.set(ControlMode.PercentOutput, power);
+  }
+
+  public void RaiseIntake(boolean state) {
+    intakeSolenoid.set(state);
+    intakeRaised = state;
+  }
+
+  public void ToggleIntake() {
+    RaiseIntake(!intakeRaised);
   }
 }

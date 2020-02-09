@@ -20,6 +20,9 @@ public class RobotMap {
   public static int MOTOR2 = 2;
   public static int MOTOR3 = 3;
   public static int MOTOR4 = 4;
+  public static int INTAKEMOTOR = 5;
+  public static int FLYWHEELMOTOR = 6;
+  public static int TURRETMOTOR = 7;
 
   //PCM
   public static int SOLENOID0 = 0;
