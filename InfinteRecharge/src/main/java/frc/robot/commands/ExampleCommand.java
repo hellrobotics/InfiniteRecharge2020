@@ -7,7 +7,6 @@ import frc.robot.Robot;
 import frc.robot.subsystems.EncoderSub;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.ServoSub;
-import frc.robot.subsystems.pneumaticSub;
 
 public class ExampleCommand extends Command {
 
@@ -16,7 +15,6 @@ public class ExampleCommand extends Command {
   private final ExampleSubsystem ssRun;
   private final EncoderSub ssGrab;
   private final ServoSub ssServ;
-  private final pneumaticSub ssPneu;
   private int LastPos = 0;
   private double Speed2 = 0.0;
 
@@ -26,8 +24,7 @@ public class ExampleCommand extends Command {
     requires(ssRun);
     ssGrab = EncoderSub.getInstance();
     requires(ssGrab);
-    ssPneu = pneumaticSub.getInstance();
-    requires(ssPneu);
+    
     ssServ = ServoSub.getInstance();
     requires(ssServ);
     oi = OI.getInstance();
@@ -37,9 +34,7 @@ public class ExampleCommand extends Command {
   private void requires(ServoSub ssServ2) {
   }
 
-  // Add requires() for ssPneu and ssGrab
-  private void requires(final pneumaticSub ssPneu2) {
-  }
+  
 
   private void requires(final EncoderSub ssGrab2) {
   }
@@ -121,37 +116,6 @@ public class ExampleCommand extends Command {
     else{
       ssServ.ServoPos(0);
     }*/
-    if(oi.stick.getRawButton(8)){
-      ssPneu.Solenoid0(true);
-    } else{
-      ssPneu.Solenoid0(false);
-    }
-    if(oi.stick.getRawButton(7)){
-      ssPneu.Solenoid1(true);
-    } else{
-      ssPneu.Solenoid1(false);
-    }
-    if(oi.stick.getRawButton(10)){
-      ssPneu.Solenoid2(true);
-    } else{
-      ssPneu.Solenoid2(false);
-    }
-    if(oi.stick.getRawButton(9)){
-      ssPneu.Solenoid3(true);
-    } else{
-      ssPneu.Solenoid3(false);
-    }
-    if(oi.stick.getRawButton(12)){
-      ssPneu.Solenoid4(true);
-    } else{
-      ssPneu.Solenoid4(false);
-    }
-    if(oi.stick.getRawButton(11)){
-      ssPneu.Solenoid5(true);
-    } else{
-      ssPneu.Solenoid5(false);
-    }
- 
   }
 
   @Override
