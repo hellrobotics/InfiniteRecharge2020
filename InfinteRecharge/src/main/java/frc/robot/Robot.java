@@ -27,11 +27,11 @@ public class Robot extends TimedRobot {
 
 
 
-  //Command testRun = new ExampleCommand();
-  //Command driveRun = new DriveCMD();
+  Command testRun = new ExampleCommand();
+  Command driveRun = new DriveCMD();
   Command cannonRun = new CannonCMD();
   Command intakeRun = new IntakeCMD();
-  //Command storageRun = new StorageCMD();
+  Command storageRun = new StorageCMD();
 
   private static final int IMG_WIDTH = 320;
   
@@ -56,19 +56,19 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_oi = new OI();
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
-/*
+
     testRun.start();
     cannonRun.start();
     driveRun.start();
     intakeRun.start();
     storageRun.start();
-  */  
+  
 
-/*
+
     final NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
     final NetworkTable table = ntinst.getTable("OpenSight");
     centerXEntry = table.getEntry("centerX-x"); 
-    centerYEntry = table.getEntry("centerX-y");*/
+    centerYEntry = table.getEntry("centerX-y");
   }
 
   /**
@@ -82,16 +82,16 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
  
-    //centerX = centerXEntry.getDouble(-1);
-    //centerY = centerYEntry.getDouble(-1);
+    centerX = centerXEntry.getDouble(-1);
+    centerY = centerYEntry.getDouble(-1);
 
-    /*
+    
     CenteX = ((centerX/255) -0.5);
     CenteY = ((centerY/255) -0.5);
-    */
     
-    //System.out.println(CenteY);
-    /*double centerXp;
+    
+    System.out.println(CenteY);
+    double centerXp;
     double centerYp;
     synchronized (imgLock) {
       centerXp = this.centerX;
@@ -99,20 +99,20 @@ public class Robot extends TimedRobot {
     }
     if (centerXp != -1) {
       visionError = centerXp - (IMG_WIDTH / 2.0*0.25);
-      //System.out.println(centerXp + " " + visionError);
+      System.out.println(centerXp + " " + visionError);
 
     } else {
-     //System.out.println("No targets X-axis");
+     System.out.println("No targets X-axis");
       visionError = 0.0;
     }
     if (centerYp != -1){
       visionErrorY =centerYp - (IMG_WIDTH / 2.0*0.25);
-      //System.out.println(centerYp + " " + visionError);
+      System.out.println(centerYp + " " + visionError);
 
     } else{
-      //System.out.println("No targets Y-axis");
+      System.out.println("No targets Y-axis");
       visionErrorY = 0.0;
-    }*/
+    }
 
   }
 
@@ -127,7 +127,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    //Scheduler.getInstance().run();
+    Scheduler.getInstance().run();
   }
 
   /**
@@ -177,8 +177,8 @@ public class Robot extends TimedRobot {
         }
         if (centerX != -1) {
           visionError = centerX - (IMG_WIDTH / 2*0.25);
-          //System.out.println(turn/(IMG_WIDTH / 2*0.25) + " " + centerX);
-          //testMotor.set((turn*-0.3)/(IMG_WIDTH / 2*0.25));
+         
+          
         } else {
           visionError = 0;
         }
@@ -193,13 +193,13 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    /*
+    
     testRun.start();
     
     driveRun.start();
     
     storageRun.start();
-*/
+
 System.out.println("TELEOPINIT");
     intakeRun.start();
     cannonRun.start();
@@ -217,13 +217,13 @@ System.out.println("TELEOPINIT");
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    /*
+    
     testRun.start();
     cannonRun.start();
     driveRun.start();
     intakeRun.start();
     storageRun.start();
-*/
+
   }
 
   /**
