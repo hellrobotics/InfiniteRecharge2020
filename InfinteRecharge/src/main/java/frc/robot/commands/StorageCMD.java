@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.subsystems.StorageSub;
 
@@ -15,8 +16,11 @@ public class StorageCMD extends Command {
   /**
    * Creates a new StorageCMD.
    */
-  private StorageSub ssStore;
-  private OI oi;
+  private final StorageSub ssStore;
+  private final OI oi;
+  private int LastPos = 0;
+  private double Speed2 = 0.0;
+
   public StorageCMD() {
     // Use addRequirements() here to declare subsystem dependencies.
     ssStore = StorageSub.getInstance();
@@ -24,7 +28,7 @@ public class StorageCMD extends Command {
     oi = OI.getInstance();
   }
 
-  private void requires(StorageSub ssStore2) {
+  private void requires(final StorageSub ssStore2) {
   }
 
   // Called when the command is initially scheduled.
@@ -50,6 +54,26 @@ public class StorageCMD extends Command {
     else{
       ssStore.RunPizza(0);
     }
+
+    //Start of pizza PID
+    int pos = ssStore.getPizzaPos();
+    if(oi.stick.getRawButton(1)){
+    pos = ssStore.getPizzaPos();
+    if(pos - LastPos > 13){
+      Speed2 -= 0.1;
+    }
+   if(12 > pos - LastPos ){
+      Speed2 += 0.1;
+    }
+    
+    SmartDashboard.putNumber("grabPos", pos);
+    SmartDashboard.putNumber("Speed PizzaWheel", Speed2*0.8);
+    SmartDashboard.putNumber("Speed difference pizza", pos - LastPos);
+
+    LastPos = pos;
+
+  }
+  //End of PID pizza wheel
 
   }
 
