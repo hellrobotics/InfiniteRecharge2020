@@ -7,15 +7,25 @@
 
 package frc.robot.commands;
 
-
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
+import frc.robot.subsystems.DriveSub;
 
 public class DriveCMD extends Command {
   /**
    * Creates a new DriveCMD.
    */
+  private DriveSub ssDrive;
+  private OI oi;
+  private double driveDir;
   public DriveCMD() {
     // Use addRequirements() here to declare subsystem dependencies.
+    ssDrive = DriveSub.getInstance();
+    requires(ssDrive);
+    oi = OI.getInstance();
+  }
+
+  private void requires(DriveSub ssDrive2) {
   }
 
   // Called when the command is initially scheduled.
@@ -26,6 +36,14 @@ public class DriveCMD extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(oi.stick.getRawAxis(3) < 0 ){
+      driveDir = -1;
+    }
+    else{
+      driveDir = 1;
+    }
+    ssDrive.Arcade(oi.stick.getRawAxis(1)*(oi.stick.getRawAxis(3)), oi.stick.getRawAxis(2)*(oi.stick.getRawAxis(3))*driveDir)  ;
+
   }
 
   // Called once the command ends or is interrupted.

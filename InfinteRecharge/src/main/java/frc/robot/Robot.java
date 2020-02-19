@@ -12,11 +12,9 @@ import frc.robot.commands.DriveCMD;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeCMD;
 import frc.robot.commands.StorageCMD;
-import frc.robot.subsystems.ExampleSubsystem;
 
 
 public class Robot extends TimedRobot {
-  public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
   public static OI m_oi;
 
   Command m_autonomousCommand;

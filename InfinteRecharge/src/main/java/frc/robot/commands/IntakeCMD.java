@@ -34,8 +34,6 @@ public class IntakeCMD extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("Intakecmd");
-    if(oi.stick != null) {
       if (oi.stick.getRawButton(4)) {
         ssIntake.RunIntake(0.5);
       } else if (oi.stick.getRawButton(2)) {
@@ -51,7 +49,7 @@ public class IntakeCMD extends Command {
       } 
     }
 
-  }
+  
 
   // Called once the command ends or is interrupted.
   @Override

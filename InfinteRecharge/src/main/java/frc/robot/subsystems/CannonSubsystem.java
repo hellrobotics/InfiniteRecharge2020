@@ -39,14 +39,12 @@ public class CannonSubsystem extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
 
-  public void RunShotWheel(double power) {
+  public void RunShootWheel(double power) {
     FlyWheelMotor.set(power);
   }
 
   public void MoveTurret(double power) {
     TurretMotor.set(ControlMode.PercentOutput, power);
   }
-
-  
 
 }

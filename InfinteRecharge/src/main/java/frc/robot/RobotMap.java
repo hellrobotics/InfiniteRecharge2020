@@ -16,11 +16,11 @@ package frc.robot;
 public class RobotMap {
   //CAN
 
-  public static int MOTOR1 = 1;
-  public static int MOTOR2 = 2;
-  public static int MOTOR3 = 3;
-  public static int MOTOR4 = 4;
-  public static int INTAKEMOTOR = 5;
+  public static int TOPLEFT = 1;
+  public static int TOPRIGTH = 2;
+  public static int BOTTOMLEFT = 3;
+  public static int BOTTOMRIGTH = 4;
+  public static int PIZZAWHEEL = 5;
   public static int FLYWHEELMOTOR = 6;
   public static int TURRETMOTOR = 7;
 

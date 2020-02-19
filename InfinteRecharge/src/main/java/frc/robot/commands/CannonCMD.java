@@ -37,7 +37,6 @@ public class CannonCMD extends Command {
   @Override
   public void execute() {
 
-    if (oi.stick != null) {
       if (oi.stick.getPOV() == 90) {
         ssCannon.MoveTurret(0.5);
       } else if (oi.stick.getPOV() == 270) {
@@ -47,12 +46,12 @@ public class CannonCMD extends Command {
       }
 
       if (oi.stick.getRawButton(0)) {
-        ssCannon.RunShotWheel(0.5);
+        ssCannon.RunShootWheel(0.5);
       } else {
-        ssCannon.RunShotWheel(0);
+        ssCannon.RunShootWheel(0);
       } 
     }
-  }
+  
 
   // Called once the command ends or is interrupted.
   @Override

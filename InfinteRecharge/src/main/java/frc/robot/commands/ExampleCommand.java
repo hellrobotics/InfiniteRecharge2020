@@ -5,14 +5,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.subsystems.EncoderSub;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.ServoSub;
 
 public class ExampleCommand extends Command {
 
   // Add HID device and Subsystem grabs
   private final OI oi;
-  private final ExampleSubsystem ssRun;
   private final EncoderSub ssGrab;
   private final ServoSub ssServ;
   private int LastPos = 0;
@@ -20,8 +18,7 @@ public class ExampleCommand extends Command {
 
   public ExampleCommand() {
     //Finalise adding of subsystem grabs and HID
-    ssRun = ExampleSubsystem.getInstance();
-    requires(ssRun);
+
     ssGrab = EncoderSub.getInstance();
     requires(ssGrab);
     
@@ -82,10 +79,10 @@ public class ExampleCommand extends Command {
    double error = 0 -  Robot.visionError;
    double speed = error * 1;
         System.out.println(speed);
-        ssRun.RunMotor2(error);
+        //ssRun.RunMotor2(error);
     }
     else{
-    ssRun.RunMotor2(oi.controller.getRawAxis(0)/(-3));
+    //ssRun.RunMotor2(oi.controller.getRawAxis(0)/(-3));
 
     }
     if(oi.controller.getRawButton(2)){
@@ -97,10 +94,10 @@ public class ExampleCommand extends Command {
     
     //Run motors
    if(oi.stick.getRawButton(2)){
-     ssRun.RunMotor1(Speed2*0.8);
+     //ssRun.RunMotor1(Speed2*0.8);
    }
    else{
-     ssRun.RunMotor1(0);
+     //ssRun.RunMotor1(0);
    }
     //Solenoid controll
 /*
