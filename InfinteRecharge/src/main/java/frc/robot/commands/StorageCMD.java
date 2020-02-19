@@ -55,7 +55,7 @@ public class StorageCMD extends Command {
       ssStore.RunPizza(0);
     }
 
-    //Start of pizza PID
+    //Start of PIDza
     int pos = ssStore.getPizzaPos();
     if(oi.stick.getRawButton(1)){
     pos = ssStore.getPizzaPos();
@@ -73,7 +73,7 @@ public class StorageCMD extends Command {
     LastPos = pos;
 
   }
-  //End of PID pizza wheel
+  //End of PIDza
 
   }
 
