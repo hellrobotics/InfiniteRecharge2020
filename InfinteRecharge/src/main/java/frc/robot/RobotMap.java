@@ -20,9 +20,11 @@ public class RobotMap {
   public static int TOPRIGTH = 2;
   public static int BOTTOMLEFT = 3;
   public static int BOTTOMRIGTH = 4;
-  public static int PIZZAWHEEL = 5;
-  public static int FLYWHEELMOTOR = 6;
-  public static int TURRETMOTOR = 7;
+  public static int PIZZAWHEEL = 8;
+  public static int FLYWHEELMOTOR = 10;
+  public static int FEEDING1 = 7;
+  public static int FEEDING2 = 9;
+
 
   //PCM
   public static int SOLENOID0 = 0;
@@ -39,7 +41,7 @@ public class RobotMap {
 
   public static int ENDSTOPA = 8;
   public static int ENDSTOPB = 7;
-  public static int ENDSTOPC =9;
+  public static int ENDSTOPC = 9;
 
   //PWM
   public static int SERVO1 = 0;

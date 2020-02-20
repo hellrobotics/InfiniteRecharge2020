@@ -20,6 +20,7 @@ public class StorageCMD extends Command {
   private final OI oi;
   private int LastPos = 0;
   private double Speed2 = 0.0;
+  private boolean isRunning = false;
 
   public StorageCMD() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -39,42 +40,62 @@ public class StorageCMD extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(oi.controller.getRawButton(1)){
-      ssStore.RunPizza(0.3);
-    }
-    else if(oi.controller.getRawButton(2)){
-      ssStore.RunPizza(-0.3);
-    }
-    else if(oi.controller.getRawButton(3)){
-      ssStore.RunPizza(1);
-    }
-    else if(oi.controller.getRawButton(4)){
-      ssStore.RunPizza(-1);
-    }
-    else{
-      ssStore.RunPizza(0);
-    }
+
 
     //Start of PIDza
     int pos = ssStore.getPizzaPos();
     if(oi.stick.getRawButton(1)){
     pos = ssStore.getPizzaPos();
-    if(pos - LastPos > 13){
+    if(pos - LastPos > -85){
       Speed2 -= 0.1;
     }
-   if(12 > pos - LastPos ){
+   if(-95 > pos - LastPos ){
       Speed2 += 0.1;
     }
+
     
     SmartDashboard.putNumber("grabPos", pos);
     SmartDashboard.putNumber("Speed PizzaWheel", Speed2*0.8);
     SmartDashboard.putNumber("Speed difference pizza", pos - LastPos);
 
     LastPos = pos;
+    ssStore.RunPizza(Speed2*0.5);
 
   }
   //End of PIDza
+  if(oi.stick.getRawButtonPressed(11)){
+    if(isRunning == true){
+      isRunning = false;
+    }
+    else if(isRunning == false){
+      isRunning = true;
+    }
+  }
+  else if(oi.controller.getRawButton(1)){
+    ssStore.RunPizza(0.3);
+  }
+  else if(oi.controller.getRawButton(2)){
+    ssStore.RunPizza(-0.3);
+  }
+  else if(oi.controller.getRawButton(3)){
+    ssStore.RunPizza(1);
+  }
+  else if(oi.controller.getRawButton(4)){
+    ssStore.RunPizza(-1);
+  }
 
+  else{
+    ssStore.RunPizza(oi.controller.getRawAxis(2)*-1);
+  }
+if(oi.stick.getRawButton(2)){
+  ssStore.RunFeeding(-1);
+}
+else if(isRunning == true){
+  ssStore.RunFeeding(-1);
+}
+else{
+  ssStore.RunFeeding(0);
+}
   }
 
   @Override

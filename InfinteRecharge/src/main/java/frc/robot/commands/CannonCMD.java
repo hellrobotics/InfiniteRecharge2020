@@ -7,8 +7,8 @@
 
 package frc.robot.commands;
 
-
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.subsystems.CannonSubsystem;
 
@@ -16,6 +16,8 @@ public class CannonCMD extends Command {
 
   private CannonSubsystem ssCannon;
   private OI oi;
+  private boolean isRunning2 = false;
+
 
   /**
    * Creates a new CannonCMD.
@@ -37,19 +39,32 @@ public class CannonCMD extends Command {
   @Override
   public void execute() {
 
-      if (oi.stick.getPOV() == 90) {
-        ssCannon.MoveTurret(0.5);
-      } else if (oi.stick.getPOV() == 270) {
-        ssCannon.MoveTurret(-0.5);
-      } else {
-        ssCannon.MoveTurret(0);
+    if(oi.stick.getRawButtonPressed(12)){
+      if(isRunning2 == true){
+        isRunning2 = false;
       }
+      else if(isRunning2 == false){
+        isRunning2 = true;
+      }
+    }
+ 
+    SmartDashboard.putBoolean("Is running =", isRunning2);
 
-      if (oi.stick.getRawButton(0)) {
-        ssCannon.RunShootWheel(0.5);
-      } else {
-        ssCannon.RunShootWheel(0);
+    if (oi.stick.getRawButton(2)) {
+        ssCannon.RunShootWheel(-1);
+        
+      }
+      else if(isRunning2 == true){
+        ssCannon.RunShootWheel(-1);
+      }
+      
+  else if(oi.controller.getRawButton(6)){
+    ssCannon.RunShootWheel(1);
+  }
+       else {
+        ssCannon.RunShootWheel(oi.controller.getRawAxis(3)*-1);
       } 
+      
     }
   
 

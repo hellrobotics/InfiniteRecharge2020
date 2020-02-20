@@ -7,8 +7,7 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -22,7 +21,6 @@ public class CannonSubsystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   public CANSparkMax FlyWheelMotor = new CANSparkMax(RobotMap.FLYWHEELMOTOR, MotorType.kBrushless);
-  public VictorSPX TurretMotor = new VictorSPX(RobotMap.TURRETMOTOR);
   //public Servo cameraServo1 = new Servo(RobotMap.SERVO1);
 
   private static CannonSubsystem m_instance;
@@ -43,8 +41,5 @@ public class CannonSubsystem extends Subsystem {
     FlyWheelMotor.set(power);
   }
 
-  public void MoveTurret(double power) {
-    TurretMotor.set(ControlMode.PercentOutput, power);
-  }
 
 }

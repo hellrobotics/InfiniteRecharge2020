@@ -46,10 +46,7 @@ public class IntakeSubsystem extends Subsystem {
 
   public void RaiseIntake(boolean state) {
     intakeSolenoid.set(state);
-    intakeRaised = state;
   }
 
-  public void ToggleIntake() {
-    RaiseIntake(!intakeRaised);
-  }
+
 }

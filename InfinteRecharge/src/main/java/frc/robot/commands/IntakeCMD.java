@@ -17,6 +17,7 @@ public class IntakeCMD extends Command {
    */
   private IntakeSubsystem ssIntake;
   private OI oi;
+  public boolean IntakeActive = false;
 
 
   public IntakeCMD() {
@@ -34,21 +35,18 @@ public class IntakeCMD extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      if (oi.stick.getRawButton(4)) {
-        ssIntake.RunIntake(0.5);
-      } else if (oi.stick.getRawButton(2)) {
-        ssIntake.RunIntake(-0.5);
-      } else {
-        ssIntake.RunIntake(0);
+      if(oi.stick.getRawButtonPressed(3)){
+        if(IntakeActive == true){
+          IntakeActive = false;
+        }else{
+          IntakeActive = true;
+        }
       }
-
-      if (oi.stick.getRawButtonPressed(5)) {
-        ssIntake.RaiseIntake(true);
-      } else if (oi.stick.getRawButtonPressed(3)) {
-        ssIntake.RaiseIntake(false);
-      } 
+      ssIntake.RaiseIntake(IntakeActive);
+      if(IntakeActive == true){
+      ssIntake.RunIntake(oi.controller.getRawAxis(1));
     }
-
+  }
   
 
   // Called once the command ends or is interrupted.
