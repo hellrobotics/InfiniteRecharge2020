@@ -35,6 +35,7 @@ public class IntakeCMD extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //Togle intake code
       if(oi.stick.getRawButtonPressed(3)){
         if(IntakeActive == true){
           IntakeActive = false;
@@ -42,7 +43,11 @@ public class IntakeCMD extends Command {
           IntakeActive = true;
         }
       }
+
+      //Pneumatic change
       ssIntake.RaiseIntake(IntakeActive);
+
+      //Motors run  
       if(IntakeActive == true){
       ssIntake.RunIntake(oi.controller.getRawAxis(1));
     }
