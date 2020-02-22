@@ -7,7 +7,7 @@
 
 package frc.robot.subsystems;
 
-
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -16,7 +16,7 @@ import frc.robot.RobotMap;
 public class IntakeSubsystem extends Subsystem {
 
   public Solenoid intakeSolenoid = new Solenoid(RobotMap.SOLENOID0);
-  //public VictorSPX intakeMotor = new VictorSPX(RobotMap.INTAKEMOTOR);
+  public WPI_VictorSPX intakeMotor = new WPI_VictorSPX(RobotMap.INTAKE);
   public boolean intakeRaised = true;
 
   private static IntakeSubsystem m_instance;
@@ -41,7 +41,7 @@ public class IntakeSubsystem extends Subsystem {
   }
 
   public void RunIntake(double power) {
-  //  intakeMotor.set(ControlMode.PercentOutput, power);
+  intakeMotor.set(power);
   }
 
   public void RaiseIntake(boolean state) {

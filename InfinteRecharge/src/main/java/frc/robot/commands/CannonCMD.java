@@ -16,7 +16,7 @@ public class CannonCMD extends Command {
 
   private CannonSubsystem ssCannon;
   private OI oi;
-  private boolean isRunning2 = false;
+  public boolean isRunning2 = false;
   private double ServPos = 0.0;
 
 
@@ -56,7 +56,7 @@ public class CannonCMD extends Command {
         
       }
       else if(isRunning2 == true){
-        ssCannon.RunShootWheel(-1);
+        ssCannon.RunShootWheel(-0.8);
       }
       
        else {

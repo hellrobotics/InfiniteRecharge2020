@@ -21,6 +21,7 @@ public class RobotMap {
   public static int BOTTOMLEFT = 3;
   public static int BOTTOMRIGTH = 4;
   public static int PIZZAWHEEL = 8;
+  public static int INTAKE = 5;
   public static int FLYWHEELMOTOR = 10;
   public static int FEEDING1 = 7;
   public static int FEEDING2 = 9;

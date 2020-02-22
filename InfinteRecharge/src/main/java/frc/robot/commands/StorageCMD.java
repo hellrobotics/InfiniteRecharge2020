@@ -92,10 +92,16 @@ if(oi.stick.getRawButton(2)){
 }
 else if(isRunning == true){
   ssStore.RunFeeding(-1);
+  ssStore.RunPizza(-1);
 }
 else{
   ssStore.RunFeeding(0);
 }
+
+SmartDashboard.putBoolean("EndstopA", ssStore.getEndstopA());
+SmartDashboard.putBoolean("EndstopB", ssStore.getEndstopB());
+SmartDashboard.putBoolean("EndstopC", ssStore.getEndstopC());
+
   }
 
   @Override
