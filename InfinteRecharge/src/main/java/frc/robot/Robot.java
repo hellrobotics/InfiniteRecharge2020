@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.CannonCMD;
 import frc.robot.commands.DriveCMD;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeCMD;
 import frc.robot.commands.StorageCMD;
 
@@ -25,7 +24,6 @@ public class Robot extends TimedRobot {
 
 
 
-  Command testRun = new ExampleCommand();
   Command driveRun = new DriveCMD();
   Command cannonRun = new CannonCMD();
   Command intakeRun = new IntakeCMD();
@@ -53,9 +51,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_oi = new OI();
-    m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
 
-    testRun.start();
     cannonRun.start();
     driveRun.start();
     intakeRun.start();
@@ -192,7 +188,6 @@ public class Robot extends TimedRobot {
     // continue until interrupted by another command, remove
     // this line or comment it out.
     
-    testRun.start();
     
     driveRun.start();
     
@@ -216,7 +211,6 @@ System.out.println("TELEOPINIT");
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     
-    testRun.start();
     cannonRun.start();
     driveRun.start();
     intakeRun.start();

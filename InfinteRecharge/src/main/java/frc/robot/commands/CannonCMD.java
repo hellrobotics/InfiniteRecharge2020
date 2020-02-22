@@ -17,6 +17,7 @@ public class CannonCMD extends Command {
   private CannonSubsystem ssCannon;
   private OI oi;
   private boolean isRunning2 = false;
+  private double ServPos = 0.0;
 
 
   /**
@@ -58,13 +59,19 @@ public class CannonCMD extends Command {
         ssCannon.RunShootWheel(-1);
       }
       
-  else if(oi.controller.getRawButton(6)){
-    ssCannon.RunShootWheel(1);
-  }
        else {
         ssCannon.RunShootWheel(oi.controller.getRawAxis(3)*-1);
       } 
       
+      if(oi.controller.getRawAxis(5) < -0.1){
+      ServPos += (0.01*oi.controller.getRawAxis(5));
+
+  } else if(oi.controller.getRawAxis(5) > 0.1){
+    ServPos += (0.01*oi.controller.getRawAxis(5));
+  }
+  ssCannon.SetVissionServo(ServPos);
+  SmartDashboard.putNumber("Servo pos", ServPos);
+
     }
   
 
