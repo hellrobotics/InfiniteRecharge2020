@@ -9,12 +9,17 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
+import frc.robot.Robot;
 import frc.robot.subsystems.DriveSub;
 
 public class DriveCMD extends Command {
   /**
    * Creates a new DriveCMD.
    */
+
+  public boolean isTracking = false;
+  private double xCoord = -1;
+
   private DriveSub ssDrive;
   private OI oi;
   private double driveDir;
@@ -42,7 +47,19 @@ public class DriveCMD extends Command {
     else{
       driveDir = 1;
     }
-    ssDrive.Arcade(oi.stick.getRawAxis(1)*(oi.stick.getRawAxis(3)), oi.stick.getRawAxis(2)*(oi.stick.getRawAxis(3))*driveDir)  ;
+
+    if (oi.stick.getRawButtonPressed(9)) {
+      isTracking = !isTracking;
+    }
+    
+    xCoord = Robot.centerX;
+    if (isTracking) {
+      ssDrive.TrackTarget(xCoord);
+    } else {
+      
+      ssDrive.Arcade(oi.stick.getRawAxis(1)*(oi.stick.getRawAxis(3)), oi.stick.getRawAxis(2)*(oi.stick.getRawAxis(3))*driveDir)  ;
+    
+    }
 
   }
 

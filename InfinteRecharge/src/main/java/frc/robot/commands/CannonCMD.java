@@ -17,7 +17,8 @@ public class CannonCMD extends Command {
   private CannonSubsystem ssCannon;
   private OI oi;
   public boolean isRunning2 = false;
-  private double ServPos = 0.0;
+  private double ServPos = 0.7;
+  private double CannonPower = 1.0;
 
 
   /**
@@ -40,28 +41,20 @@ public class CannonCMD extends Command {
   @Override
   public void execute() {
 
-    if(oi.stick.getRawButtonPressed(12)){
-      if(isRunning2 == true){
-        isRunning2 = false;
-      }
-      else if(isRunning2 == false){
-        isRunning2 = true;
-      }
+    if(oi.stick.getRawButtonPressed(2)){
+      isRunning2 = !isRunning2;
     }
  
     SmartDashboard.putBoolean("Is running =", isRunning2);
-
-    if (oi.stick.getRawButton(2)) {
-        ssCannon.RunShootWheel(-1);
-        
-      }
-      else if(isRunning2 == true){
-        ssCannon.RunShootWheel(-0.8);
-      }
-      
-       else {
-        ssCannon.RunShootWheel(oi.controller.getRawAxis(3)*-1);
-      } 
+    SmartDashboard.putNumber("Cannon Speed", ssCannon.getWheelSpeed());
+    SmartDashboard.putNumber("Cannon percent", ((oi.stick.getThrottle()+1)/2));
+  if(oi.stick.getRawButton(1)){
+    ssCannon.RunShootWheel(-CannonPower * ((oi.stick.getThrottle()+1)/2));
+  } else if(isRunning2 == true){
+    ssCannon.RunShootWheel(-CannonPower * ((oi.stick.getThrottle()+1)/2));
+  } else{
+    ssCannon.RunShootWheel(0);
+  }
       
       if(oi.controller.getRawAxis(5) < -0.1){
       ServPos += (0.01*oi.controller.getRawAxis(5));
@@ -71,7 +64,7 @@ public class CannonCMD extends Command {
   }
   ssCannon.SetVissionServo(ServPos);
   SmartDashboard.putNumber("Servo pos", ServPos);
-
+  
     }
   
 

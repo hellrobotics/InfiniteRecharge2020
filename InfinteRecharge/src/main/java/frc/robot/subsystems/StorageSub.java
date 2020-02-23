@@ -51,8 +51,8 @@ public void RunFeeding(double speed){
   Feeding2.set(ControlMode.PercentOutput, speed);
 
 }
-  public int getPizzaPos(){
-    return pizzaWheel.getSelectedSensorPosition(0);
+  public int getPizzaSpED(){
+    return pizzaWheel.getSelectedSensorVelocity();
   }
   public boolean getEndstopA() {
     return endStopA.get();

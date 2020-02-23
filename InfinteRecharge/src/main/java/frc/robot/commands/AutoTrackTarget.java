@@ -7,24 +7,21 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
-import frc.robot.subsystems.IntakeSubsystem;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
+import frc.robot.subsystems.DriveSub;
 
-public class IntakeCMD extends Command {
+public class AutoTrackTarget extends CommandBase {
   /**
-   * Creates a new IntakeCMD.
+   * Creates a new AutoTrackTarget.
    */
-  private IntakeSubsystem ssIntake;
-  private OI oi;
-  public boolean IntakeActive = false;
+  private DriveSub ssDrive;
+  private double xCoord = -1;
 
-
-  public IntakeCMD() {
+  public AutoTrackTarget() {
+    ssDrive = DriveSub.getInstance();
+    addRequirements(ssDrive);
     // Use addRequirements() here to declare subsystem dependencies.
-    ssIntake = IntakeSubsystem.getInstance();
-    requires(ssIntake);
-    oi = OI.getInstance();
   }
 
   // Called when the command is initially scheduled.
@@ -35,37 +32,14 @@ public class IntakeCMD extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //Togle intake code
-      if(oi.stick.getRawButtonPressed(3)){
-        if(IntakeActive == true){
-          IntakeActive = false;
-        }else{
-          IntakeActive = true;
-        }
-      }
-
-      //Pneumatic change
-      ssIntake.RaiseIntake(IntakeActive);
-
-      //Motors run  
-      if(IntakeActive == true){
-      if(oi.stick.getPOV() == 0){
-        ssIntake.RunIntake(-1);
-      } else if(oi.stick.getPOV() == 180){
-        ssIntake.RunIntake(0.8);
-      } else {
-        ssIntake.RunIntake(0);
-      }
-
-    }
+    xCoord = Robot.centerX;
+    ssDrive.TrackTarget(xCoord);
   }
-  
 
   // Called once the command ends or is interrupted.
   @Override
-  protected void end() {
+  public void end(boolean interrupted) {
   }
-  
 
   // Returns true when the command should end.
   @Override

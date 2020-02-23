@@ -20,20 +20,20 @@ public class RobotMap {
   public static int TOPRIGTH = 2;
   public static int BOTTOMLEFT = 3;
   public static int BOTTOMRIGTH = 4;
-  public static int PIZZAWHEEL = 8;
   public static int INTAKE = 5;
-  public static int FLYWHEELMOTOR = 10;
+  public static int INTAKESIDE = 6;
   public static int FEEDING1 = 7;
+  public static int PIZZAWHEEL = 8;
   public static int FEEDING2 = 9;
+  public static int FLYWHEELMOTOR = 10;
+  public static int INTAKETOP = 11;
+ 
+  
 
 
   //PCM
-  public static int SOLENOID0 = 0;
-  public static int SOLENOID1 = 1;
-  public static int SOLENOID2 = 2;
-  public static int SOLENOID3 = 3;
-  public static int SOLENOID4 = 4;
-  public static int SOLENOID5 = 5;
+  public static int INTAKESOLENOID = 0;
+  public static int HELPERSOLENOID = 1;
 
   //DIO
   public static int ENCODER1 = 0;

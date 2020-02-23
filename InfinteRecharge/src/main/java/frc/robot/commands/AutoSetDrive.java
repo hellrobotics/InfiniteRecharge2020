@@ -7,69 +7,44 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
-import frc.robot.subsystems.IntakeSubsystem;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.DriveSub;
 
-public class IntakeCMD extends Command {
+public class AutoSetDrive extends CommandBase {
   /**
-   * Creates a new IntakeCMD.
+   * Creates a new AutoCMD.
    */
-  private IntakeSubsystem ssIntake;
-  private OI oi;
-  public boolean IntakeActive = false;
-
-
-  public IntakeCMD() {
+  private boolean isDone = false;
+  private DriveSub ssDrive;
+  private double speed = 0;
+  public AutoSetDrive(double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    ssIntake = IntakeSubsystem.getInstance();
-    requires(ssIntake);
-    oi = OI.getInstance();
+    ssDrive = DriveSub.getInstance();
+    addRequirements(ssDrive);
+    this.speed = speed;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    ssDrive.Arcade(speed, 0);
+    //isDone = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //Togle intake code
-      if(oi.stick.getRawButtonPressed(3)){
-        if(IntakeActive == true){
-          IntakeActive = false;
-        }else{
-          IntakeActive = true;
-        }
-      }
 
-      //Pneumatic change
-      ssIntake.RaiseIntake(IntakeActive);
-
-      //Motors run  
-      if(IntakeActive == true){
-      if(oi.stick.getPOV() == 0){
-        ssIntake.RunIntake(-1);
-      } else if(oi.stick.getPOV() == 180){
-        ssIntake.RunIntake(0.8);
-      } else {
-        ssIntake.RunIntake(0);
-      }
-
-    }
   }
-  
 
   // Called once the command ends or is interrupted.
   @Override
-  protected void end() {
+  public void end(boolean interrupted) {
   }
-  
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isDone;
   }
 }

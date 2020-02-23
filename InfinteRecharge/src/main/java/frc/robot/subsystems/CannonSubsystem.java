@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -22,6 +23,7 @@ public class CannonSubsystem extends Subsystem {
   // here. Call these from Commands.
   public CANSparkMax FlyWheelMotor = new CANSparkMax(RobotMap.FLYWHEELMOTOR, MotorType.kBrushless);
   public Servo VissionServ = new Servo(RobotMap.VISSIONSERVO);
+  private CANEncoder wheelEncoder = FlyWheelMotor.getEncoder();
   //public Servo cameraServo1 = new Servo(RobotMap.SERVO1);
 
   private static CannonSubsystem m_instance;
@@ -44,6 +46,10 @@ public class CannonSubsystem extends Subsystem {
 
   public void SetVissionServo(double pos){
     VissionServ.set(pos);
+  }
+
+  public double getWheelSpeed(){
+    return -wheelEncoder.getVelocity();
   }
 
 }

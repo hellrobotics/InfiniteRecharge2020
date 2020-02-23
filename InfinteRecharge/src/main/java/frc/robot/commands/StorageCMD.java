@@ -18,9 +18,7 @@ public class StorageCMD extends Command {
    */
   private final StorageSub ssStore;
   private final OI oi;
-  private int LastPos = 0;
   private double Speed2 = 0.0;
-  private boolean isRunning = false;
 
   public StorageCMD() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -43,64 +41,44 @@ public class StorageCMD extends Command {
 
 
     //Start of PIDza
-    int pos = ssStore.getPizzaPos();
     if(oi.stick.getRawButton(1)){
-    pos = ssStore.getPizzaPos();
-    if(pos - LastPos > -85){
-      Speed2 -= 0.1;
+      int SpeD = ssStore.getPizzaSpED();
+
+      if(SpeD > 11) {
+        Speed2 -= 0.1;
+      }
+      if (10 > SpeD) {
+        Speed2 += 0.1;
+      }
+
+      SmartDashboard.putNumber("SpED", SpeD);
+      SmartDashboard.putNumber("Speed PizzaWheel", Speed2*0.8);
+
+      Speed2 = -1;
+      ssStore.RunPizza(Speed2*0.5);
+      ssStore.RunFeeding(-1);
     }
-   if(-95 > pos - LastPos ){
-      Speed2 += 0.1;
+    else if(oi.stick.getPOV() == 90){
+      ssStore.RunPizza(1);
+      ssStore.RunFeeding(0.3);
     }
-
-    
-    SmartDashboard.putNumber("grabPos", pos);
-    SmartDashboard.putNumber("Speed PizzaWheel", Speed2*0.8);
-    SmartDashboard.putNumber("Speed difference pizza", pos - LastPos);
-
-    LastPos = pos;
-    ssStore.RunPizza(Speed2*0.5);
-
-  }
-  //End of PIDza
-  if(oi.stick.getRawButtonPressed(11)){
-    if(isRunning == true){
-      isRunning = false;
+    else if(oi.stick.getPOV() == 270){
+      ssStore.RunPizza(-1);
+      ssStore.RunFeeding(-0.3);
+    } /*else if (oi.stick.getPOV() == 0) {
+      ssStore.RunPizza(-0.4);
+      ssStore.RunFeeding(-0.2);
+    } */else {
+      ssStore.RunPizza(0);
+      ssStore.RunFeeding(0);
     }
-    else if(isRunning == false){
-      isRunning = true;
-    }
-  }
-  else if(oi.controller.getRawButton(1)){
-    ssStore.RunPizza(0.3);
-  }
-  else if(oi.controller.getRawButton(2)){
-    ssStore.RunPizza(-0.3);
-  }
-  else if(oi.controller.getRawButton(3)){
-    ssStore.RunPizza(1);
-  }
-  else if(oi.controller.getRawButton(4)){
-    ssStore.RunPizza(-1);
-  }
+    //End of PIDza
 
-  else{
-    ssStore.RunPizza(oi.controller.getRawAxis(2)*-1);
-  }
-if(oi.stick.getRawButton(2)){
-  ssStore.RunFeeding(-1);
-}
-else if(isRunning == true){
-  ssStore.RunFeeding(-1);
-  ssStore.RunPizza(-1);
-}
-else{
-  ssStore.RunFeeding(0);
-}
 
-SmartDashboard.putBoolean("EndstopA", ssStore.getEndstopA());
-SmartDashboard.putBoolean("EndstopB", ssStore.getEndstopB());
-SmartDashboard.putBoolean("EndstopC", ssStore.getEndstopC());
+
+    SmartDashboard.putBoolean("EndstopA", ssStore.getEndstopA());
+    SmartDashboard.putBoolean("EndstopB", ssStore.getEndstopB());
+    SmartDashboard.putBoolean("EndstopC", ssStore.getEndstopC());
 
   }
 

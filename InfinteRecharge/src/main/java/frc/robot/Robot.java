@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commandgroups.AutoCMDGRP;
 import frc.robot.commands.CannonCMD;
 import frc.robot.commands.DriveCMD;
 import frc.robot.commands.IntakeCMD;
@@ -28,10 +30,11 @@ public class Robot extends TimedRobot {
   Command cannonRun = new CannonCMD();
   Command intakeRun = new IntakeCMD();
   Command storageRun = new StorageCMD();
+  SequentialCommandGroup autoCMD = new AutoCMDGRP();
 
   private static final int IMG_WIDTH = 320;
   
-  private double centerX = (0);
+  public static double centerX = 0;
   private double centerY = (0);
 
   private final Object imgLock = new Object();
@@ -52,11 +55,12 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_oi = new OI();
 
-    cannonRun.start();
-    driveRun.start();
-    intakeRun.start();
-    storageRun.start();
-  
+    //cannonRun.start();
+    //driveRun.start();
+    //intakeRun.start();
+    //storageRun.start();
+    //m_chooser.addDefault("Nothing", new ExampleCommand());
+		//m_chooser.addObject("Auto Mid Switch", new AutoCMDGRP());
 
 
     final NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
@@ -84,7 +88,7 @@ public class Robot extends TimedRobot {
     CenteY = ((centerY/255) -0.5);
     
     
-    System.out.println(CenteY);
+    //System.out.println(CenteY);
     double centerXp;
     double centerYp;
     synchronized (imgLock) {
@@ -93,18 +97,18 @@ public class Robot extends TimedRobot {
     }
     if (centerXp != -1) {
       visionError = centerXp - (IMG_WIDTH / 2.0*0.25);
-      System.out.println(centerXp + " " + visionError);
+      //System.out.println(centerXp + " " + visionError);
 
     } else {
-     System.out.println("No targets X-axis");
+     //System.out.println("No targets X-axis");
       visionError = 0.0;
     }
     if (centerYp != -1){
       visionErrorY =centerYp - (IMG_WIDTH / 2.0*0.25);
-      System.out.println(centerYp + " " + visionError);
+      //System.out.println(centerYp + " " + visionError);
 
     } else{
-      System.out.println("No targets Y-axis");
+      //System.out.println("No targets Y-axis");
       visionErrorY = 0.0;
     }
 
@@ -137,7 +141,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_chooser.getSelected();
+    //m_autonomousCommand = m_chooser.getSelected();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -147,9 +151,10 @@ public class Robot extends TimedRobot {
      */
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
+    /*if (m_autonomousCommand != null) {
       m_autonomousCommand.start();
-    }
+    }*/
+    autoCMD.schedule();
   }
 
   /**
@@ -158,47 +163,25 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
-
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        double centerX;
-        synchronized (imgLock) {
-          centerX = this.centerX;
-        }
-        if (centerX != -1) {
-          visionError = centerX - (IMG_WIDTH / 2*0.25);
-         
-          
-        } else {
-          visionError = 0;
-        }
-        break;
-    }
   }
 
   @Override
   public void teleopInit() {
+    autoCMD.cancel();
     Scheduler.getInstance().run();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    
+    System.out.println("TELEOPINIT");
     
     driveRun.start();
-    
     storageRun.start();
-
-System.out.println("TELEOPINIT");
     intakeRun.start();
     cannonRun.start();
 
     
-  System.out.println("TELEOP DONE");
+    System.out.println("TELEOP DONE");
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();

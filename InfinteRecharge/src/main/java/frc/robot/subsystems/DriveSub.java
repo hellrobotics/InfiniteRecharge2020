@@ -40,6 +40,18 @@ public class DriveSub extends SubsystemBase {
   public void Arcade (double moveValue, double rotateValue) {
     allDrive.arcadeDrive(moveValue, rotateValue);
   }
+
+  public void TrackTarget (double target) {
+    if (target >= 0) {
+      double error = 160.0 - target;
+      double pk = 1/300.0;
+      Arcade(0, error*pk*-1);
+      System.out.println("tracking, object found " + error);
+    } else {
+      System.out.println("tracking no target");
+    }
+  }
+
   private static DriveSub m_instance;
 	public static synchronized DriveSub getInstance() {
 		if (m_instance == null){
