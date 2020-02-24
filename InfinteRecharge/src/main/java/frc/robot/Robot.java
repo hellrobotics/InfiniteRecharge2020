@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
   private static final int IMG_WIDTH = 320;
   
   public static double centerX = 0;
-  private double centerY = (0);
+  public static double centerY = 0;
 
   private final Object imgLock = new Object();
 
@@ -64,9 +64,9 @@ public class Robot extends TimedRobot {
 
 
     final NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
-    final NetworkTable table = ntinst.getTable("OpenSight");
-    centerXEntry = table.getEntry("centerX-x"); 
-    centerYEntry = table.getEntry("centerX-y");
+    final NetworkTable table = ntinst.getTable("visionTable");
+    centerXEntry = table.getEntry("centerX"); 
+    centerYEntry = table.getEntry("centerY");
   }
 
   /**

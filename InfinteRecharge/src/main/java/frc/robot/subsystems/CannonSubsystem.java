@@ -47,9 +47,26 @@ public class CannonSubsystem extends Subsystem {
   public void SetVissionServo(double pos){
     VissionServ.set(pos);
   }
+  public double GetVissionServo(){
+    return VissionServ.get();
+  }
 
   public double getWheelSpeed(){
     return -wheelEncoder.getVelocity();
+  }
+
+  public double calculateWheelSpeed(double x) {
+    return (0.0119*Math.pow(x,4)-0.1862*Math.pow(x,3)+1.0849*Math.pow(x,2)-2.7357*x+3.3842);
+  }
+
+  public void TrackServo(double target) {
+    if (target >= 0) {
+      double error = 160.0 - target;
+      double pk = 1/300.0;
+      SetVissionServo(GetVissionServo() + error*pk);
+    } else {
+      
+    }
   }
 
 }

@@ -41,6 +41,8 @@ public class DriveCMD extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    xCoord = Robot.centerX;
+
     if(oi.stick.getRawAxis(3) < 0 ){
       driveDir = -1;
     }
@@ -51,16 +53,17 @@ public class DriveCMD extends Command {
     if (oi.stick.getRawButtonPressed(9)) {
       isTracking = !isTracking;
     }
-    
-    xCoord = Robot.centerX;
-    if (isTracking) {
+    if(oi.stick.getRawButton(1)){
+      ssDrive.Arcade(0.25, 0);
+    }
+    else if (isTracking) {
       ssDrive.TrackTarget(xCoord);
     } else {
       
       ssDrive.Arcade(oi.stick.getRawAxis(1)*(oi.stick.getRawAxis(3)), oi.stick.getRawAxis(2)*(oi.stick.getRawAxis(3))*driveDir)  ;
     
     }
-
+ 
   }
 
   // Called once the command ends or is interrupted.

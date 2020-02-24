@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
+import frc.robot.Robot;
 import frc.robot.subsystems.CannonSubsystem;
 
 public class CannonCMD extends Command {
@@ -19,7 +20,8 @@ public class CannonCMD extends Command {
   public boolean isRunning2 = false;
   private double ServPos = 0.7;
   private double CannonPower = 1.0;
-
+  public boolean isTracking = false;
+  private double yCoord = -1;
 
   /**
    * Creates a new CannonCMD.
@@ -40,11 +42,20 @@ public class CannonCMD extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    yCoord = Robot.centerY;
+    
+    double distance = (112 / Math.tan(ServPos * 110));
+    SmartDashboard.putNumber("Calculated Cannon Power", ssCannon.calculateWheelSpeed(distance));
+    SmartDashboard.putNumber("Calculated distance", distance);
 
     if(oi.stick.getRawButtonPressed(2)){
       isRunning2 = !isRunning2;
     }
+    if (oi.stick.getRawButtonPressed(9)) {
+      isTracking = !isTracking;
+    }
  
+
     SmartDashboard.putBoolean("Is running =", isRunning2);
     SmartDashboard.putNumber("Cannon Speed", ssCannon.getWheelSpeed());
     SmartDashboard.putNumber("Cannon percent", ((oi.stick.getThrottle()+1)/2));
@@ -55,16 +66,18 @@ public class CannonCMD extends Command {
   } else{
     ssCannon.RunShootWheel(0);
   }
-      
-      if(oi.controller.getRawAxis(5) < -0.1){
-      ServPos += (0.01*oi.controller.getRawAxis(5));
-
-  } else if(oi.controller.getRawAxis(5) > 0.1){
-    ServPos += (0.01*oi.controller.getRawAxis(5));
-  }
-  ssCannon.SetVissionServo(ServPos);
-  SmartDashboard.putNumber("Servo pos", ServPos);
   
+  if (isTracking) {
+    ServPos = ssCannon.GetVissionServo();
+  } else {
+    if (oi.controller.getRawAxis(5) < -0.1) {
+      ServPos += (0.01*oi.controller.getRawAxis(5));
+    } else if (oi.controller.getRawAxis(5) > 0.1) {
+      ServPos += (0.01*oi.controller.getRawAxis(5));
+    }
+    ssCannon.SetVissionServo(ServPos);
+    SmartDashboard.putNumber("Servo pos", ServPos);
+  }
     }
   
 
