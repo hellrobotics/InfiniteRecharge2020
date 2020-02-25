@@ -10,8 +10,10 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 public class DriveSub extends SubsystemBase {
@@ -29,6 +31,9 @@ public class DriveSub extends SubsystemBase {
 
   DifferentialDrive allDrive = new DifferentialDrive(leftMotors, rigthMotors);
 
+  private double integral_prior = 0;
+  private double last_time = 0;
+  
   public DriveSub() {
 
   }
@@ -48,14 +53,34 @@ public class DriveSub extends SubsystemBase {
   
   }
 
-  public void TrackTarget (double target) {
+  public double TrackTargetTurning (double target) {
     if (target >= 0) {
-      double error = 160.0 - target;
-      double pk = 1/300.0;
-      Arcade(0, error*pk*-1);
+      double error = ((80.0+(40/Robot.distance)) - target);
+      /* DEN HER VILLA VÆRT BEST, MEN FÅR IKKE T Å TUNE DEN BRA
+      double iteration_time = Timer.getFPGATimestamp() - last_time;
+      double integral = Math.max(0.1, Math.min(-0.1, integral_prior + error * iteration_time));
+      double kp = 0.02*0.45;
+      double ki = (1.2*kp)/0.2;
+      integral_prior = integral;
+      last_time = Timer.getFPGATimestamp();
+      return (error*kp + integral*ki)*-1;  
+      
+      /* BACKUP*/
+      double pk = 0.5/1.0;
+      double flatness = 0.08;
+      double magnitude = 1.2;
       System.out.println("tracking, object found " + error);
+      double power = Math.min(0.4,(Math.log(magnitude*Math.abs(error)+(1/Math.E)) * -flatness - flatness));
+      System.out.println("Power: "+power);
+      if (error > 0) {
+        return power;
+      } else if (error < 0) {
+        return -power;
+      } else {
+        return 0;
+      }
     } else {
-      Arcade(0,0);
+      return 0;
     }
   }
 

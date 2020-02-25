@@ -36,6 +36,8 @@ public class Robot extends TimedRobot {
   
   public static double centerX = 0;
   public static double centerY = 0;
+  public static boolean isTracking = false;
+  public static double distance = 0;
 
   private final Object imgLock = new Object();
 
@@ -194,10 +196,6 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     
-    cannonRun.start();
-    driveRun.start();
-    intakeRun.start();
-    storageRun.start();
 
   }
 

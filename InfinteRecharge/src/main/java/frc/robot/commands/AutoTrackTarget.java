@@ -33,7 +33,7 @@ public class AutoTrackTarget extends CommandBase {
   @Override
   public void execute() {
     xCoord = Robot.centerX;
-    ssDrive.TrackTarget(xCoord);
+    ssDrive.Arcade(0, ssDrive.TrackTargetTurning(xCoord));
   }
 
   // Called once the command ends or is interrupted.

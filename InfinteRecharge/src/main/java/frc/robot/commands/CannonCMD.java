@@ -20,7 +20,6 @@ public class CannonCMD extends Command {
   public boolean isRunning2 = false;
   private double ServPos = 0.7;
   private double CannonPower = 1.0;
-  public boolean isTracking = false;
   private double yCoord = -1;
 
   /**
@@ -37,6 +36,7 @@ public class CannonCMD extends Command {
   @Override
   public void initialize() {
     System.out.println("CAnnoncmd");
+    ssCannon.ConfigPID();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,35 +44,34 @@ public class CannonCMD extends Command {
   public void execute() {
     yCoord = Robot.centerY;
     
-    double distance = (112 / Math.tan(ServPos * 110));
+    double distance = ((3.30-0.47) / Math.tan(Math.toRadians((ServPos-0.55)* 360)));
     SmartDashboard.putNumber("Calculated Cannon Power", ssCannon.calculateWheelSpeed(distance));
     SmartDashboard.putNumber("Calculated distance", distance);
+    Robot.distance = distance;
 
-    if(oi.stick.getRawButtonPressed(2)){
+    if (oi.stick.getRawButtonPressed(2)) {
       isRunning2 = !isRunning2;
     }
-    if (oi.stick.getRawButtonPressed(9)) {
-      isTracking = !isTracking;
-    }
- 
+
 
     SmartDashboard.putBoolean("Is running =", isRunning2);
     SmartDashboard.putNumber("Cannon Speed", ssCannon.getWheelSpeed());
-    SmartDashboard.putNumber("Cannon percent", ((oi.stick.getThrottle()+1)/2));
   if(oi.stick.getRawButton(1)){
-    ssCannon.RunShootWheel(-CannonPower * ((oi.stick.getThrottle()+1)/2));
+    ssCannon.RunShootWheelPID(ssCannon.calculateWheelSpeed(distance));
   } else if(isRunning2 == true){
-    ssCannon.RunShootWheel(-CannonPower * ((oi.stick.getThrottle()+1)/2));
+    ssCannon.RunShootWheelPID(ssCannon.calculateWheelSpeed(distance));
   } else{
     ssCannon.RunShootWheel(0);
   }
   
-  if (isTracking) {
+  if (Robot.isTracking && yCoord != -1) {
+    ssCannon.TrackServo(yCoord);
     ServPos = ssCannon.GetVissionServo();
+    SmartDashboard.putNumber("Servo pos", ServPos);
   } else {
-    if (oi.controller.getRawAxis(5) < -0.1) {
+    if (ServPos <= 0.8 && oi.controller.getRawAxis(5) >= 0.1) {
       ServPos += (0.01*oi.controller.getRawAxis(5));
-    } else if (oi.controller.getRawAxis(5) > 0.1) {
+    } else if (0.3 <= ServPos && oi.controller.getRawAxis(5) <= -0.1) {
       ServPos += (0.01*oi.controller.getRawAxis(5));
     }
     ssCannon.SetVissionServo(ServPos);
