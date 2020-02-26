@@ -18,7 +18,8 @@ public class StorageSub extends SubsystemBase {
   /**
    * Creates a new StorageSub.
    */
- public WPI_TalonSRX pizzaWheel = new WPI_TalonSRX(RobotMap.PIZZAWHEEL);
+public WPI_TalonSRX pizzaWheel = new WPI_TalonSRX(RobotMap.PIZZAWHEEL);
+
 public WPI_TalonSRX Feeding1 = new WPI_TalonSRX(RobotMap.FEEDING1);
 public WPI_TalonSRX Feeding2 = new WPI_TalonSRX(RobotMap.FEEDING2);
 
@@ -37,30 +38,36 @@ public DigitalInput endStopC = new DigitalInput(RobotMap.ENDSTOPC);
     // This method will be called once per scheduler run
   }
   private static StorageSub m_instance;
-	public static synchronized StorageSub getInstance() {
+public static synchronized StorageSub getInstance() {
 		if (m_instance == null){
 			m_instance = new StorageSub();
     }
     return m_instance;
-  }
-  public void RunPizza(double speed) {
-  pizzaWheel.set(ControlMode.PercentOutput, speed);
-  }
-public void RunFeeding(double speed){
-  Feeding1.set(ControlMode.PercentOutput, speed*-1);
-  Feeding2.set(ControlMode.PercentOutput, speed);
+    }
 
-}
-  public int getPizzaSpED(){
-    return pizzaWheel.getSelectedSensorVelocity();
-  }
-  public boolean getEndstopA() {
-    return endStopA.get();
-  }
-  public boolean getEndstopB() {
-    return endStopB.get();
-  }
-  public boolean getEndstopC() {
-    return endStopC.get();
-  }
+  public void RunPizza(double speed) {
+    pizzaWheel.set(ControlMode.PercentOutput, speed);
+    }
+
+  public void RunFeeding(double speed){
+    Feeding1.set(ControlMode.PercentOutput, speed*-1);
+    Feeding2.set(ControlMode.PercentOutput, speed);
+    }
+
+    public int getPizzaSpED(){
+      return pizzaWheel.getSelectedSensorVelocity();
+    }
+
+    public boolean getEndstopA() {
+      return endStopA.get();
+    }
+
+    public boolean getEndstopB() {
+      return endStopB.get();
+    }
+
+    public boolean getEndstopC() {
+      return endStopC.get();
+    }
+    
 }

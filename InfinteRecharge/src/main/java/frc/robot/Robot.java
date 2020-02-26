@@ -58,10 +58,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_oi = new OI();
 
-    //cannonRun.start();
-    //driveRun.start();
-    //intakeRun.start();
-    //storageRun.start();
+
     //m_chooser.addDefault("Nothing", new ExampleCommand());
 		//m_chooser.addObject("Auto Mid Switch", new AutoCMDGRP());
 
