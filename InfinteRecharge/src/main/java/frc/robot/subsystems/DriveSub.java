@@ -10,7 +10,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
@@ -30,10 +29,10 @@ public class DriveSub extends SubsystemBase {
   SpeedControllerGroup rigthMotors = new SpeedControllerGroup(TopRigth, BottomRigth);
 
   DifferentialDrive allDrive = new DifferentialDrive(leftMotors, rigthMotors);
-
+/*
   private double integral_prior = 0;
   private double last_time = 0;
-  
+  */
   public DriveSub() {
 
   }
@@ -66,7 +65,7 @@ public class DriveSub extends SubsystemBase {
       return (error*kp + integral*ki)*-1;  
       
       /* BACKUP*/
-      double pk = 0.5/1.0;
+      //double pk = 0.5/1.0;
       //pk = Tilfeldig konstant for tuning
       double flatness = 0.08;
       // Flatness = Endre på kurva til å bli flatere. Stor = bratt
