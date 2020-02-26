@@ -67,11 +67,17 @@ public class DriveSub extends SubsystemBase {
       
       /* BACKUP*/
       double pk = 0.5/1.0;
+      //pk = Tilfeldig konstant for tuning
       double flatness = 0.08;
+      // Flatness = Endre på kurva til å bli flatere. Stor = bratt
       double magnitude = 1.2;
+      //Magnitude = Høyde på kurven
       System.out.println("tracking, object found " + error);
+      //Print Ønska kordinat - target
       double power = Math.min(0.4,(Math.log(magnitude*Math.abs(error)+(1/Math.E)) * -flatness - flatness));
+      //Funksjon for power. 
       System.out.println("Power: "+power);
+      //print Power
       if (error > 0) {
         return power;
       } else if (error < 0) {
