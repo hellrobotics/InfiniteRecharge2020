@@ -63,15 +63,15 @@ public class CannonCMD extends Command {
   } else{
     ssCannon.RunShootWheel(0);
   }
-  
-  if (Robot.isTracking && yCoord != -1) {
+  ssCannon.SpinTurrer(oi.controller.getRawAxis(0));
+  if(Robot.isTracking && yCoord != -1) {
     ssCannon.TrackServo(yCoord);
     ServPos = ssCannon.GetVissionServo();
     SmartDashboard.putNumber("Servo pos", ServPos);
   } else {
-    if (ServPos <= 0.8 && oi.controller.getRawAxis(5) >= 0.1) {
+    if(ServPos <= 0.8 && oi.controller.getRawAxis(5) >= 0.1) {
       ServPos += (0.01*oi.controller.getRawAxis(5));
-    } else if (0.3 <= ServPos && oi.controller.getRawAxis(5) <= -0.1) {
+    } else if(0.3 <= ServPos && oi.controller.getRawAxis(5) <= -0.1) {
       ServPos += (0.01*oi.controller.getRawAxis(5));
     }
     ssCannon.SetVissionServo(ServPos);

@@ -27,7 +27,7 @@ public class RobotMap {
   public static int FEEDING2 = 9;
   public static int FLYWHEELMOTOR = 10;
   public static int INTAKETOP = 11;
- 
+  public static int TURRETSPINNER = 12;
   
 
 

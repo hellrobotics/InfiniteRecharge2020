@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
@@ -28,6 +29,7 @@ public class CannonSubsystem extends Subsystem {
   public CANSparkMax FlyWheelMotor = new CANSparkMax(RobotMap.FLYWHEELMOTOR, MotorType.kBrushless);
   private CANEncoder wheelEncoder = FlyWheelMotor.getEncoder();
   private CANPIDController wheelPID = FlyWheelMotor.getPIDController();
+  private WPI_TalonSRX TurretSpinner = new WPI_TalonSRX(RobotMap.TURRETSPINNER);
   public Servo VissionServ = new Servo(RobotMap.VISSIONSERVO);
   
   //public Servo cameraServo1 = new Servo(RobotMap.SERVO1);
@@ -95,6 +97,9 @@ public class CannonSubsystem extends Subsystem {
       integral_prior = integral;
       last_time = Timer.getFPGATimestamp();
     }
+  }
+  public void SpinTurrer(double speed){
+    TurretSpinner.set(speed);
   }
 
 }
