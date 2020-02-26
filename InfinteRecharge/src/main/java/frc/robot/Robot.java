@@ -20,10 +20,11 @@ public class Robot extends TimedRobot {
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
+  /*
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
-
+  */
 
 
   Command driveRun = new DriveCMD();
@@ -94,8 +95,10 @@ public class Robot extends TimedRobot {
     double centerXp;
     double centerYp;
     synchronized (imgLock) {
+      
       centerXp = this.centerX;
       centerYp = this.centerY;
+  
     }
     if (centerXp != -1) {
       visionError = centerXp - (IMG_WIDTH / 2.0*0.25);
