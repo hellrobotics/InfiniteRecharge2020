@@ -51,7 +51,7 @@ public static synchronized StorageSub getInstance() {
 
   public void RunFeeding(double speed){
     Feeding1.set(ControlMode.PercentOutput, speed*-1);
-    Feeding2.set(ControlMode.PercentOutput, speed*-1);
+    Feeding2.set(ControlMode.PercentOutput, speed);
     }
 
     public int getPizzaSpED(){
