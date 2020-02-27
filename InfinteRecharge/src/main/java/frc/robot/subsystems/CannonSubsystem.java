@@ -91,9 +91,9 @@ public class CannonSubsystem extends Subsystem {
       double error = 60.0 - target;
       double iteration_time = Timer.getFPGATimestamp() - last_time;
       double integral = Math.max(0.02, Math.min(-0.02, integral_prior + error * iteration_time));
-      double kp = 0.00015*0.45;
+      double kp = 0.00017*0.45;
       double ki = (1.2*kp)/0.65;
-      VissionServ.set(Math.max(0.6, Math.min(0.8, VissionServ.get()+(error*kp + integral*ki))));
+      VissionServ.set(Math.max(0.4, Math.min(0.7, VissionServ.get()+(error*kp + integral*ki))));
       integral_prior = integral;
       last_time = Timer.getFPGATimestamp();
     }
@@ -102,4 +102,19 @@ public class CannonSubsystem extends Subsystem {
     TurretSpinner.set(speed);
   }
 
+  public void TrackTurret (double target) {
+    if (target >= 0) {
+      double error = (80.0 - target);
+      double iteration_time = Timer.getFPGATimestamp() - last_time;
+      double integral = Math.max(0.1, Math.min(-0.1, integral_prior + error * iteration_time));
+      //Kommenter ut *0.45 og endre til det dirrer rundt punktet, derreter ukomenter og gang (1.2*kp)/tiden et dirr tar
+      double kp = 0.01;//*0.45;
+      double ki = (1.2*kp)/0.2;
+      integral_prior = integral;
+      last_time = Timer.getFPGATimestamp();
+      SpinTurrer((error*kp + integral*ki*0));  
+    } else {
+      SpinTurrer(0);
+    }
+  }
 }

@@ -18,8 +18,9 @@ public class CannonCMD extends Command {
   private CannonSubsystem ssCannon;
   private OI oi;
   public boolean isRunning2 = false;
-  private double ServPos = 0.7;
+  private double ServPos = 0.5;
   private double yCoord = -1;
+  private double xCoord = -1;
 
   /**
    * Creates a new CannonCMD.
@@ -42,7 +43,9 @@ public class CannonCMD extends Command {
   @Override
   public void execute() {
     yCoord = Robot.centerY;
-    
+    xCoord = Robot.centerX;
+    SmartDashboard.putNumber("Target X", xCoord);
+
     double distance = ((3.30-0.47) / Math.tan(Math.toRadians((ServPos-0.55)* 360)));
     //Distanse kalkulering.
     SmartDashboard.putNumber("Calculated Cannon Power", ssCannon.calculateWheelSpeed(distance));
@@ -52,22 +55,30 @@ public class CannonCMD extends Command {
     if (oi.stick.getRawButtonPressed(2)) {
       isRunning2 = !isRunning2;
     }
+    if (oi.stick.getRawButtonPressed(9)) {
+      Robot.isTracking = !Robot.isTracking;
+    }
 
-
+    double cannonPower = ((oi.stick.getThrottle()+1)/2)*(-0.2)-0.8;
+    SmartDashboard.putNumber("Cannon power", cannonPower);
     SmartDashboard.putBoolean("Is running =", isRunning2);
     SmartDashboard.putNumber("Cannon Speed", ssCannon.getWheelSpeed());
   if(oi.stick.getRawButton(1)){
-    ssCannon.RunShootWheelPID(ssCannon.calculateWheelSpeed(distance));
+    //ssCannon.RunShootWheelPID(ssCannon.calculateWheelSpeed(distance));
+    ssCannon.RunShootWheel(cannonPower);
   } else if(isRunning2 == true){
-    ssCannon.RunShootWheelPID(ssCannon.calculateWheelSpeed(distance));
+    //ssCannon.RunShootWheelPID(ssCannon.calculateWheelSpeed(distance));
+    ssCannon.RunShootWheel(cannonPower);
   } else{
     ssCannon.RunShootWheel(0);
   }
-  ssCannon.SpinTurrer(oi.controller.getRawAxis(0));
+  
   if(Robot.isTracking && yCoord != -1) {
     ssCannon.TrackServo(yCoord);
     ServPos = ssCannon.GetVissionServo();
+    ssCannon.TrackTurret(xCoord);
     SmartDashboard.putNumber("Servo pos", ServPos);
+    System.out.println("Tracking: " + xCoord + ", " + yCoord);
   } else {
     if(ServPos <= 0.8 && oi.controller.getRawAxis(5) >= 0.1) {
       ServPos += (0.01*oi.controller.getRawAxis(5));
@@ -76,6 +87,7 @@ public class CannonCMD extends Command {
     }
     ssCannon.SetVissionServo(ServPos);
     SmartDashboard.putNumber("Servo pos", ServPos);
+    ssCannon.SpinTurrer(oi.controller.getRawAxis(0));
   }
     }
   

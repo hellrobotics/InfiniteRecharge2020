@@ -41,8 +41,8 @@ public class DriveCMD extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    xCoord = Robot.centerX;
-    SmartDashboard.putNumber("Target X", xCoord);
+    //xCoord = Robot.centerX;
+    //SmartDashboard.putNumber("Target X", xCoord);
     if(oi.stick.getRawAxis(3) < 0 ){
       driveDir = -1;
     }
@@ -50,9 +50,6 @@ public class DriveCMD extends Command {
       driveDir = 1;
     }
 
-    if (oi.stick.getRawButtonPressed(9)) {
-      Robot.isTracking = !Robot.isTracking;
-    }
     if(oi.stick.getRawButton(1)){
       ssDrive.Arcade(0.25, 0);
     }

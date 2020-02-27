@@ -41,9 +41,11 @@ public class DriveSub extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
   public void Arcade (double moveValue, double rotateValue) {
     allDrive.arcadeDrive(moveValue, rotateValue);
   }
+
   public void Lock(){
     TopLeft.set(0.1);
     BottomLeft.set(-0.1);
@@ -56,13 +58,7 @@ public class DriveSub extends SubsystemBase {
     if (target >= 0) {
       double error = ((80.0+(40/Robot.distance)) - target);
       /* DEN HER VILLA VÆRT BEST, MEN FÅR IKKE T Å TUNE DEN BRA
-      double iteration_time = Timer.getFPGATimestamp() - last_time;
-      double integral = Math.max(0.1, Math.min(-0.1, integral_prior + error * iteration_time));
-      double kp = 0.02*0.45;
-      double ki = (1.2*kp)/0.2;
-      integral_prior = integral;
-      last_time = Timer.getFPGATimestamp();
-      return (error*kp + integral*ki)*-1;  
+       
       
       /* BACKUP*/
       //double pk = 0.5/1.0;
