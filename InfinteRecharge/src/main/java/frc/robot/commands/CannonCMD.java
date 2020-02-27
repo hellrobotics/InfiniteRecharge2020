@@ -46,7 +46,7 @@ public class CannonCMD extends Command {
     xCoord = Robot.centerX;
     SmartDashboard.putNumber("Target X", xCoord);
 
-    double distance = ((3.30-0.47) / Math.tan(Math.toRadians((ServPos-0.55)* 360)));
+    double distance = ((3.30-0.54) / Math.tan(Math.toRadians((ServPos-0.40)* 360)));
     //Distanse kalkulering.
     SmartDashboard.putNumber("Calculated Cannon Power", ssCannon.calculateWheelSpeed(distance));
     SmartDashboard.putNumber("Calculated distance", distance);
@@ -59,7 +59,7 @@ public class CannonCMD extends Command {
       Robot.isTracking = !Robot.isTracking;
     }
 
-    double cannonPower = ((oi.stick.getThrottle()+1)/2)*(-0.2)-0.8;
+    double cannonPower = ((oi.stick.getThrottle()+1)/2)*(-0.3)-0.7;
     SmartDashboard.putNumber("Cannon power", cannonPower);
     SmartDashboard.putBoolean("Is running =", isRunning2);
     SmartDashboard.putNumber("Cannon Speed", ssCannon.getWheelSpeed());
