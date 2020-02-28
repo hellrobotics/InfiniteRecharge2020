@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveSub;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveCMD extends Command {
   /**
