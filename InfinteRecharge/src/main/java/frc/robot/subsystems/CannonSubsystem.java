@@ -20,8 +20,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 
-/**
- * Add your docs here.
+/*
+ * Add your docs here.*
  */
 public class CannonSubsystem extends Subsystem {
   // Put methods for controlling this subsystem
@@ -98,7 +98,7 @@ public class CannonSubsystem extends Subsystem {
       last_time = Timer.getFPGATimestamp();
     }
   }
-  public void SpinTurrer(double speed){
+  public void SpinTurret(double speed){
     TurretSpinner.set(speed);
   }
 
@@ -112,9 +112,9 @@ public class CannonSubsystem extends Subsystem {
       double ki = (1.2*kp)/0.2;
       integral_prior = integral;
       last_time = Timer.getFPGATimestamp();
-      SpinTurrer((error*kp + integral*ki*0));  
+      SpinTurret((error*kp + integral*ki*0));  
     } else {
-      SpinTurrer(0);
+      SpinTurret(0);
     }
   }
 }
