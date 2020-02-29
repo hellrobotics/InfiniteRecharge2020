@@ -53,7 +53,21 @@ public class StorageCMD extends Command {
     else if(oi.stick.getPOV() == 270){
       ssStore.RunPizza(-1);
       ssStore.RunFeeding(-0.3);
-    } /*else if (oi.stick.getPOV() == 0) {
+    }
+    else if(ssStore.getEndstopC() == true){
+      ssStore.RunPizza(0);
+      ssStore.RunFeeding(0);
+    } else if(ssStore.getEndstopA() == true){
+      ssStore.RunPizza(-1);
+      ssStore.RunFeeding(-0.3);
+      Robot.SensorA = true;
+
+    } else if(ssStore.getEndstopB() == true){
+      ssStore.RunPizza(-1);
+      ssStore.RunFeeding(-0.3);
+    }
+    
+     /*else if (oi.stick.getPOV() == 0) {
       ssStore.RunPizza(-0.4);
       ssStore.RunFeeding(-0.2);
     } */else {
