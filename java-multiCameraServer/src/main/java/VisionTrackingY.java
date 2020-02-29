@@ -27,10 +27,9 @@ import edu.wpi.first.vision.VisionPipeline;
 *
 * @author GRIP
 */
-public class VisionTracking implements VisionPipeline {
+public class VisionTrackingY implements VisionPipeline {
 
 	//Outputs
-	private Mat resizeImageOutput = new Mat();
 	private Mat hsvThresholdOutput = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
 	private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
@@ -44,15 +43,8 @@ public class VisionTracking implements VisionPipeline {
 	 * This is the primary method that runs the entire pipeline and updates the outputs.
 	 */
 	@Override	public void process(Mat source0) {
-		// Step Resize_Image0:
-		Mat resizeImageInput = source0;
-		double resizeImageWidth = 160.0;
-		double resizeImageHeight = 120.0;
-		int resizeImageInterpolation = Imgproc.INTER_CUBIC;
-		resizeImage(resizeImageInput, resizeImageWidth, resizeImageHeight, resizeImageInterpolation, resizeImageOutput);
-
 		// Step HSV_Threshold0:
-		Mat hsvThresholdInput = resizeImageOutput;
+		Mat hsvThresholdInput = new Mat(source0, new Rect(480,0,1,720));
 		double[] hsvThresholdHue = {40.71454700646263, 103.20819112627986};
 		double[] hsvThresholdSaturation = {50.57014388489208, 255.0};
 		double[] hsvThresholdValue = {188.02338129496403, 255.0};
@@ -65,21 +57,21 @@ public class VisionTracking implements VisionPipeline {
 
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
-		double filterContoursMinArea = 10.0;
-		double filterContoursMinPerimeter = 1.0;
+		double filterContoursMinArea = 0.0;
+		double filterContoursMinPerimeter = 0.0;
 		double filterContoursMinWidth = 0.0;
 		double filterContoursMaxWidth = 1000.0;
 		double filterContoursMinHeight = 0.0;
 		double filterContoursMaxHeight = 1000.0;
-		double[] filterContoursSolidity = {0.0, 50};
+		double[] filterContoursSolidity = {0.0, 100};
 		double filterContoursMaxVertices = 1000000.0;
 		double filterContoursMinVertices = 0.0;
-		double filterContoursMinRatio = 1.1;
-		double filterContoursMaxRatio = 5.0;
-		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
+		double filterContoursMinRatio = 0;
+		double filterContoursMaxRatio = 100;
+		//filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
 
 		// Step Convex_Hulls0:
-		ArrayList<MatOfPoint> convexHullsContours = filterContoursOutput;
+		ArrayList<MatOfPoint> convexHullsContours = findContoursOutput;//filterContoursOutput;
 		convexHulls(convexHullsContours, convexHullsOutput);
 
 	}
@@ -114,19 +106,6 @@ public class VisionTracking implements VisionPipeline {
 	 */
 	public ArrayList<MatOfPoint> convexHullsOutput() {
 		return convexHullsOutput;
-	}
-
-	/**
-	 * Scales and image to an exact size.
-	 * @param input The image on which to perform the Resize.
-	 * @param width The width of the output in pixels.
-	 * @param height The height of the output in pixels.
-	 * @param interpolation The type of interpolation.
-	 * @param output The image in which to store the output.
-	 */
-	private void resizeImage(Mat input, double width, double height,
-		int interpolation, Mat output) {
-		Imgproc.resize(input, output, new Size(width, height), 0.0, 0.0, interpolation);
 	}
 
 

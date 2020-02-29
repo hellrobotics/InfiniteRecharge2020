@@ -367,16 +367,13 @@ public final class Main {
             if (biggestContour != null) {
               final Rect bbx = Imgproc.boundingRect(biggestContour);
               centerX = bbx.x + bbx.width/2;
-              centerY = bbx.y + bbx.height/2;
             } 
           } else {
             System.out.println("no targets");
             centerX = -1;
-            centerY = -1;
           }
-          System.out.println("Center = " + centerX);
+          System.out.println("CenterX = " + centerX);
           centerXEntry.setDouble(centerX);
-          centerYEntry.setDouble(centerY);
           /*
             MatOfPoint nextBiggestContour = null;
             if (!pipeline.convexHullsOutput().isEmpty()) {
@@ -444,8 +441,34 @@ public final class Main {
         ...
       });
        */
+      VisionThread visionThreadY = new VisionThread(cameras.get(0), new VisionTrackingY(), pipeline -> {
+
+        if (!pipeline.convexHullsOutput().isEmpty()) {
+          MatOfPoint biggestContour = pipeline.convexHullsOutput().get(0);
+      
+          for(int i = 1; i < pipeline.convexHullsOutput().size(); i++) {
+            final MatOfPoint contour = pipeline.convexHullsOutput().get(i);
+            if (Imgproc.contourArea(contour) > Imgproc.contourArea(biggestContour)) {
+              biggestContour = contour;
+            }
+          }
+          if (biggestContour != null) {
+            final Rect bbx = Imgproc.boundingRect(biggestContour);
+            centerY = bbx.y + bbx.height/2;
+          } 
+        } else {
+          System.out.println("no targets");
+          centerY = -1;
+        }
+        System.out.println("CenterY = " + centerY);
+        //centerXEntry.setDouble(centerX);
+        centerYEntry.setDouble(centerY);
+      });
+ 
+      visionThreadY.start();
       visionThread.start();
     }
+
 
     // loop forever
     for (;;) {
