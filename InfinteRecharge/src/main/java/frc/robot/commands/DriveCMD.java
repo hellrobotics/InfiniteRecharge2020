@@ -48,13 +48,14 @@ public class DriveCMD extends Command {
       driveDir = 1;
     }
 
+    /*
     if (Robot.isTracking && xCoord != -1) {
       ssDrive.Arcade(oi.stick.getRawAxis(1)*(oi.stick.getRawAxis(3)), ssDrive.TrackTargetTurning(xCoord));
     } else {
-      
+      */
       ssDrive.Arcade(oi.stick.getRawAxis(1)*(oi.stick.getRawAxis(3)), oi.stick.getRawAxis(2)*(oi.stick.getRawAxis(3))*driveDir)  ;
     
-    }
+    //}
  
   }
 

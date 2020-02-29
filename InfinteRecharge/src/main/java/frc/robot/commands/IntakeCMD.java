@@ -50,12 +50,14 @@ public class IntakeCMD extends Command {
 
       //Pneumatic change
       ssIntake.RaiseIntake(IntakeActive);
+      /*
       if(Robot.SensorA == true){
         PIDspeed = 0;
       }
       else{
         PIDspeed = 2000;
       }
+      */
       //Motors run  
       if(IntakeActive == true){
       if(oi.stick.getPOV() == 0){

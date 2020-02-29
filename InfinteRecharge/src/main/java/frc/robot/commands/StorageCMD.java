@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
+import frc.robot.Robot;
 import frc.robot.subsystems.StorageSub;
 
 public class StorageCMD extends Command {
@@ -43,7 +44,7 @@ public class StorageCMD extends Command {
     //Start of PIDza
     if(oi.stick.getRawButton(1)){
       Speed2 = -1;
-      ssStore.RunPizza(Speed2*0.5);
+      ssStore.RunPizza(Speed2);
       ssStore.RunFeeding(-1);
     }
     else if(oi.stick.getPOV() == 90){
@@ -54,15 +55,20 @@ public class StorageCMD extends Command {
       ssStore.RunPizza(-1);
       ssStore.RunFeeding(-0.3);
     }
-    else if(ssStore.getEndstopC() == true){
+    else {
       ssStore.RunPizza(0);
       ssStore.RunFeeding(0);
-    } else if(ssStore.getEndstopA() == true){
+    }
+    /*
+    else if(ssStore.getEndstopC() == false){
+      ssStore.RunPizza(0);
+      ssStore.RunFeeding(0);
+    } else if(ssStore.getEndstopA() == false){
       ssStore.RunPizza(-1);
       ssStore.RunFeeding(-0.3);
       Robot.SensorA = true;
 
-    } else if(ssStore.getEndstopB() == true){
+    } else if(ssStore.getEndstopB() == false){
       ssStore.RunPizza(-1);
       ssStore.RunFeeding(-0.3);
     }
@@ -70,10 +76,7 @@ public class StorageCMD extends Command {
      /*else if (oi.stick.getPOV() == 0) {
       ssStore.RunPizza(-0.4);
       ssStore.RunFeeding(-0.2);
-    } */else {
-      ssStore.RunPizza(0);
-      ssStore.RunFeeding(0);
-    }
+    } */
     //End of PIDza
 
 
