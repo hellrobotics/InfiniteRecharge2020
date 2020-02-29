@@ -46,7 +46,7 @@ public class CannonCMD extends Command {
     xCoord = Robot.centerX;
     SmartDashboard.putNumber("Target X", xCoord);
 
-    double distance = ((3.30-0.54) / Math.tan(Math.toRadians((ServPos-0.40)* 360)));
+    double distance = ((3.30-0.54) / Math.tan(Math.toRadians((ServPos-0.50)* 360)));
     //Distanse kalkulering.
     SmartDashboard.putNumber("Calculated Cannon Power", ssCannon.calculateWheelSpeed(distance));
     SmartDashboard.putNumber("Calculated distance", distance);
