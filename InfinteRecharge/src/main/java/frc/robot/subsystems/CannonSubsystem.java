@@ -20,8 +20,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 
-/**
- * Add your docs here.
+/*
+ * Add your docs here.*
  */
 public class CannonSubsystem extends Subsystem {
   // Put methods for controlling this subsystem
@@ -83,7 +83,8 @@ public class CannonSubsystem extends Subsystem {
   }
 
   public double calculateWheelSpeed(double x) {
-    return Math.max(0, Math.min(5700,(0.0119*Math.pow(x,4)-0.1862*Math.pow(x,3)+1.0849*Math.pow(x,2)-2.7357*x+3.3842)*5700));
+    //return Math.max(0, Math.min(5700,(0.0119*Math.pow(x,4)-0.1862*Math.pow(x,3)+1.0849*Math.pow(x,2)-2.7357*x+3.3842)*5700));
+    return (76.61*Math.pow(x,6)-1594.4*Math.pow(x,5)+13543.61*Math.pow(x, 4)-60002.49*Math.pow(x,3)+146105.17*Math.pow(x,2)-185161.87*x+99975.37);
   }
 
   public void TrackServo(double target) {
@@ -98,7 +99,7 @@ public class CannonSubsystem extends Subsystem {
       last_time = Timer.getFPGATimestamp();
     }
   }
-  public void SpinTurrer(double speed){
+  public void SpinTurret(double speed){
     TurretSpinner.set(speed);
   }
 
@@ -112,9 +113,9 @@ public class CannonSubsystem extends Subsystem {
       double ki = (1.2*kp)/0.2;
       integral_prior = integral;
       last_time = Timer.getFPGATimestamp();
-      SpinTurrer((error*kp + integral*ki*0));  
+      SpinTurret((error*kp + integral*ki*0));  
     } else {
-      SpinTurrer(0);
+      SpinTurret(0);
     }
   }
 }

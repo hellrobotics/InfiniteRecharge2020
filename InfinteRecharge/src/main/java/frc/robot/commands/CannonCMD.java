@@ -87,7 +87,7 @@ public class CannonCMD extends Command {
     }
     ssCannon.SetVissionServo(ServPos);
     SmartDashboard.putNumber("Servo pos", ServPos);
-    ssCannon.SpinTurrer(oi.controller.getRawAxis(0));
+    ssCannon.SpinTurret(oi.controller.getRawAxis(0));
   }
     }
   

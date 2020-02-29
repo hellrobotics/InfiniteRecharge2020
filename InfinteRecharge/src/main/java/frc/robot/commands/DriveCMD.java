@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveSub;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveCMD extends Command {
   /**
@@ -42,7 +41,6 @@ public class DriveCMD extends Command {
   @Override
   public void execute() {
     //xCoord = Robot.centerX;
-    //SmartDashboard.putNumber("Target X", xCoord);
     if(oi.stick.getRawAxis(3) < 0 ){
       driveDir = -1;
     }
@@ -50,10 +48,7 @@ public class DriveCMD extends Command {
       driveDir = 1;
     }
 
-    if(oi.stick.getRawButton(1)){
-      ssDrive.Arcade(0.25, 0);
-    }
-    else if (Robot.isTracking && xCoord != -1) {
+    if (Robot.isTracking && xCoord != -1) {
       ssDrive.Arcade(oi.stick.getRawAxis(1)*(oi.stick.getRawAxis(3)), ssDrive.TrackTargetTurning(xCoord));
     } else {
       

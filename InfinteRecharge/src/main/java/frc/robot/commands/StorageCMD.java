@@ -42,18 +42,6 @@ public class StorageCMD extends Command {
 
     //Start of PIDza
     if(oi.stick.getRawButton(1)){
-      int SpeD = ssStore.getPizzaSpED();
-
-      if(SpeD > 11) {
-        Speed2 -= 0.1;
-      }
-      if (10 > SpeD) {
-        Speed2 += 0.1;
-      }
-
-      SmartDashboard.putNumber("SpED", SpeD);
-      SmartDashboard.putNumber("Speed PizzaWheel", Speed2*0.8);
-
       Speed2 = -1;
       ssStore.RunPizza(Speed2*0.5);
       ssStore.RunFeeding(-1);
