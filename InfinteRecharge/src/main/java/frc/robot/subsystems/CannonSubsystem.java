@@ -83,7 +83,8 @@ public class CannonSubsystem extends Subsystem {
   }
 
   public double calculateWheelSpeed(double x) {
-    return Math.max(0, Math.min(5700,(0.0119*Math.pow(x,4)-0.1862*Math.pow(x,3)+1.0849*Math.pow(x,2)-2.7357*x+3.3842)*5700));
+    //return Math.max(0, Math.min(5700,(0.0119*Math.pow(x,4)-0.1862*Math.pow(x,3)+1.0849*Math.pow(x,2)-2.7357*x+3.3842)*5700));
+    return (76.61*Math.pow(x,6)-1594.4*Math.pow(x,5)+13543.61*Math.pow(x, 4)-60002.49*Math.pow(x,3)+146105.17*Math.pow(x,2)-185161.87*x+99975.37);
   }
 
   public void TrackServo(double target) {

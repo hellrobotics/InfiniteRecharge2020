@@ -30,6 +30,8 @@ public class IntakeCMD extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    ssIntake.ConfigPID();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -51,10 +53,15 @@ public class IntakeCMD extends Command {
       if(IntakeActive == true){
       if(oi.stick.getPOV() == 0){
         ssIntake.RunIntake(-1);
+        ssIntake.RunIntakePID(2000);
+
       } else if(oi.stick.getPOV() == 180){
         ssIntake.RunIntake(0.8);
+        ssIntake.RunIntakePID(-2000);
       } else {
         ssIntake.RunIntake(0);
+        ssIntake.RunIntakePID(0);
+
       }
 
     }
