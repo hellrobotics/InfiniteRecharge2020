@@ -39,6 +39,7 @@ public class Robot extends TimedRobot {
   public static double centerY = 0;
   public static boolean isTracking = false;
   public static double distance = 0;
+  public static boolean SensorA = false;
 
   private final Object imgLock = new Object();
 

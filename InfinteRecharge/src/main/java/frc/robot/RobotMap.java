@@ -23,7 +23,7 @@ public class RobotMap {
   public static int INTAKE = 5;
   public static int INTAKESIDE = 6;
   public static int FEEDING1 = 7;
-  public static int PIZZAWHEEL = 8;
+  public static int PIZZAWHEEL = 13;
   public static int FEEDING2 = 9;
   public static int FLYWHEELMOTOR = 10;
   public static int INTAKETOP = 11;

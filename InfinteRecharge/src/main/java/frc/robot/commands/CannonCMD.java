@@ -18,6 +18,7 @@ public class CannonCMD extends Command {
   private CannonSubsystem ssCannon;
   private OI oi;
   public boolean isRunning2 = false;
+  public boolean isShooting = false;
   private double ServPos = 0.5;
   private double yCoord = -1;
   private double xCoord = -1;
@@ -37,6 +38,7 @@ public class CannonCMD extends Command {
   public void initialize() {
     System.out.println("CAnnoncmd");
     ssCannon.ConfigPID();
+    SmartDashboard.putNumber("Exra RPM",0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -46,7 +48,7 @@ public class CannonCMD extends Command {
     xCoord = Robot.centerX;
     SmartDashboard.putNumber("Target X", xCoord);
 
-    double distance = ((3.30-0.54) / Math.tan(Math.toRadians((ServPos-0.50)* 360)));
+    double distance = ((3.30-0.54) / Math.tan(Math.toRadians((ServPos-0.40)* 360)));
     //Distanse kalkulering.
     SmartDashboard.putNumber("Calculated Cannon Power", ssCannon.calculateWheelSpeed(distance));
     SmartDashboard.putNumber("Calculated distance", distance);
@@ -55,25 +57,29 @@ public class CannonCMD extends Command {
     if (oi.stick.getRawButtonPressed(2)) {
       isRunning2 = !isRunning2;
     }
-    if (oi.stick.getRawButtonPressed(9)) {
-      Robot.isTracking = !Robot.isTracking;
-    }
+    //if (oi.stick.getRawButtonPressed(9)) {
+    //  Robot.isTracking = !Robot.isTracking;
+    //}
 
-    double cannonPower = ((oi.stick.getThrottle()+1)/2)*(-0.3)-0.7;
+    double cannonPower = (((oi.stick.getThrottle()+1)/2)*(-0.3)-0.7)*-5800;
     SmartDashboard.putNumber("Cannon power", cannonPower);
     SmartDashboard.putBoolean("Is running =", isRunning2);
     SmartDashboard.putNumber("Cannon Speed", ssCannon.getWheelSpeed());
+    double extraPower = SmartDashboard.getNumber("Exra RPM",0);
   if(oi.stick.getRawButton(1)){
-    //ssCannon.RunShootWheelPID(ssCannon.calculateWheelSpeed(distance));
-    ssCannon.RunShootWheel(cannonPower);
+    ssCannon.RunShootWheelPID(ssCannon.calculateWheelSpeed(distance)+extraPower);
+    //ssCannon.RunShootWheelPID(cannonPower);
+    isShooting = true;
   } else if(isRunning2 == true){
-    //ssCannon.RunShootWheelPID(ssCannon.calculateWheelSpeed(distance));
-    ssCannon.RunShootWheel(cannonPower);
+    ssCannon.RunShootWheelPID(ssCannon.calculateWheelSpeed(distance)+extraPower);
+    //ssCannon.RunShootWheelPID(cannonPower);
+    isShooting = false;
   } else{
     ssCannon.RunShootWheel(0);
+    isShooting = false;
   }
   
-  if(Robot.isTracking && yCoord != -1) {
+  if(isRunning2 && yCoord != -1 && !isShooting) {
     ssCannon.TrackServo(yCoord);
     ServPos = ssCannon.GetVissionServo();
     ssCannon.TrackTurret(xCoord);
@@ -89,7 +95,7 @@ public class CannonCMD extends Command {
     SmartDashboard.putNumber("Servo pos", ServPos);
     ssCannon.SpinTurret(oi.controller.getRawAxis(0));
   }
-    }
+}
   
 
   // Called once the command ends or is interrupted.

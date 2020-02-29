@@ -17,6 +17,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 
@@ -36,7 +37,8 @@ public class CannonSubsystem extends Subsystem {
 
   private double integral_prior = 0;
   private double last_time = 0;
-
+  private double integral_prior2 = 0;
+  private double last_time2 = 0;
 
   private static CannonSubsystem m_instance;
 	public static synchronized CannonSubsystem getInstance() {
@@ -54,7 +56,7 @@ public class CannonSubsystem extends Subsystem {
 
   public void ConfigPID() {
     wheelPID.setP(1e-5);
-    wheelPID.setI(0);
+    wheelPID.setI(6e-9);
     wheelPID.setD(0);
     wheelPID.setIZone(0);
     wheelPID.setFF(0.00017);
@@ -84,16 +86,18 @@ public class CannonSubsystem extends Subsystem {
 
   public double calculateWheelSpeed(double x) {
     //return Math.max(0, Math.min(5700,(0.0119*Math.pow(x,4)-0.1862*Math.pow(x,3)+1.0849*Math.pow(x,2)-2.7357*x+3.3842)*5700));
-    return (76.61*Math.pow(x,6)-1594.4*Math.pow(x,5)+13543.61*Math.pow(x, 4)-60002.49*Math.pow(x,3)+146105.17*Math.pow(x,2)-185161.87*x+99975.37);
+    //return Math.max(0, Math.min(5800,(76.61*Math.pow(x,6)-1594.4*Math.pow(x,5)+13543.61*Math.pow(x, 4)-60002.49*Math.pow(x,3)+146105.17*Math.pow(x,2)-185161.87*x+99975.37)));
+    return Math.max(0, Math.min(5800,(72.09*Math.pow(x,4)-1014.57*Math.pow(x,3)+5159.6*Math.pow(x,2)-10926.16*x+13202.19)));
   }
 
   public void TrackServo(double target) {
     if (target >= 0) {
-      double error = 60.0 - target;
+      double error = 360.0 - target;
       double iteration_time = Timer.getFPGATimestamp() - last_time;
-      double integral = Math.max(0.02, Math.min(-0.02, integral_prior + error * iteration_time));
-      double kp = 0.00017*0.45;
-      double ki = (1.2*kp)/0.65;
+      double integral = Math.max(10, Math.min(-10, integral_prior + error * iteration_time));
+      SmartDashboard.putNumber("Turret integral", integral);
+      double kp = 0.00003*0.45;
+      double ki = (1.2*kp)/1;
       VissionServ.set(Math.max(0.4, Math.min(0.7, VissionServ.get()+(error*kp + integral*ki))));
       integral_prior = integral;
       last_time = Timer.getFPGATimestamp();
@@ -106,13 +110,13 @@ public class CannonSubsystem extends Subsystem {
   public void TrackTurret (double target) {
     if (target >= 0) {
       double error = (80.0 - target);
-      double iteration_time = Timer.getFPGATimestamp() - last_time;
-      double integral = Math.max(0.1, Math.min(-0.1, integral_prior + error * iteration_time));
+      double iteration_time = Timer.getFPGATimestamp() - last_time2;
+      double integral = Math.max(0.1, Math.min(-0.1, integral_prior2 + error * iteration_time));
       //Kommenter ut *0.45 og endre til det dirrer rundt punktet, derreter ukomenter og gang (1.2*kp)/tiden et dirr tar
       double kp = 0.01;//*0.45;
       double ki = (1.2*kp)/0.2;
-      integral_prior = integral;
-      last_time = Timer.getFPGATimestamp();
+      integral_prior2 = integral;
+      last_time2 = Timer.getFPGATimestamp();
       SpinTurret((error*kp + integral*ki*0));  
     } else {
       SpinTurret(0);
