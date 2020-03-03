@@ -74,8 +74,13 @@ public class CannonSubsystem extends Subsystem {
 
   public void SetVissionServo(double pos){
     VissionServ.set(pos);
+  }
+
+  public void SetVissionServoSpeed(double speed){
+    VissionServ.set(0.5+(speed/2));
     
   }
+
   public double GetVissionServo(){
     return VissionServ.get();
   }
@@ -96,9 +101,10 @@ public class CannonSubsystem extends Subsystem {
       double iteration_time = Timer.getFPGATimestamp() - last_time;
       double integral = Math.max(10, Math.min(-10, integral_prior + error * iteration_time));
       SmartDashboard.putNumber("Turret integral", integral);
-      double kp = 0.00003*0.45;
+      double kp = 0.003*0.45;//0.00003*0.45;
       double ki = (1.2*kp)/1;
-      VissionServ.set(Math.max(0.4, Math.min(0.7, VissionServ.get()+(error*kp + integral*ki))));
+      //VissionServ.set(Math.max(0.4, Math.min(0.7, VissionServ.get()+(error*kp + integral*ki))));
+      SetVissionServoSpeed(error*kp + integral*ki*0);
       integral_prior = integral;
       last_time = Timer.getFPGATimestamp();
     }

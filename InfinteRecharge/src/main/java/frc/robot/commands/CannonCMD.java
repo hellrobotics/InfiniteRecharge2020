@@ -20,6 +20,7 @@ public class CannonCMD extends Command {
   public boolean isRunning2 = false;
   public boolean isShooting = false;
   private double ServPos = 0.5;
+  private double servoAngle = 0;
   private double yCoord = -1;
   private double xCoord = -1;
 
@@ -47,8 +48,10 @@ public class CannonCMD extends Command {
     yCoord = Robot.centerY;
     xCoord = Robot.centerX;
     SmartDashboard.putNumber("Target X", xCoord);
-
-    double distance = ((3.30-0.54) / Math.tan(Math.toRadians((ServPos-0.40)* 360)));
+    double targetAngle = (ServPos-0.39)* 350 + (33.75*(360-yCoord))/720;
+    double distance = ((3.30-0.54) / Math.tan(Math.toRadians(targetAngle)));
+    SmartDashboard.putNumber("Servo angle", (ServPos-0.39)* 350);
+    SmartDashboard.putNumber("Target angle", targetAngle);
     //Distanse kalkulering.
     SmartDashboard.putNumber("Calculated Cannon Power", ssCannon.calculateWheelSpeed(distance));
     SmartDashboard.putNumber("Calculated distance", distance);
@@ -80,18 +83,24 @@ public class CannonCMD extends Command {
   }
   
   if(isRunning2 && xCoord != -1 && !isShooting) {
-    ssCannon.TrackServo(yCoord);
-    ServPos = ssCannon.GetVissionServo();
+    //ssCannon.TrackServo(yCoord);
+    
     ssCannon.TrackTurret(xCoord);
     SmartDashboard.putNumber("Servo pos", ServPos);
     System.out.println("Tracking: " + xCoord + ", " + yCoord);
   } else {
     if(oi.figthStick.getPOV() == 0){
       ServPos += 0.005;
+      //ssCannon.SetVissionServoSpeed(0.5);
     } else if(oi.figthStick.getPOV() == 180){
       ServPos -= 0.005;
+      //ssCannon.SetVissionServoSpeed(-0.5);
+    } else {
+      //ssCannon.SetVissionServoSpeed(0);
+      ServPos -= 0.005*oi.figthStick.getRawAxis(1);
     }
     ssCannon.SetVissionServo(ServPos);
+    ServPos = Math.max(0.39, Math.min(0.7, ssCannon.GetVissionServo()));
     SmartDashboard.putNumber("Servo pos", ServPos);
     if(oi.figthStick.getPOV() == 90){
       ssCannon.SpinTurret(-0.2);
@@ -100,7 +109,7 @@ public class CannonCMD extends Command {
       ssCannon.SpinTurret(0.2);
     }
     else{
-    ssCannon.SpinTurret(0);
+    ssCannon.SpinTurret(-0.2*oi.figthStick.getRawAxis(0));
   }
 }
 }
