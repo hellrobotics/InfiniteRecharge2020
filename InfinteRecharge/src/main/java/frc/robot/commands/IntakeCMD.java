@@ -9,7 +9,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
-import frc.robot.Robot;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeCMD extends Command {
@@ -40,13 +39,13 @@ public class IntakeCMD extends Command {
   @Override
   public void execute() {
     //Togle intake code
+      if(oi.figthStick.getRawButtonPressed(5
+      )){
+       IntakeActive = !IntakeActive;
+      } 
       if(oi.stick.getRawButtonPressed(3)){
-        if(IntakeActive == true){
-          IntakeActive = false;
-        }else{
-          IntakeActive = true;
-        }
-      }
+        IntakeActive = !IntakeActive;
+       }
 
       //Pneumatic change
       ssIntake.RaiseIntake(IntakeActive);
@@ -67,7 +66,14 @@ public class IntakeCMD extends Command {
       } else if(oi.stick.getPOV() == 180){
         ssIntake.RunIntake(0.8);
         ssIntake.RunIntakePID(-PIDspeed);
-      } else {
+      }else if(oi.figthStick.getRawButton(1)){
+        ssIntake.RunIntake(0.8);
+        ssIntake.RunIntakePID(-PIDspeed);
+      }else if(oi.figthStick.getRawButton(2)){
+        ssIntake.RunIntake(-1);
+        ssIntake.RunIntakePID(PIDspeed);
+      }
+       else {
         ssIntake.RunIntake(0);
         ssIntake.RunIntakePID(0);
 

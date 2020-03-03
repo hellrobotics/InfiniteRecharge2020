@@ -7,10 +7,8 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
-import frc.robot.RobotMap;
 import frc.robot.subsystems.ElevatorSub;
 
 public class ElevatorCMD extends Command {
@@ -42,7 +40,13 @@ public class ElevatorCMD extends Command {
     if(oi.figthStick.getRawButtonPressed(3)){
       isActivated = !isActivated;
     }
-    ssElevate.RunElevator(oi.figthStick.getRawAxis(3)*0.5 - oi.figthStick.getRawAxis(2)*0.5);
+    if(oi.figthStick.getRawButton(6)){
+      ssElevate.RunElevator(0.5);
+    } else if(oi.figthStick.getRawAxis(3) > 0.1){
+      ssElevate.RunElevator(-0.5);
+    } else{
+      ssElevate.RunElevator(0);
+    }
     ssElevate.activateElevator(isActivated);
   
   }
