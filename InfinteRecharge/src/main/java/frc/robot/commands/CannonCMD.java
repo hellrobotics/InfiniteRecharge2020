@@ -79,22 +79,30 @@ public class CannonCMD extends Command {
     isShooting = false;
   }
   
-  if(isRunning2 && yCoord != -1 && !isShooting) {
+  if(isRunning2 && xCoord != -1 && !isShooting) {
     ssCannon.TrackServo(yCoord);
     ServPos = ssCannon.GetVissionServo();
     ssCannon.TrackTurret(xCoord);
     SmartDashboard.putNumber("Servo pos", ServPos);
     System.out.println("Tracking: " + xCoord + ", " + yCoord);
   } else {
-    if(ServPos <= 0.8 && oi.controller.getRawAxis(5) >= 0.1) {
-      ServPos += (0.01*oi.controller.getRawAxis(5));
-    } else if(0.3 <= ServPos && oi.controller.getRawAxis(5) <= -0.1) {
-      ServPos += (0.01*oi.controller.getRawAxis(5));
+    if(oi.figthStick.getPOV() == 0){
+      ServPos += 0.005;
+    } else if(oi.figthStick.getPOV() == 180){
+      ServPos -= 0.005;
     }
     ssCannon.SetVissionServo(ServPos);
     SmartDashboard.putNumber("Servo pos", ServPos);
-    ssCannon.SpinTurret(oi.controller.getRawAxis(0));
+    if(oi.figthStick.getPOV() == 90){
+      ssCannon.SpinTurret(-0.2);
+    }
+    else if(oi.figthStick.getPOV() == 270){
+      ssCannon.SpinTurret(0.2);
+    }
+    else{
+    ssCannon.SpinTurret(0);
   }
+}
 }
   
 

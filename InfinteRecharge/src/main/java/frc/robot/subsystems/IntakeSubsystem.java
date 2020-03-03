@@ -22,7 +22,6 @@ public class IntakeSubsystem extends Subsystem {
   public Solenoid intakeSolenoid = new Solenoid(RobotMap.INTAKESOLENOID);
   public Solenoid helperSolenoid = new Solenoid(RobotMap.HELPERSOLENOID);
   public WPI_VictorSPX intakeMotor = new WPI_VictorSPX(RobotMap.INTAKE);
-  public WPI_VictorSPX sideIntakeMotor = new WPI_VictorSPX(RobotMap.INTAKESIDE);
   public CANSparkMax topIntakeMotor = new CANSparkMax(RobotMap.INTAKETOP, MotorType.kBrushless);
   private CANPIDController wheelPID = topIntakeMotor.getPIDController();
 
@@ -62,7 +61,6 @@ public class IntakeSubsystem extends Subsystem {
   }
   public void RunIntake(double power) {
     intakeMotor.set(power);
-    sideIntakeMotor.set(power);
     //topIntakeMotor.set(power*0.3); 
   }
 
@@ -70,6 +68,6 @@ public class IntakeSubsystem extends Subsystem {
     intakeSolenoid.set(state);
     helperSolenoid.set(state);
   }
-
+//Røva mi e meget brukbar
 
 }

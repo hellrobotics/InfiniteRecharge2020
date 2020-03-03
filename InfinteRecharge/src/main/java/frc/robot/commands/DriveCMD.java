@@ -9,7 +9,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
-import frc.robot.Robot;
 import frc.robot.subsystems.DriveSub;
 
 public class DriveCMD extends Command {
@@ -28,7 +27,8 @@ public class DriveCMD extends Command {
     requires(ssDrive);
     oi = OI.getInstance();
   }
-
+// yeeeet guttaaaaaaaaaaaaaa
+//faaen du sug ronald
   private void requires(DriveSub ssDrive2) {
   }
 
@@ -53,7 +53,7 @@ public class DriveCMD extends Command {
       ssDrive.Arcade(oi.stick.getRawAxis(1)*(oi.stick.getRawAxis(3)), ssDrive.TrackTargetTurning(xCoord));
     } else {
       */
-      ssDrive.Arcade(oi.stick.getRawAxis(1)*(oi.stick.getRawAxis(3)), oi.stick.getRawAxis(2)*(oi.stick.getRawAxis(3))*driveDir)  ;
+      ssDrive.Arcade(oi.stick.getRawAxis(1)*(oi.stick.getRawAxis(3)), oi.stick.getRawAxis(0)*(oi.stick.getRawAxis(3))*driveDir)  ;
     
     //}
  

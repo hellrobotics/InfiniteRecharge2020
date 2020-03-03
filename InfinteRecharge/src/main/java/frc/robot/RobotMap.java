@@ -21,20 +21,21 @@ public class RobotMap {
   public static int BOTTOMLEFT = 3;
   public static int BOTTOMRIGTH = 4;
   public static int INTAKE = 5;
-  public static int INTAKESIDE = 6;
   public static int FEEDING1 = 7;
-  public static int PIZZAWHEEL = 13;
+  public static int PIZZAWHEEL = 6;
   public static int FEEDING2 = 9;
   public static int FLYWHEELMOTOR = 10;
   public static int INTAKETOP = 11;
-  public static int TURRETSPINNER = 12;
+  public static int TURRETSPINNER = 8;
+  public static int ELEVATORMOTOR = 13;
   
 
 
   //PCM
-  public static int INTAKESOLENOID = 0;
-  public static int HELPERSOLENOID = 1;
-
+  public static int INTAKESOLENOID = 6;
+  public static int HELPERSOLENOID = 5;
+  public static int ELEVATORLOCK = 4;
+  //public static int ELEVATORPUSHER = 4;
   //DIO
   public static int ENCODER1 = 0;
   public static int ENCODER2 = 1;

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commandgroups.AutoCMDGRP;
 import frc.robot.commands.CannonCMD;
 import frc.robot.commands.DriveCMD;
+import frc.robot.commands.ElevatorCMD;
 import frc.robot.commands.IntakeCMD;
 import frc.robot.commands.StorageCMD;
 
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot {
   Command cannonRun = new CannonCMD();
   Command intakeRun = new IntakeCMD();
   Command storageRun = new StorageCMD();
+  Command elevatorRun = new ElevatorCMD();
   SequentialCommandGroup autoCMD = new AutoCMDGRP();
 
   private static final int IMG_WIDTH = 320;
@@ -182,7 +184,7 @@ public class Robot extends TimedRobot {
     storageRun.start();
     intakeRun.start();
     cannonRun.start();
-
+    elevatorRun.start();
     
     System.out.println("TELEOP DONE");
 
@@ -196,7 +198,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    
+    centerX = centerXEntry.getDouble(-1);
+    centerY = centerYEntry.getDouble(-1);
 
   }
 

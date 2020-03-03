@@ -17,10 +17,8 @@ public class OI {
 //Joystick
   	public Joystick stick = new Joystick(0);
 
-//Controller
-	public Joystick controller = new Joystick(1);
-
-
+//Pro Figth Controller
+	public Joystick figthStick = new Joystick(2);
 
     private static OI m_instance;
 	public static synchronized OI getInstance() {
@@ -28,6 +26,6 @@ public class OI {
 			m_instance = new OI();
 		}
 		return m_instance;
-		
+		// æ håpe ikke roar finn herran
 	}
 }

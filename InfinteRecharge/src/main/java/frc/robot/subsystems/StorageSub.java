@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,7 +19,7 @@ public class StorageSub extends SubsystemBase {
   /**
    * Creates a new StorageSub.
    */
-public WPI_TalonSRX pizzaWheel = new WPI_TalonSRX(RobotMap.PIZZAWHEEL);
+public WPI_VictorSPX pizzaWheel = new WPI_VictorSPX(RobotMap.PIZZAWHEEL);
 
 public WPI_TalonSRX Feeding1 = new WPI_TalonSRX(RobotMap.FEEDING1);
 public WPI_TalonSRX Feeding2 = new WPI_TalonSRX(RobotMap.FEEDING2);
