@@ -14,6 +14,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -32,6 +33,8 @@ public class CannonSubsystem extends Subsystem {
   private CANPIDController wheelPID = FlyWheelMotor.getPIDController();
   private WPI_TalonSRX TurretSpinner = new WPI_TalonSRX(RobotMap.TURRETSPINNER);
   public Servo VissionServ = new Servo(RobotMap.VISSIONSERVO);
+  private DigitalInput leftEnd = new DigitalInput(RobotMap.ENDSTOPCANNONLEFT);
+  private DigitalInput rightEnd = new DigitalInput(RobotMap.ENDSTOPCANNONRIGHT);
   
   //public Servo cameraServo1 = new Servo(RobotMap.SERVO1);
 
@@ -110,7 +113,13 @@ public class CannonSubsystem extends Subsystem {
     }
   }
   public void SpinTurret(double speed){
-    TurretSpinner.set(speed);
+    if(rightEnd.get() && speed < 0) {
+      TurretSpinner.set(0);
+    } else if (leftEnd.get() && speed > 0) {
+      TurretSpinner.set(0);
+    } else {
+      TurretSpinner.set(speed);
+    }
   }
 
   public void TrackTurret (double target) {

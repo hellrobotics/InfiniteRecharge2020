@@ -39,7 +39,8 @@ public class RobotMap {
   //DIO
   public static int ENCODER1 = 0;
   public static int ENCODER2 = 1;
-  public static int ENDSTOP1 = 2;
+  public static int ENDSTOPCANNONLEFT = 2;
+  public static int ENDSTOPCANNONRIGHT = 3;
 
   public static int ENDSTOPA = 8;
   public static int ENDSTOPB = 7;
