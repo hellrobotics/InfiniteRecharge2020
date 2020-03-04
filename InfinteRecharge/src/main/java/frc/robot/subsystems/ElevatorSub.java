@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.Servo;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -19,6 +20,7 @@ public class ElevatorSub extends SubsystemBase {
    */
   public WPI_TalonSRX elevatorMotor = new WPI_TalonSRX(RobotMap.ELEVATORMOTOR);
    public Solenoid elevatorLock = new Solenoid(RobotMap.ELEVATORLOCK);
+   public Servo skralleServo = new Servo(RobotMap.SKRALLESERVO);
    //public Solenoid elevatorActiator = new Solenoid(RobotMap.ELEVATORPUSHER);
    
   public ElevatorSub() {
@@ -36,6 +38,14 @@ public class ElevatorSub extends SubsystemBase {
     //elevatorActiator.set(state);
     elevatorLock.set(state);
   }
+  public void setSkralleServo(double pos){
+    skralleServo.set(pos);
+  }
+
+  public double getSkralleServo() {
+    return skralleServo.get();
+  }
+
   private static ElevatorSub m_instance;
 	public static synchronized ElevatorSub getInstance() {
 		if (m_instance == null){

@@ -35,7 +35,7 @@ public class CannonSubsystem extends Subsystem {
   public Servo VissionServ = new Servo(RobotMap.VISSIONSERVO);
   private DigitalInput leftEnd = new DigitalInput(RobotMap.ENDSTOPCANNONLEFT);
   private DigitalInput rightEnd = new DigitalInput(RobotMap.ENDSTOPCANNONRIGHT);
-  
+
   //public Servo cameraServo1 = new Servo(RobotMap.SERVO1);
 
   private double integral_prior = 0;
@@ -72,22 +72,22 @@ public class CannonSubsystem extends Subsystem {
 
   public void RunShootWheelPID(double RPM) {
     wheelPID.setReference(-RPM, ControlType.kVelocity);
-    
-  }
 
+  }
+/*
   public void SetVissionServo(double pos){
     VissionServ.set(pos);
   }
 
   public void SetVissionServoSpeed(double speed){
     VissionServ.set(0.5+(speed/2));
-    
+
   }
 
   public double GetVissionServo(){
     return VissionServ.get();
   }
-
+*/
   public double getWheelSpeed(){
     return -wheelEncoder.getVelocity();
   }
@@ -107,7 +107,7 @@ public class CannonSubsystem extends Subsystem {
       double kp = 0.003*0.45;//0.00003*0.45;
       double ki = (1.2*kp)/1;
       //VissionServ.set(Math.max(0.4, Math.min(0.7, VissionServ.get()+(error*kp + integral*ki))));
-      SetVissionServoSpeed(error*kp + integral*ki*0);
+      //SetVissionServoSpeed(error*kp + integral*ki*0);
       integral_prior = integral;
       last_time = Timer.getFPGATimestamp();
     }
@@ -132,7 +132,7 @@ public class CannonSubsystem extends Subsystem {
       double ki = (1.2*kp)/0.2;
       integral_prior2 = integral;
       last_time2 = Timer.getFPGATimestamp();
-      SpinTurret((error*kp + integral*ki*0));  
+      SpinTurret((error*kp + integral*ki*0));
     } else {
       SpinTurret(0);
     }
