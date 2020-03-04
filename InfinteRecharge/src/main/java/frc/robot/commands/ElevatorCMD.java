@@ -18,6 +18,7 @@ public class ElevatorCMD extends Command {
   private ElevatorSub ssElevate;
   private OI oi;
   private boolean isActivated = false;
+  private double elevatorDirection = 1;
    
   public ElevatorCMD() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -40,20 +41,24 @@ public class ElevatorCMD extends Command {
     if(oi.figthStick.getRawButtonPressed(3)){
       isActivated = !isActivated;
     }
-    if(oi.figthStick.getRawButton(6)){
-      ssElevate.setSkralleServo(0);
-    }
-    else if(oi.figthStick.getRawAxis(3) > 0.1){
-      ssElevate.setSkralleServo((0.2));
-    }
 
-    if(oi.figthStick.getRawButton(6) && ssElevate.getSkralleServo() <= 0){
-      ssElevate.RunElevator(0.5);
-    } else if(oi.figthStick.getRawAxis(3) > 0.1 && ssElevate.getSkralleServo() >= 0.2){
-      ssElevate.RunElevator(-0.5);
-    } else{
+    if(oi.figthStick.getRawButtonPressed(6)) {
+      elevatorDirection *= -1;
+    }
+      
+    if(oi.figthStick.getRawAxis(3) > 0.1){
+      ssElevate.RunElevator(0.5*elevatorDirection);
+    } else {
       ssElevate.RunElevator(0);
     }
+    
+    if (elevatorDirection < 0) {
+      ssElevate.setSkralleServo(0.25);
+    } else {
+      ssElevate.setSkralleServo(0.4);
+    }
+
+
     ssElevate.activateElevator(isActivated);
   
   }

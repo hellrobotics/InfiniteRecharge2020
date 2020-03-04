@@ -48,7 +48,7 @@ public class RobotMap {
 
   //PWM
   public static int SKRALLESERVO = 0;
-  public static int VISSIONSERVO = 99;
+  public static int VISSIONSERVO = 9;
   
 }
 
