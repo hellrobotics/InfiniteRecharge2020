@@ -74,7 +74,7 @@ public class CannonSubsystem extends Subsystem {
     wheelPID.setReference(-RPM, ControlType.kVelocity);
 
   }
-/*
+
   public void SetVissionServo(double pos){
     VissionServ.set(pos);
   }
@@ -87,7 +87,7 @@ public class CannonSubsystem extends Subsystem {
   public double GetVissionServo(){
     return VissionServ.get();
   }
-*/
+
   public double getWheelSpeed(){
     return -wheelEncoder.getVelocity();
   }
@@ -107,7 +107,7 @@ public class CannonSubsystem extends Subsystem {
       double kp = 0.003*0.45;//0.00003*0.45;
       double ki = (1.2*kp)/1;
       //VissionServ.set(Math.max(0.4, Math.min(0.7, VissionServ.get()+(error*kp + integral*ki))));
-      //SetVissionServoSpeed(error*kp + integral*ki*0);
+      SetVissionServoSpeed(error*kp + integral*ki*0);
       integral_prior = integral;
       last_time = Timer.getFPGATimestamp();
     }
