@@ -46,7 +46,8 @@ public class RobotMap {
   public static int ENDSTOPC = 9;
 
   //PWM
-  public static int VISSIONSERVO = 0;
+  public static int SKRALLESERVO = 0;
+  public static int VISSIONSERVO = 99;
   
 }
 

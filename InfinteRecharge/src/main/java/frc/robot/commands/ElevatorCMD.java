@@ -41,8 +41,15 @@ public class ElevatorCMD extends Command {
       isActivated = !isActivated;
     }
     if(oi.figthStick.getRawButton(6)){
+      ssElevate.setSkralleServo(0);
+    }
+    else if(oi.figthStick.getRawAxis(3) > 0.1){
+      ssElevate.setSkralleServo((0.2));
+    }
+
+    if(oi.figthStick.getRawButton(6) && ssElevate.getSkralleServo() <= 0){
       ssElevate.RunElevator(0.5);
-    } else if(oi.figthStick.getRawAxis(3) > 0.1){
+    } else if(oi.figthStick.getRawAxis(3) > 0.1 && ssElevate.getSkralleServo() >= 0.2){
       ssElevate.RunElevator(-0.5);
     } else{
       ssElevate.RunElevator(0);
