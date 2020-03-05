@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
+import frc.robot.Robot;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeCMD extends Command {
@@ -49,14 +50,14 @@ public class IntakeCMD extends Command {
 
       //Pneumatic change
       ssIntake.RaiseIntake(IntakeActive);
-      /*
+      
       if(Robot.SensorA == true){
         PIDspeed = 0;
       }
       else{
         PIDspeed = 2000;
       }
-      */
+      
       //Motors run  
       if(IntakeActive == true){
       if(oi.stick.getPOV() == 0){
