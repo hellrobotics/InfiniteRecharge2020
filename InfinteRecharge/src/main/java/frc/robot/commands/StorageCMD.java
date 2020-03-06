@@ -19,7 +19,6 @@ public class StorageCMD extends Command {
    */
   private final StorageSub ssStore;
   private final OI oi;
-  private double Speed2 = 0.0;
   private boolean SensorActive = false;
   public StorageCMD() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -63,20 +62,19 @@ public class StorageCMD extends Command {
       }
     } */if(SensorActive == false) {
     if(oi.stick.getRawButton(1)){
-      Speed2 = -1;
-      ssStore.RunPizza(Speed2);
+      ssStore.RunPizza(-0.5);
       ssStore.RunFeeding(-1);
     }
     else if(oi.stick.getPOV() == 90){
-      ssStore.RunPizza(1);
+      ssStore.RunPizza(0.5);
       ssStore.RunFeeding(0.3);
     }
     else if(oi.stick.getPOV() == 270){
-      ssStore.RunPizza(-1);
+      ssStore.RunPizza(-0.5);
       ssStore.RunFeeding(-0.3);
     }
     else {
-      ssStore.RunPizza(oi.figthStick.getRawAxis(1));
+      ssStore.RunPizza(oi.figthStick.getRawAxis(1)*0.5);
       ssStore.RunFeeding(0);
     }
   }
