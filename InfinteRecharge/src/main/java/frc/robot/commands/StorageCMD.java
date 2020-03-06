@@ -20,7 +20,7 @@ public class StorageCMD extends Command {
   private final StorageSub ssStore;
   private final OI oi;
   private double Speed2 = 0.0;
-
+  private boolean SensorActive = false;
   public StorageCMD() {
     // Use addRequirements() here to declare subsystem dependencies.
     ssStore = StorageSub.getInstance();
@@ -42,6 +42,26 @@ public class StorageCMD extends Command {
 
 
     //Start of PIDza
+    /*
+    if(SensorActive == true){
+      else if(ssStore.getEndstopC() == false){
+        ssStore.RunPizza(0);
+        ssStore.RunFeeding(0);
+  
+  
+      } else if(ssStore.getEndstopA() == false){
+        ssStore.RunPizza(-1);
+        ssStore.RunFeeding(-0.3);
+      } else if(ssStore.getEndstopB() == false){
+        ssStore.RunPizza(-1);
+        ssStore.RunFeeding(-0.3);
+      }
+      if(ssStore.getEndstopA() == false){
+        Robot.SensorA = true;
+      } else{
+        Robot.SensorA = false;
+      }
+    } */if(SensorActive == false) {
     if(oi.stick.getRawButton(1)){
       Speed2 = -1;
       ssStore.RunPizza(Speed2);
@@ -55,29 +75,15 @@ public class StorageCMD extends Command {
       ssStore.RunPizza(-1);
       ssStore.RunFeeding(-0.3);
     }
-
-    
-    else if(ssStore.getEndstopC() == false){
-      ssStore.RunPizza(0);
-      ssStore.RunFeeding(0);
-
-
-    } else if(ssStore.getEndstopA() == false){
-      ssStore.RunPizza(-1);
-      ssStore.RunFeeding(-0.3);
-    } else if(ssStore.getEndstopB() == false){
-      ssStore.RunPizza(-1);
-      ssStore.RunFeeding(-0.3);
-    }
     else {
-      ssStore.RunPizza(0);
+      ssStore.RunPizza(oi.figthStick.getRawAxis(1));
       ssStore.RunFeeding(0);
     }
-    if(ssStore.getEndstopA() == false){
-      Robot.SensorA = true;
-    } else{
-      Robot.SensorA = false;
+  }
+    if(oi.stick.getRawButtonPressed(12)){
+      SensorActive = !SensorActive;
     }
+
 
 
 
