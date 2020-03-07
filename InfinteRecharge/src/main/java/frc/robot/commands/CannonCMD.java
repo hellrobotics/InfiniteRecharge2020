@@ -106,11 +106,11 @@ public class CannonCMD extends Command {
       //ssCannon.SetVissionServoSpeed(-0.5);
     } else {
       //ssCannon.SetVissionServoSpeed(0);
-      ServPos -= 0.005*oi.figthStick.getRawAxis(1);
+      ServPos -= 0.001*oi.figthStick.getRawAxis(1);
     }
     ssCannon.SetVissionServo(ServPos);
     ServPos = Math.max(0.39, Math.min(0.7, ssCannon.GetVissionServo()));
-    SmartDashboard.putNumber("Servo pos", ServPos);
+    SmartDashboard.putNumber("Servo pos", ServPos); 
     if(oi.figthStick.getPOV() == 90){
       ssCannon.SpinTurret(-0.2);
     }

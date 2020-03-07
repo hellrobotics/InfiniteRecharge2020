@@ -28,12 +28,13 @@ public class RobotMap {
   public static int INTAKETOP = 11;
   public static int TURRETSPINNER = 8;
   public static int ELEVATORMOTOR = 13;
+  public static int BEANWHEEL = 12;
   
 
 
   //PCM
-  public static int INTAKESOLENOID = 6;
-  public static int HELPERSOLENOID = 5;
+  public static int INTAKESOLENOID = 5;
+  public static int HELPERSOLENOID = 6;
   public static int ELEVATORLOCK = 4;
   //public static int ELEVATORPUSHER = 4;
   //DIO

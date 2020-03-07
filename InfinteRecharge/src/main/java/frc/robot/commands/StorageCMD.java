@@ -62,13 +62,20 @@ public class StorageCMD extends Command {
       }
     } */if(SensorActive == false) {
     if(oi.stick.getRawButton(1)){
-      ssStore.RunPizza(-0.5);
+      ssStore.RunPizza(-1);
       ssStore.RunFeeding(-1);
     }
     else if(oi.stick.getPOV() == 90){
       ssStore.RunPizza(0.5);
       ssStore.RunFeeding(0.3);
     }
+    else if(oi.figthStick.getPOV() == 0) {
+      ssStore.RunPizza(-1);
+      ssStore.RunFeeding(-1);
+    }  else if(oi.figthStick.getPOV() == 180) {
+    ssStore.RunPizza(1);
+    ssStore.RunFeeding(1);
+  }
     else if(oi.stick.getPOV() == 270){
       ssStore.RunPizza(-0.5);
       ssStore.RunFeeding(-0.3);

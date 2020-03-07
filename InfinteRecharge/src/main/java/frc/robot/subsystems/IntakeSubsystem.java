@@ -12,6 +12,7 @@ import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -24,7 +25,8 @@ public class IntakeSubsystem extends Subsystem {
   public WPI_VictorSPX intakeMotor = new WPI_VictorSPX(RobotMap.INTAKE);
   public CANSparkMax topIntakeMotor = new CANSparkMax(RobotMap.INTAKETOP, MotorType.kBrushless);
   private CANPIDController wheelPID = topIntakeMotor.getPIDController();
-
+  private WPI_TalonSRX beanWheel = new WPI_TalonSRX(RobotMap.BEANWHEEL);
+///populasjonsvekst
   public boolean intakeRaised = true;
 
   private static IntakeSubsystem m_instance;
@@ -61,11 +63,14 @@ public class IntakeSubsystem extends Subsystem {
   }
   public void RunIntake(double power) {
     intakeMotor.set(power);
+    beanWheel.set(power*0.4);
     //topIntakeMotor.set(power*0.3); 
   }
 
   public void RaiseIntake(boolean state) {
     intakeSolenoid.set(state);
+  }
+  public void HelperIntake(boolean state){
     helperSolenoid.set(state);
   }
 //Røva mi e meget brukbar
