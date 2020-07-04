@@ -30,7 +30,7 @@ public class CannonCMD extends Command {
   public CannonCMD() {
     // Use addRequirements() here to declare subsystem dependencies.
     ssCannon = CannonSubsystem.getInstance();
-    requires(ssCannon);
+    //requires(ssCannon);
     oi = OI.getInstance();
   }
 
@@ -48,16 +48,7 @@ public class CannonCMD extends Command {
     yCoord = Robot.centerY;
     xCoord = Robot.centerX;
     SmartDashboard.putNumber("Target X", xCoord);
-    double pixelsFromBottom = (720-yCoord);
-    double degreesFromBottom = (pixelsFromBottom)*(33.75/720)+5;
-    double targetAngle = (ServPos-0.39)* 350;
-    double distance = ((2.04-0.54) / Math.tan(Math.toRadians(degreesFromBottom)));
-    SmartDashboard.putNumber("Servo angle", (ServPos-0.39)* 350);
-    SmartDashboard.putNumber("Degrees from bottom", degreesFromBottom);
-    //Distanse kalkulering.
-    SmartDashboard.putNumber("Calculated Cannon Power", ssCannon.calculateWheelSpeed(distance));
-    SmartDashboard.putNumber("Calculated distance", distance);
-    Robot.distance = distance;
+    double distance = ssCannon.CalculateDistance(yCoord);
 
     if (oi.stick.getRawButtonPressed(2)) {
       isRunning2 = !isRunning2;
@@ -99,18 +90,18 @@ public class CannonCMD extends Command {
     System.out.println("Tracking: " + xCoord + ", " + yCoord);
   } else {
     if(oi.figthStick.getPOV() == 0){
-      ServPos += 0.005;
+      ServPos += 0.0002;
       //ssCannon.SetVissionServoSpeed(0.5);
     } else if(oi.figthStick.getPOV() == 180){
-      ServPos -= 0.005;
+      ServPos -= 0.0002;
       //ssCannon.SetVissionServoSpeed(-0.5);
     } else {
       //ssCannon.SetVissionServoSpeed(0);
-      ServPos -= 0.001*oi.figthStick.getRawAxis(1);
+      ServPos -= 0.0002*oi.figthStick.getRawAxis(1);
     }
-    ssCannon.SetVissionServo(ServPos);
-    ServPos = Math.max(0.39, Math.min(0.7, ssCannon.GetVissionServo()));
-    SmartDashboard.putNumber("Servo pos", ServPos); 
+    //ssCannon.SetVissionServo(ServPos);
+    //ServPos = Math.max(0.39, Math.min(0.7, ssCannon.GetVissionServo()));
+    //SmartDashboard.putNumber("Servo pos", ServPos); 
     if(oi.figthStick.getPOV() == 90){
       ssCannon.SpinTurret(-0.2);
     }

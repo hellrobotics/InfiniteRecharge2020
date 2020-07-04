@@ -27,19 +27,23 @@ public class AutoSetDrive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    ssDrive.Arcade(speed, 0);
     //isDone = true;
+    System.out.println("Starting drive");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
+    System.out.println("HER");
+    ssDrive.Arcade(speed, 0);
+    System.out.println("DRIVING");
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    ssDrive.Arcade(0, 0);
+    System.out.println("Drive end");
   }
 
   // Returns true when the command should end.

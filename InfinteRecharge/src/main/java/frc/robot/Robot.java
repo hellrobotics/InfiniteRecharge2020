@@ -7,8 +7,11 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commandgroups.AutoCMDGRP;
+import frc.robot.commands.AutoSetDrive;
+import frc.robot.commands.AutoShoot;
 import frc.robot.commands.CannonCMD;
 import frc.robot.commands.DriveCMD;
 import frc.robot.commands.ElevatorCMD;
@@ -33,7 +36,7 @@ public class Robot extends TimedRobot {
   Command intakeRun = new IntakeCMD();
   Command storageRun = new StorageCMD();
   Command elevatorRun = new ElevatorCMD();
-  SequentialCommandGroup autoCMD = new AutoCMDGRP();
+  SequentialCommandGroup autoCMD;
 
   private static final int IMG_WIDTH = 320;
   
@@ -64,7 +67,8 @@ public class Robot extends TimedRobot {
 
     //m_chooser.addDefault("Nothing", new ExampleCommand());
 		//m_chooser.addObject("Auto Mid Switch", new AutoCMDGRP());
-
+    //autoCMD = new AutoCMDGRP();
+    autoCMD = new SequentialCommandGroup(new AutoShoot().withTimeout(10.0),new AutoSetDrive(-0.5).withTimeout(1.0));
 
     final NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
     final NetworkTable table = ntinst.getTable("visionTable");
@@ -82,7 +86,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
- 
+    
+    Scheduler.getInstance().run();
+    CommandScheduler.getInstance().run();
+
     centerX = centerXEntry.getDouble(-1);
     centerY = centerYEntry.getDouble(-1);
 
@@ -168,6 +175,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
+    CommandScheduler.getInstance().run();
   }
 
   @Override

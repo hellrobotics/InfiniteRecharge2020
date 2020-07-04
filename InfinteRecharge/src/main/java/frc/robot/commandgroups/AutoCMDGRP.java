@@ -9,6 +9,7 @@ package frc.robot.commandgroups;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AutoSetDrive;
+import frc.robot.commands.AutoShoot;
 import frc.robot.commands.AutoTrackTarget;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -21,11 +22,11 @@ public class AutoCMDGRP extends SequentialCommandGroup {
   public AutoCMDGRP() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(
-      new AutoSetDrive(0.5).withTimeout(0.5),
-      new AutoTrackTarget().withTimeout(5)
-    );  
-
-    //addCommands(new AutoSetDrive(0.5), new WaitCommand(0.5));
+    /*super(
+      new AutoSetDrive(0.5).withTimeout(1.0),
+      new AutoShoot().withTimeout(5.0)
+    );*/  
+    System.out.println("GAMER");
+    addCommands(new AutoSetDrive(0.5).withTimeout(1000.0), new AutoShoot().withTimeout(5000.0));
   }
 }

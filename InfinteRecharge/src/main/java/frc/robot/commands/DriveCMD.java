@@ -55,7 +55,7 @@ public class DriveCMD extends Command {
       */
       ABSspeed = ((Math.abs(oi.stick.getRawAxis(0)) + Math.abs(oi.stick.getRawAxis(1)))* Math.abs(oi.stick.getRawAxis(3)));
 
-      ssDrive.Arcade(oi.stick.getRawAxis(1)*(oi.stick.getRawAxis(3)), oi.stick.getRawAxis(0)*(oi.stick.getRawAxis(3))*driveDir)  ;
+      ssDrive.Arcade(oi.stick.getRawAxis(1)*(oi.stick.getRawAxis(3)), oi.stick.getRawAxis(0)*(oi.stick.getRawAxis(3))*driveDir*0.75)  ;
  
     //}
  

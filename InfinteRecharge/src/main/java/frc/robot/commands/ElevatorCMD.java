@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.subsystems.ElevatorSub;
 
@@ -18,7 +19,7 @@ public class ElevatorCMD extends Command {
   private ElevatorSub ssElevate;
   private OI oi;
   private boolean isActivated = false;
-  private double elevatorDirection = 1;
+  private double elevatorDirection = -1;
    
   public ElevatorCMD() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -47,7 +48,7 @@ public class ElevatorCMD extends Command {
     }
       
     if(oi.figthStick.getRawAxis(3) > 0.1){
-      ssElevate.RunElevator(0.5*elevatorDirection);
+      ssElevate.RunElevator(0.8*elevatorDirection);
     } else {
       ssElevate.RunElevator(0);
     }
@@ -60,7 +61,7 @@ public class ElevatorCMD extends Command {
 
 
     ssElevate.activateElevator(isActivated);
-  
+    SmartDashboard.putBoolean("Elevator active", isActivated);
   }
 
   // Returns true when the command should end.

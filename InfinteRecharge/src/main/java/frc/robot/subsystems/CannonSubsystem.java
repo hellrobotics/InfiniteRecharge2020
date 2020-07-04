@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Robot;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 
@@ -42,6 +43,8 @@ public class CannonSubsystem extends Subsystem {
   private double last_time = 0;
   private double integral_prior2 = 0;
   private double last_time2 = 0;
+
+  private double ServPos = 0.5;
 
   private static CannonSubsystem m_instance;
 	public static synchronized CannonSubsystem getInstance() {
@@ -137,5 +140,19 @@ public class CannonSubsystem extends Subsystem {
     } else {
       SpinTurret(0);
     }
+  }
+
+  public double CalculateDistance (double yCoord) {
+    double pixelsFromBottom = (720-yCoord);
+    double degreesFromBottom = (pixelsFromBottom)*(33.75/720)+5;
+    double targetAngle = (ServPos-0.39)* 350;
+    double distance = ((2.04-0.54) / Math.tan(Math.toRadians(degreesFromBottom)));
+    SmartDashboard.putNumber("Servo angle", (ServPos-0.39)* 350);
+    SmartDashboard.putNumber("Degrees from bottom", degreesFromBottom);
+    //Distanse kalkulering.
+    SmartDashboard.putNumber("Calculated Cannon Power", calculateWheelSpeed(distance));
+    SmartDashboard.putNumber("Calculated distance", distance);
+    Robot.distance = distance;
+    return distance;
   }
 }

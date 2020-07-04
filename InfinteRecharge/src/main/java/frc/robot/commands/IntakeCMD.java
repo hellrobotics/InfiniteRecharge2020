@@ -22,7 +22,7 @@ public class IntakeCMD extends Command {
   public boolean IntakeActive = false;
   public int PIDspeed = 2000;
   public boolean IntakeSplit = false;
-  public double IntakeSensetivity = 0.85;
+  public double IntakeSensetivity = 3.5;
   public static double ABSspeed;
   public IntakeCMD() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -55,8 +55,9 @@ public class IntakeCMD extends Command {
         IntakeActive = !IntakeActive;
         IntakeSplit = false;
        }
-       if(oi.figthStick.getRawButtonPressed(10)){
+       if(oi.figthStick.getRawButtonPressed(4)){
          IntakeSplit = !IntakeSplit;
+         IntakeActive = false;
        }
 
       if(Robot.SensorA == true){
@@ -100,11 +101,11 @@ public class IntakeCMD extends Command {
 
       } else if(oi.stick.getPOV() == 180){
         ssIntake.RunIntakePID(-PIDspeed);
-      }
-    }else{
+      }else{
       ssIntake.RunIntake(0);
       ssIntake.RunIntakePID(0);
     }
+  }
     
     if(IntakeSplit == false){
       ssIntake.RaiseIntake(IntakeActive);
