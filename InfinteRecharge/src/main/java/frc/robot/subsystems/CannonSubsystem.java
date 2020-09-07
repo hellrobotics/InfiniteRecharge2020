@@ -127,8 +127,8 @@ public class CannonSubsystem extends Subsystem {
   }
 
   public void TrackTurret (double target) {
-    if (target >= 0) {
-      double error = (80.0 - target);
+    //if (target >= 0) {
+      double error = (target)*-3;
       double iteration_time = Timer.getFPGATimestamp() - last_time2;
       double integral = Math.max(0.1, Math.min(-0.1, integral_prior2 + error * iteration_time));
       //Kommenter ut *0.45 og endre til det dirrer rundt punktet, derreter ukomenter og gang (1.2*kp)/tiden et dirr tar
@@ -137,14 +137,14 @@ public class CannonSubsystem extends Subsystem {
       integral_prior2 = integral;
       last_time2 = Timer.getFPGATimestamp();
       SpinTurret((error*kp + integral*ki*0));
-    } else {
+    /*} else {
       SpinTurret(0);
-    }
+    }*/
   }
 
   public double CalculateDistance (double yCoord) {
-    double pixelsFromBottom = (720-yCoord);
-    double degreesFromBottom = (pixelsFromBottom)*(33.75/720)+5;
+    double pixelsFromBottom = (yCoord);
+    double degreesFromBottom = (pixelsFromBottom)*(33.75/240)+5;
     double targetAngle = (ServPos-0.39)* 350;
     double distance = ((2.04-0.54) / Math.tan(Math.toRadians(degreesFromBottom)));
     SmartDashboard.putNumber("Servo angle", (ServPos-0.39)* 350);

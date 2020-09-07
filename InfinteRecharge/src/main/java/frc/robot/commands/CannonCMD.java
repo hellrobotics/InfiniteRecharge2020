@@ -63,12 +63,12 @@ public class CannonCMD extends Command {
     SmartDashboard.putNumber("Cannon Speed", ssCannon.getWheelSpeed());
     SmartDashboard.putNumber("Exra RPM", extraPower);
   if(oi.stick.getRawButton(1)){
-    ssCannon.RunShootWheelPID(ssCannon.calculateWheelSpeed(distance)+extraPower);
-    //ssCannon.RunShootWheelPID(cannonPower);
+    //ssCannon.RunShootWheelPID(ssCannon.calculateWheelSpeed(distance)+extraPower);
+    ssCannon.RunShootWheelPID(cannonPower);
     isShooting = true;
   } else if(isRunning2 == true){
-    ssCannon.RunShootWheelPID(ssCannon.calculateWheelSpeed(distance)+extraPower);
-    //ssCannon.RunShootWheelPID(cannonPower);
+    //ssCannon.RunShootWheelPID(ssCannon.calculateWheelSpeed(distance)+extraPower);
+    ssCannon.RunShootWheelPID(cannonPower);
     isShooting = false;
   } else{
     ssCannon.RunShootWheel(0);
@@ -82,7 +82,7 @@ public class CannonCMD extends Command {
   else if(oi.figthStick.getRawButtonPressed(9)){
     extraPower = 5000;
   }
-  if(isRunning2 && xCoord != -1 && !isShooting) {
+  if(isRunning2 && !isShooting) {
     //ssCannon.TrackServo(yCoord);
     
     ssCannon.TrackTurret(xCoord);

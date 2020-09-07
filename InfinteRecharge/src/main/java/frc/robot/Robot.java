@@ -69,11 +69,16 @@ public class Robot extends TimedRobot {
 		//m_chooser.addObject("Auto Mid Switch", new AutoCMDGRP());
     //autoCMD = new AutoCMDGRP();
     autoCMD = new SequentialCommandGroup(new AutoShoot().withTimeout(10.0),new AutoSetDrive(-0.5).withTimeout(1.0));
-
+    /*
     final NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
     final NetworkTable table = ntinst.getTable("visionTable");
     centerXEntry = table.getEntry("centerX"); 
     centerYEntry = table.getEntry("centerY");
+    */
+    final NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
+    final NetworkTable table = ntinst.getTable("limelight");
+    centerXEntry = table.getEntry("tx"); 
+    centerYEntry = table.getEntry("ty");
   }
 
   /**
