@@ -10,7 +10,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.CannonSubsystem;
-import frc.robot.subsystems.DriveSub;
 
 public class AutoTrackTarget extends CommandBase {
   /**
@@ -18,10 +17,9 @@ public class AutoTrackTarget extends CommandBase {
    */
   private CannonSubsystem ssCannon;
   private double xCoord = -1;
-  private double yCoord = -1;
 
   public AutoTrackTarget() {
-    ssCannon = ssCannon.getInstance();
+    ssCannon = CannonSubsystem.getInstance();
     //addRequirements(ssCannon);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -35,7 +33,6 @@ public class AutoTrackTarget extends CommandBase {
   @Override
   public void execute() {
     xCoord = Robot.centerX;
-    yCoord = Robot.centerY;
     ssCannon.TrackTurret(xCoord);
   }
 

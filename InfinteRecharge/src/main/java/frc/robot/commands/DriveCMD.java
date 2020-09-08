@@ -16,8 +16,7 @@ public class DriveCMD extends Command {
    * Creates a new DriveCMD.
    */
 
-  private double xCoord = -1;
-  private double ABSspeed;
+
   private DriveSub ssDrive;
   private OI oi;
   private double driveDir;
@@ -41,6 +40,8 @@ public class DriveCMD extends Command {
   @Override
   public void execute() {
     //xCoord = Robot.centerX;
+
+    //make sure turning is always the correct direction.
     if(oi.stick.getRawAxis(3) < 0 ){
       driveDir = -1;
     }
@@ -48,13 +49,8 @@ public class DriveCMD extends Command {
       driveDir = 1;
     }
 
-    /*
-    if (Robot.isTracking && xCoord != -1) {
-      ssDrive.Arcade(oi.stick.getRawAxis(1)*(oi.stick.getRawAxis(3)), ssDrive.TrackTargetTurning(xCoord));
-    } else {
-      */
-      ABSspeed = ((Math.abs(oi.stick.getRawAxis(0)) + Math.abs(oi.stick.getRawAxis(1)))* Math.abs(oi.stick.getRawAxis(3)));
 
+      //standard drivetrain code with adjustable speed
       ssDrive.Arcade(oi.stick.getRawAxis(1)*(oi.stick.getRawAxis(3)), oi.stick.getRawAxis(0)*(oi.stick.getRawAxis(3))*driveDir*0.75)  ;
  
     //}

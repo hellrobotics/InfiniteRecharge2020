@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commandgroups.AutoCMDGRP;
 import frc.robot.commands.AutoSetDrive;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.CannonCMD;
@@ -30,7 +29,7 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   */
 
-
+  //define all Commands as commands
   Command driveRun = new DriveCMD();
   Command cannonRun = new CannonCMD();
   Command intakeRun = new IntakeCMD();
@@ -38,24 +37,30 @@ public class Robot extends TimedRobot {
   Command elevatorRun = new ElevatorCMD();
   SequentialCommandGroup autoCMD;
 
+  //declare Image width
   private static final int IMG_WIDTH = 320;
-  
+
+  //Camera thing
+  private final Object imgLock = new Object();
+
+  //mass variable declaring
   public static double centerX = 0;
   public static double centerY = 0;
   public static boolean isTracking = false;
   public static double distance = 0;
   public static boolean SensorA = false;
-
-  private final Object imgLock = new Object();
-
-  NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
-  private static NetworkTableEntry centerXEntry;
-  private static NetworkTableEntry centerYEntry;
-
   public static double visionError = 0.0;
   public static double visionErrorY = 0.0;
   public static double CenteX = 0.0;
   public static double CenteY = 0.0;
+
+  //Network table fetchig
+  NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
+  private static NetworkTableEntry centerXEntry;
+  private static NetworkTableEntry centerYEntry;
+
+
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -68,6 +73,8 @@ public class Robot extends TimedRobot {
     //m_chooser.addDefault("Nothing", new ExampleCommand());
 		//m_chooser.addObject("Auto Mid Switch", new AutoCMDGRP());
     //autoCMD = new AutoCMDGRP();
+
+    //initiate automatic code
     autoCMD = new SequentialCommandGroup(new AutoShoot().withTimeout(10.0),new AutoSetDrive(-0.5).withTimeout(1.0));
     /*
     final NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
@@ -75,6 +82,8 @@ public class Robot extends TimedRobot {
     centerXEntry = table.getEntry("centerX"); 
     centerYEntry = table.getEntry("centerY");
     */
+
+    //Fetch x and Y cordinates
     final NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
     final NetworkTable table = ntinst.getTable("limelight");
     centerXEntry = table.getEntry("tx"); 
@@ -91,25 +100,29 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    
+  
     Scheduler.getInstance().run();
     CommandScheduler.getInstance().run();
 
+    //Fetch vision Cordinates
     centerX = centerXEntry.getDouble(-1);
     centerY = centerYEntry.getDouble(-1);
 
-    
+    //processing vision cordinates
     CenteX = ((centerX/255) -0.5);
     CenteY = ((centerY/255) -0.5);
     
     
     //System.out.println(CenteY);
+    //declare more vision things
     double centerXp;
     double centerYp;
+
+    //Knut ka e here?
     synchronized (imgLock) {
       
-      centerXp = this.centerX;
-      centerYp = this.centerY;
+      centerXp = Robot.centerX;
+      centerYp = Robot.centerY;
   
     }
     if (centerXp != -1) {
@@ -128,6 +141,8 @@ public class Robot extends TimedRobot {
       //System.out.println("No targets Y-axis");
       visionErrorY = 0.0;
     }
+
+    //Knut ka e here? slut
 
   }
 
@@ -160,17 +175,6 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     //m_autonomousCommand = m_chooser.getSelected();
 
-    /*
-     * String autoSelected = SmartDashboard.getString("Auto Selector",
-     * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-     * = new MyAutoCommand(); break; case "Default Auto": default:
-     * autonomousCommand = new ExampleCommand(); break; }
-     */
-
-    // schedule the autonomous command (example)
-    /*if (m_autonomousCommand != null) {
-      m_autonomousCommand.start();
-    }*/
     autoCMD.schedule();
   }
 
@@ -193,6 +197,7 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     System.out.println("TELEOPINIT");
     
+    //Start all manual Commands
     driveRun.start();
     storageRun.start();
     intakeRun.start();

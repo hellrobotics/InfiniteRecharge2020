@@ -20,7 +20,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 
 /*
@@ -32,8 +31,11 @@ public class CannonSubsystem extends Subsystem {
   public CANSparkMax FlyWheelMotor = new CANSparkMax(RobotMap.FLYWHEELMOTOR, MotorType.kBrushless);
   private CANEncoder wheelEncoder = FlyWheelMotor.getEncoder();
   private CANPIDController wheelPID = FlyWheelMotor.getPIDController();
+
   private WPI_TalonSRX TurretSpinner = new WPI_TalonSRX(RobotMap.TURRETSPINNER);
+
   public Servo VissionServ = new Servo(RobotMap.VISSIONSERVO);
+
   private DigitalInput leftEnd = new DigitalInput(RobotMap.ENDSTOPCANNONLEFT);
   private DigitalInput rightEnd = new DigitalInput(RobotMap.ENDSTOPCANNONRIGHT);
 
@@ -60,6 +62,8 @@ public class CannonSubsystem extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
 
+
+  //Configure launcher wheel PID
   public void ConfigPID() {
     wheelPID.setP(1e-5);
     wheelPID.setI(6e-9);
@@ -69,39 +73,48 @@ public class CannonSubsystem extends Subsystem {
     wheelPID.setOutputRange(-1,0);
   }
 
+
+  //Run launcher wheel at power(0-1)
   public void RunShootWheel(double power) {
     FlyWheelMotor.set(power);
   }
 
+  //Run launcher wheel at a set RPM(0-3600RPM)
   public void RunShootWheelPID(double RPM) {
     wheelPID.setReference(-RPM, ControlType.kVelocity);
 
   }
 
+  //Maybe redundant?
   public void SetVissionServo(double pos){
     VissionServ.set(pos);
   }
 
+
+  //Maybe redundant?
   public void SetVissionServoSpeed(double speed){
     VissionServ.set(0.5+(speed/2));
 
   }
 
+  //maybe redundant?
   public double GetVissionServo(){
     return VissionServ.get();
   }
 
+  //Get current RPM of launcher wheel
   public double getWheelSpeed(){
     return -wheelEncoder.getVelocity();
   }
 
+
+  //Function for finding speed of launcher wheel
   public double calculateWheelSpeed(double x) {
-    //return Math.max(0, Math.min(5700,(0.0119*Math.pow(x,4)-0.1862*Math.pow(x,3)+1.0849*Math.pow(x,2)-2.7357*x+3.3842)*5700));
-    //return Math.max(0, Math.min(5800,(76.61*Math.pow(x,6)-1594.4*Math.pow(x,5)+13543.61*Math.pow(x, 4)-60002.49*Math.pow(x,3)+146105.17*Math.pow(x,2)-185161.87*x+99975.37)));
-    //return Math.max(0, Math.min(5800,(72.09*Math.pow(x,4)-1014.57*Math.pow(x,3)+5159.6*Math.pow(x,2)-10926.16*x+13202.19)));
     return Math.max(0, Math.min(5800,(-94.79*Math.pow(x,3)+1246.22*Math.pow(x,2)-4821.54*x+10915.78)));
   }
 
+
+  //maybe redudant?
   public void TrackServo(double target) {
     if (target >= 0) {
       double error = 360.0 - target;
@@ -116,6 +129,8 @@ public class CannonSubsystem extends Subsystem {
       last_time = Timer.getFPGATimestamp();
     }
   }
+
+  //Basic manual turning of turret wit endstops.
   public void SpinTurret(double speed){
     if(rightEnd.get() && speed < 0) {
       TurretSpinner.set(0);
@@ -126,6 +141,8 @@ public class CannonSubsystem extends Subsystem {
     }
   }
 
+
+  //automatic Turret tracking
   public void TrackTurret (double target) {
     //if (target >= 0) {
       double error = (target)*-3;
@@ -142,10 +159,11 @@ public class CannonSubsystem extends Subsystem {
     }*/
   }
 
+
+  //Calculate curent distance to target
   public double CalculateDistance (double yCoord) {
     double pixelsFromBottom = (yCoord);
     double degreesFromBottom = (pixelsFromBottom)*(33.75/240)+5;
-    double targetAngle = (ServPos-0.39)* 350;
     double distance = ((2.04-0.54) / Math.tan(Math.toRadians(degreesFromBottom)));
     SmartDashboard.putNumber("Servo angle", (ServPos-0.39)* 350);
     SmartDashboard.putNumber("Degrees from bottom", degreesFromBottom);

@@ -46,19 +46,26 @@ public static synchronized StorageSub getInstance() {
     return m_instance;
     }
 
+
+    //Run pizza. Used when balls are stuck
   public void RunPizza(double speed) {
     pizzaWheel.set(ControlMode.PercentOutput, speed);
     }
 
+    //Run main Pizza wheel speed with PID controler.
+    public int getPizzaSpED(){
+      return pizzaWheel.getSelectedSensorVelocity();
+    }
+
+    //runs the feeding motors
   public void RunFeeding(double speed){
     Feeding1.set(ControlMode.PercentOutput, speed*-1);
     Feeding2.set(ControlMode.PercentOutput, speed);
     }
 
-    public int getPizzaSpED(){
-      return pizzaWheel.getSelectedSensorVelocity();
-    }
 
+
+    //Used for the automatic ball storage.
     public boolean getEndstopA() {
       return endStopA.get();
     }

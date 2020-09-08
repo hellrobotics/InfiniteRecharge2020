@@ -12,7 +12,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 public class DriveSub extends SubsystemBase {
@@ -42,48 +41,11 @@ public class DriveSub extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
+  //Basic Drivetain Function.
   public void Arcade (double moveValue, double rotateValue) {
     allDrive.arcadeDrive(moveValue, rotateValue);
   }
 
-  public void Lock(){
-    TopLeft.set(0.1);
-    BottomLeft.set(-0.1);
-    TopRigth.set(0.1);
-    BottomRigth.set(-0.1);
-  
-  }
-
-  public double TrackTargetTurning (double target) {
-    if (target >= 0) {
-      double error = ((80.0+(40/Robot.distance)) - target);
-      /* DEN HER VILLA VÆRT BEST, MEN FÅR IKKE T Å TUNE DEN BRA
-       
-      
-      /* BACKUP*/
-      //double pk = 0.5/1.0;
-      //pk = Tilfeldig konstant for tuning
-      double flatness = 0.08;
-      // Flatness = Endre på kurva til å bli flatere. Stor = bratt
-      double magnitude = 1.2;
-      //Magnitude = Høyde på kurven
-      System.out.println("tracking, object found " + error);
-      //Print Ønska kordinat - target
-      double power = Math.min(0.4,(Math.log(magnitude*Math.abs(error)+(1/Math.E)) * -flatness - flatness));
-      //Funksjon for power. 
-      System.out.println("Power: "+power);
-      //print Power
-      if (error > 0) {
-        return power;
-      } else if (error < 0) {
-        return -power;
-      } else {
-        return 0;
-      }
-    } else {
-      return 0;
-    }
-  }
 
   private static DriveSub m_instance;
 	public static synchronized DriveSub getInstance() {

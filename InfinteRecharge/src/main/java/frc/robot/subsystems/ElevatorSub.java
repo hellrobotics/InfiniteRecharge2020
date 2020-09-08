@@ -19,7 +19,9 @@ public class ElevatorSub extends SubsystemBase {
    * Creates a new ElevatorSub.
    */
   public WPI_TalonSRX elevatorMotor = new WPI_TalonSRX(RobotMap.ELEVATORMOTOR);
+
    public Solenoid elevatorLock = new Solenoid(RobotMap.ELEVATORLOCK);
+   
    public Servo skralleServo = new Servo(RobotMap.SKRALLESERVO);
    //public Solenoid elevatorActiator = new Solenoid(RobotMap.ELEVATORPUSHER);
    
@@ -31,19 +33,22 @@ public class ElevatorSub extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+  //Run elevator motor(Redline)
   public void RunElevator(double speed){
     elevatorMotor.set(speed);
   }
+
+  //toggle pneutmatic lock on elevator.
   public void activateElevator(boolean state){
     //elevatorActiator.set(state);
     elevatorLock.set(state);
   }
+
+ 
+  //Toggle elevator servo to turn lock.
   public void setSkralleServo(double pos){
     skralleServo.set(pos);
-  }
-
-  public double getSkralleServo() {
-    return skralleServo.get();
   }
 
   private static ElevatorSub m_instance;

@@ -10,7 +10,6 @@ package frc.robot.commandgroups;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AutoSetDrive;
 import frc.robot.commands.AutoShoot;
-import frc.robot.commands.AutoTrackTarget;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:

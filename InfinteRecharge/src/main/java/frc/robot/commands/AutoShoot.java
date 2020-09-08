@@ -10,7 +10,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.CannonSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.StorageSub;
 
 public class AutoShoot extends CommandBase {

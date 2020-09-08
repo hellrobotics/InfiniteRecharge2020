@@ -22,11 +22,14 @@ public class IntakeSubsystem extends Subsystem {
 
   public Solenoid intakeSolenoid = new Solenoid(RobotMap.INTAKESOLENOID);
   public Solenoid helperSolenoid = new Solenoid(RobotMap.HELPERSOLENOID);
+
   public WPI_VictorSPX intakeMotor = new WPI_VictorSPX(RobotMap.INTAKE);
+  
   public CANSparkMax topIntakeMotor = new CANSparkMax(RobotMap.INTAKETOP, MotorType.kBrushless);
   private CANPIDController wheelPID = topIntakeMotor.getPIDController();
+
   private WPI_TalonSRX beanWheel = new WPI_TalonSRX(RobotMap.BEANWHEEL);
-///populasjonsvekst
+
   public boolean intakeRaised = true;
 
   private static IntakeSubsystem m_instance;
@@ -49,6 +52,8 @@ public class IntakeSubsystem extends Subsystem {
   public void initDefaultCommand() {
     
   }
+
+  //Configures PID for the brushless intake motor.
   public void ConfigPID() {
     wheelPID.setP(1e-5);
     wheelPID.setI(0);
@@ -57,22 +62,28 @@ public class IntakeSubsystem extends Subsystem {
     wheelPID.setFF(0.00017);
     wheelPID.setOutputRange(-1,1);
   }
+
+  //Run brushless intake motor(0-3600RPM)
   public void RunIntakePID(double RPM) {
     wheelPID.setReference(-RPM, ControlType.kVelocity);
     
   }
+
+  //Run main Intake motor and beanWheel
   public void RunIntake(double power) {
     intakeMotor.set(power);
     beanWheel.set(power*0.4);
-    //topIntakeMotor.set(power*0.3); 
   }
 
+
+  //Raise and lower intake pistons
   public void RaiseIntake(boolean state) {
     intakeSolenoid.set(state);
   }
+
+  //test and find out
   public void HelperIntake(boolean state){
     helperSolenoid.set(state);
   }
-//Røva mi e meget brukbar
 
 }
