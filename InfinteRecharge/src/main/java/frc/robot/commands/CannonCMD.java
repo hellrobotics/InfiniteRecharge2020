@@ -108,7 +108,7 @@ public class CannonCMD extends Command {
     extraPower = 5000;
   }
   
-  //Tracking
+  //Tracking and not shooting
   if(isRunning2 && !isShooting) {    
     ssCannon.TrackTurret(xCoord);
     System.out.println("Tracking: " + xCoord + ", " + yCoord);

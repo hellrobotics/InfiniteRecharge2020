@@ -204,6 +204,7 @@ public class Robot extends TimedRobot {
     cannonRun.start();
     elevatorRun.start();
     
+    //print when Manual controll stage is done.
     System.out.println("TELEOP DONE");
 
     if (m_autonomousCommand != null) {
