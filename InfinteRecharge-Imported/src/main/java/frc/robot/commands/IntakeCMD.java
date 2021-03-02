@@ -47,12 +47,6 @@ public class IntakeCMD extends Command {
 
       } 
 
-      //Toggle intake first driver
-      if(oi.stick.getRawButtonPressed(3)){
-        IntakeActive = !IntakeActive;
-        IntakeSplit = false;
-       }
-
        //split intake secound driver
        if(oi.figthStick.getRawButtonPressed(4)){
          IntakeSplit = !IntakeSplit;
@@ -114,7 +108,7 @@ public class IntakeCMD extends Command {
         ssIntake.RunIntakePID(PIDspeed);
       }
       
-      if(oi.stick.getPOV() == 0){
+      else if(oi.stick.getPOV() == 0){
         ssIntake.RunIntakePID(PIDspeed);
 
       } 

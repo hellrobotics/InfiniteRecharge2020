@@ -44,7 +44,6 @@ public class Robot extends TimedRobot {
   //mass variable declaring
   public static double centerX = 0;
   public static double centerY = 0;
-  public static boolean isTracking = false;
   public static double distance = 0;
   public static boolean SensorA = false;
   public static double visionError = 0.0;

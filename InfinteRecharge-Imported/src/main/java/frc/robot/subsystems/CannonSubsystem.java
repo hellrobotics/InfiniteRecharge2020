@@ -14,9 +14,12 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -33,12 +36,19 @@ public class CannonSubsystem extends Subsystem {
   private CANEncoder wheelEncoder = FlyWheelMotor.getEncoder();
   private CANPIDController wheelPID = FlyWheelMotor.getPIDController();
 
+  private Solenoid cameraFlipper = new Solenoid(RobotMap.CAMERAFLIPER);
+
   private WPI_TalonSRX TurretSpinner = new WPI_TalonSRX(RobotMap.TURRETSPINNER);
 
   public Servo VissionServ = new Servo(RobotMap.VISSIONSERVO);
 
   private DigitalInput leftEnd = new DigitalInput(RobotMap.ENDSTOPCANNONLEFT);
   private DigitalInput rightEnd = new DigitalInput(RobotMap.ENDSTOPCANNONRIGHT);
+
+  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+
+
+
 
   //public Servo cameraServo1 = new Servo(RobotMap.SERVO1);
 
@@ -64,6 +74,7 @@ public class CannonSubsystem extends Subsystem {
   }
 
 
+  
   //Configure launcher wheel PID
   public void ConfigPID() {
     wheelPID.setP(1e-5);
@@ -74,6 +85,10 @@ public class CannonSubsystem extends Subsystem {
     wheelPID.setOutputRange(-1,0);
   }
 
+  public void setPipeline(int pipeline) {
+		NetworkTableEntry pipelineEntry = table.getEntry("pipeline");
+    	pipelineEntry.setNumber(pipeline);
+    }
 
   //Run launcher wheel at power(0-1)
   public void RunShootWheel(double power) {
@@ -84,6 +99,10 @@ public class CannonSubsystem extends Subsystem {
   public void RunShootWheelPID(double RPM) {
     wheelPID.setReference(-RPM, ControlType.kVelocity);
 
+  }
+
+  public void setCameraPos(boolean state){
+    cameraFlipper.set(state);
   }
 
   //Maybe redundant?
@@ -109,10 +128,10 @@ public class CannonSubsystem extends Subsystem {
   }
 
 
-  //Function for finding speed of launcher wheel
-  public double calculateWheelSpeed(double x) {
-    return Math.max(0, Math.min(5800,(-94.79*Math.pow(x,3)+1246.22*Math.pow(x,2)-4821.54*x+10915.78)));
-  }
+    //Function for finding speed of launcher wheel
+    public double calculateWheelSpeed(double x) {
+      return Math.max(0, Math.min(5800,(-94.79*Math.pow(x,3)+1246.22*Math.pow(x,2)-4821.54*x+10915.78)));
+    }
 
 
   //maybe redudant?
@@ -138,7 +157,7 @@ public class CannonSubsystem extends Subsystem {
     } else if (leftEnd.get() && speed > 0) {
       TurretSpinner.set(0);
     } else {
-      TurretSpinner.set(speed);
+      TurretSpinner.set(speed*-1);
     }
   }
 
@@ -146,7 +165,20 @@ public class CannonSubsystem extends Subsystem {
   //automatic Turret tracking
   public void TrackTurret (double target) {
     //if (target >= 0) {
-      double error = (target)*-3;
+
+      //Negative = left/ Positive = Right
+      double cameraOffset = -4;
+
+      double TrackingSpeed = 5;
+      double error = ((target + cameraOffset)*-TrackingSpeed);
+      System.out.println("Error = " + error);
+      if(rightEnd.get() && error < 0) {
+        TurretSpinner.set(0);
+        System.out.println("Rigth Endstop hit");
+      } else if (leftEnd.get() && error > 0) {
+        TurretSpinner.set(0);
+        System.out.println("LeftEndstop hit");
+      } else {
       double iteration_time = Timer.getFPGATimestamp() - last_time2;
       double integral = Math.max(0.1, Math.min(-0.1, integral_prior2 + error * iteration_time));
       //Kommenter ut *0.45 og endre til det dirrer rundt punktet, derreter ukomenter og gang (1.2*kp)/tiden et dirr tar
@@ -154,7 +186,10 @@ public class CannonSubsystem extends Subsystem {
       double ki = (1.2*kp)/0.2;
       integral_prior2 = integral;
       last_time2 = Timer.getFPGATimestamp();
-      SpinTurret((error*kp + integral*ki*0));
+      SpinTurret((error*kp + integral*ki*0.5));
+      }
+    
+      
     /*} else {
       SpinTurret(0);
     }*/
@@ -180,6 +215,8 @@ public class CannonSubsystem extends Subsystem {
     double targetHeight = 0.0;
     double y_angle = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
     double distance = (targetHeight - cameraHeight) / Math.tan(cameraAngle + y_angle);
+    SmartDashboard.putNumber("limeLigthX", NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0));
+    SmartDashboard.putNumber(("LimeLightY"), y_angle);
     return(distance);
 
   }

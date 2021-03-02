@@ -37,6 +37,10 @@ public class StorageCMD extends Command {
   @Override
   public void execute() {
 
+    if(CannonCMD.isFlipped){
+      ssStore.TrackStorage();
+
+    }else{
 
     //Manual control over Pizza and feeding motors
     if(oi.stick.getRawButton(1)){
@@ -63,14 +67,8 @@ public class StorageCMD extends Command {
       ssStore.RunFeeding(0);
     }
   
-   
-
-
-    //Put all time of fligth sensor data on Smart dashboard.
-    SmartDashboard.putBoolean("EndstopA", ssStore.getEndstopA());
-    SmartDashboard.putBoolean("EndstopB", ssStore.getEndstopB());
-    SmartDashboard.putBoolean("EndstopC", ssStore.getEndstopC());
-
+  
+  }
   }
 
   @Override
