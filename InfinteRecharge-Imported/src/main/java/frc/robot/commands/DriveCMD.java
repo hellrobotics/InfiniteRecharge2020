@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.subsystems.DriveSub;
 
@@ -17,9 +18,15 @@ public class DriveCMD extends Command {
    */
 
 
+  PathWriter pw;
+  boolean isRecording = false;
+  public String filename = "tmpName";
+
   private DriveSub ssDrive;
   private OI oi;
   private double driveDir;
+
+
   public DriveCMD() {
     // Use addRequirements() here to declare subsystem dependencies.
     ssDrive = DriveSub.getInstance();
@@ -33,6 +40,7 @@ public class DriveCMD extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    SmartDashboard.putString("Path name", filename);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -53,6 +61,13 @@ public class DriveCMD extends Command {
       ssDrive.Arcade(oi.stick.getRawAxis(1)*(oi.stick.getRawAxis(3)), oi.stick.getRawAxis(0)*(oi.stick.getRawAxis(3))*driveDir*0.75)  ;
  
     //}
+    if(oi.stick.getRawButtonPressed(10) && !isRecording){
+      filename = SmartDashboard.getString("Path name", filename);
+      pw = new PathWriter(filename+".csv");
+    }
+    if(pw.isFinished()){
+      isRecording = false;
+    }
  
   }
 

@@ -6,6 +6,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
+
+import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
@@ -14,32 +16,42 @@ import java.io.PrintWriter;
 public class PathWriter extends Command {
 
   private OI oi;
-  private String filename;
   PrintWriter pw;
 
   public String filepath = "U/FRCLogPath/";
+  private String filePathFull;
+
+  private double driveDir = 0;
   
-  public PathWriter(String filename_) {
+  public PathWriter(String filename) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     oi = OI.getInstance();
-    filename = filename_;
+    filePathFull = filepath+filename;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    if(File.Exists(filepath))
+    System.out.println("Started path recording");
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {}
+  protected void execute() {
+    if(oi.stick.getRawAxis(3) < 0 ){
+      driveDir = -1;
+    }
+    else{
+      driveDir = 1;
+    }
+    writeLineToCSV((oi.stick.getRawAxis(1)*(oi.stick.getRawAxis(3))) + ";" + (oi.stick.getRawAxis(0)*(oi.stick.getRawAxis(3))*driveDir*0.75) + ";");
+  }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return oi.stick.getRawButtonPressed(10);
   }
 
   // Called once after isFinished returns true
@@ -55,7 +67,7 @@ public class PathWriter extends Command {
   protected void interrupted() {}
 
   public void writeLineToCSV (String content){
-     pw.write(content+"");
+     pw.write(content+"\r\n");
      pw.flush();
   }
 
