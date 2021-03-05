@@ -21,12 +21,14 @@ public class CannonCMD extends Command {
   public boolean isRunning = false;
   public boolean isTracking = false;
   public static boolean isFlipped = false;
+  public boolean normalCamera = false;
 
   
   private double ServPos = 0.5;
   private double yCoord = -1;
   private double xCoord = -1;
   private double extraPower = 0;
+  private double cannonPower = 5800;
   /**
    * Creates a new CannonCMD.
    */
@@ -54,6 +56,9 @@ public class CannonCMD extends Command {
     ssCannon.findDistance();
 
 
+    if(oi.stick.getRawButtonPressed(7)){
+      normalCamera = !normalCamera;
+    }
 
     //toggle shooting
     if (oi.stick.getRawButtonPressed(3)) {
@@ -66,7 +71,7 @@ public class CannonCMD extends Command {
       isTracking = !isTracking;
     }
 
-    if(oi.stick.getRawButtonPressed(2)){
+    if(oi.stick.getRawButtonPressed(2) || oi.figthStick.getRawButtonPressed(9)){
       if(isRunning != isTracking){
         isRunning = false;
         isTracking = false;
@@ -77,15 +82,14 @@ public class CannonCMD extends Command {
     }
 
     //Toggle camera position
-    if(oi.stick.getRawButtonPressed(6)){
+    if(oi.stick.getRawButtonPressed(6) || oi.figthStick.getRawButtonPressed(3) ){
       isFlipped = !isFlipped;
     }
     //Set camera position
     ssCannon.setCameraPos(isFlipped);
 
     //Adjustable cannonPower
-    double cannonPower = ((oi.stick.getThrottle()+1)/2*5800);
-
+    //double cannonPower = ((oi.stick.getThrottle()+1)/2*5800);
 
     //Smartdashboard mass information output
     SmartDashboard.putNumber("Cannon power", cannonPower);
@@ -97,10 +101,17 @@ public class CannonCMD extends Command {
 
     //Disable tracking and shooting while flipped
     if(!isFlipped){
+      if(isTracking){
+        ssCannon.setPipeline(0);
+      }else{
+      if(normalCamera){
+        ssCannon.setPipeline(2);
+      }else{
       ssCannon.setPipeline(0);
-
+      }
+    }
   //Shoot cannon
-  if(oi.stick.getRawButton(1)){
+  if(oi.stick.getRawButton(1) || oi.figthStick.getRawButton(6)){
     ssCannon.RunShootWheelPID(cannonPower);
   } 
 
@@ -121,9 +132,9 @@ public class CannonCMD extends Command {
 } else {
 
   //manual spin of turret
-  if(oi.figthStick.getPOV() == 90){
+  if(oi.figthStick.getPOV() == 90 || oi.stick.getRawButton(12)){
     ssCannon.SpinTurret(-0.5);
-  } else if(oi.figthStick.getPOV() == 270){
+  } else if(oi.figthStick.getPOV() == 270 ||oi.stick.getRawButton(11)){
     ssCannon.SpinTurret(0.5);
   } else{
   ssCannon.SpinTurret(-0.2*oi.figthStick.getRawAxis(0));
@@ -141,10 +152,7 @@ public class CannonCMD extends Command {
   }
   
 
-  //Set extra power to 5000
-  else if(oi.figthStick.getRawButtonPressed(9)){
-    extraPower = 5000;
-  }
+
   //End of stopping if flipped
 } else{
   ssCannon.setPipeline(1);

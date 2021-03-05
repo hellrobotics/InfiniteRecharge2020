@@ -8,7 +8,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.subsystems.StorageSub;
 
@@ -43,7 +42,7 @@ public class StorageCMD extends Command {
     }else{
 
     //Manual control over Pizza and feeding motors
-    if(oi.stick.getRawButton(1)){
+    if(oi.stick.getRawButton(1) || oi.figthStick.getRawButton(6)){
       ssStore.RunPizza(-1);
       ssStore.RunFeeding(-1);
     }

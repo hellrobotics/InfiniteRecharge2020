@@ -167,11 +167,12 @@ public class CannonSubsystem extends Subsystem {
     //if (target >= 0) {
 
       //Negative = left/ Positive = Right
-      double cameraOffset = -4;
+      double cameraOffset = -5.3;
 
       double TrackingSpeed = 5;
       double error = ((target + cameraOffset)*-TrackingSpeed);
-      System.out.println("Error = " + error);
+      SmartDashboard.putBoolean("leftEndstop", leftEnd.get());
+      SmartDashboard.putBoolean("rigthEndstop", rightEnd.get());
       if(rightEnd.get() && error < 0) {
         TurretSpinner.set(0);
         System.out.println("Rigth Endstop hit");
