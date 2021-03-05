@@ -53,13 +53,12 @@ public class CannonCMD extends Command {
     //Declare local X, Y cordinates for ease of use
     yCoord = Robot.centerY;
     xCoord = Robot.centerX;
-    ssCannon.findDistance();
-
 
     if(oi.stick.getRawButtonPressed(7)){
       normalCamera = !normalCamera;
     }
 
+    //System.out.println(ssCannon.CalculateDistance(yCoord));
     //toggle shooting
     if (oi.stick.getRawButtonPressed(3)) {
       isRunning = !isRunning;
@@ -89,8 +88,12 @@ public class CannonCMD extends Command {
     ssCannon.setCameraPos(isFlipped);
 
     //Adjustable cannonPower
-    //double cannonPower = ((oi.stick.getThrottle()+1)/2*5800);
-
+    //cannonPower = ((oi.stick.getThrottle()+1)/2*5800);
+    
+    //Auto cannonPower
+    cannonPower = ssCannon.calculateWheelSpeed(ssCannon.CalculateDistance(yCoord));
+    //System.out.println( ssCannon.calculateWheelSpeed(ssCannon.CalculateDistance(yCoord)));
+ 
     //Smartdashboard mass information output
     SmartDashboard.putNumber("Cannon power", cannonPower);
     SmartDashboard.putBoolean("Is running =", isRunning);
@@ -125,12 +128,16 @@ public class CannonCMD extends Command {
     ssCannon.RunShootWheel(0);
   }
 
- //Tracking and not shooting
+    //Tracking and not shooting
  if(isTracking) {    
   ssCannon.TrackTurret(xCoord);
   System.out.println("Tracking: " + xCoord + ", " + yCoord);
 } else {
 
+
+  if(oi.stick.getRawButtonPressed(9)){
+    System.out.println(ssCannon.CalculateDistance(yCoord));
+  }
   //manual spin of turret
   if(oi.figthStick.getPOV() == 90 || oi.stick.getRawButton(12)){
     ssCannon.SpinTurret(-0.5);

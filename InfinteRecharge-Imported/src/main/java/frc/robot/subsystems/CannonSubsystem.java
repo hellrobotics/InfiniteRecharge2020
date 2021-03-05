@@ -130,25 +130,10 @@ public class CannonSubsystem extends Subsystem {
 
     //Function for finding speed of launcher wheel
     public double calculateWheelSpeed(double x) {
-      return Math.max(0, Math.min(5800,(-94.79*Math.pow(x,3)+1246.22*Math.pow(x,2)-4821.54*x+10915.78)));
+      return Math.max(0, Math.min(5800,(-112.12*Math.pow(x,4)+1655.75*Math.pow(x,3)-7795.24*Math.pow(x,2)+14296.42*x+-3141)));
     }
 
 
-  //maybe redudant?
-  public void TrackServo(double target) {
-    if (target >= 0) {
-      double error = 360.0 - target;
-      double iteration_time = Timer.getFPGATimestamp() - last_time;
-      double integral = Math.max(10, Math.min(-10, integral_prior + error * iteration_time));
-      SmartDashboard.putNumber("Turret integral", integral);
-      double kp = 0.003*0.45;//0.00003*0.45;
-      double ki = (1.2*kp)/1;
-      //VissionServ.set(Math.max(0.4, Math.min(0.7, VissionServ.get()+(error*kp + integral*ki))));
-      SetVissionServoSpeed(error*kp + integral*ki*0);
-      integral_prior = integral;
-      last_time = Timer.getFPGATimestamp();
-    }
-  }
 
   //Basic manual turning of turret wit endstops.
   public void SpinTurret(double speed){
@@ -167,7 +152,7 @@ public class CannonSubsystem extends Subsystem {
     //if (target >= 0) {
 
       //Negative = left/ Positive = Right
-      double cameraOffset = -5.3;
+      double cameraOffset = -6;
 
       double TrackingSpeed = 5;
       double error = ((target + cameraOffset)*-TrackingSpeed);
@@ -200,9 +185,11 @@ public class CannonSubsystem extends Subsystem {
   //Calculate curent distance to target
   public double CalculateDistance (double yCoord) {
     double pixelsFromBottom = (yCoord);
-    double degreesFromBottom = (pixelsFromBottom)*(33.75/240)+5;
-    double distance = ((2.04-0.54) / Math.tan(Math.toRadians(degreesFromBottom)));
-    SmartDashboard.putNumber("Servo angle", (ServPos-0.39)* 350);
+    //double degreesFromBottom = (pixelsFromBottom)*(49.7/240);
+    double degreesFromMiddle = (pixelsFromBottom-120)*(49.7/240);
+    double degreesFromBottom = yCoord + 30;
+    double distance = ((2.35-0.61) / Math.tan(Math.toRadians(degreesFromBottom)));
+    SmartDashboard.putNumber("Camera angle", 150);
     SmartDashboard.putNumber("Degrees from bottom", degreesFromBottom);
     SmartDashboard.putNumber("Calculated Cannon Power", calculateWheelSpeed(distance));
     SmartDashboard.putNumber("Calculated distance", distance);
@@ -210,15 +197,5 @@ public class CannonSubsystem extends Subsystem {
     return distance;
   }
 
-  public double findDistance(){
-    double cameraAngle = 0.0;
-    double cameraHeight = 0.0;
-    double targetHeight = 0.0;
-    double y_angle = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
-    double distance = (targetHeight - cameraHeight) / Math.tan(cameraAngle + y_angle);
-    SmartDashboard.putNumber("limeLigthX", NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0));
-    SmartDashboard.putNumber(("LimeLightY"), y_angle);
-    return(distance);
 
-  }
 }

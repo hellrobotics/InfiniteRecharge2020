@@ -9,6 +9,7 @@ import frc.robot.OI;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 
@@ -28,6 +29,13 @@ public class PathWriter extends Command {
     // eg. requires(chassis);
     oi = OI.getInstance();
     filePathFull = filepath+filename;
+
+    try {
+      pw = new PrintWriter(filePathFull);
+      System.out.println("File made :)");
+    } catch(IOException ex) {
+      System.out.println("No file made :(");
+    }
   }
 
   // Called just before this Command runs the first time
@@ -35,6 +43,7 @@ public class PathWriter extends Command {
   protected void initialize() {
     System.out.println("Started path recording");
   }
+  
 
   // Called repeatedly when this Command is scheduled to run
   @Override

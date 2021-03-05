@@ -64,8 +64,9 @@ public class DriveCMD extends Command {
     if(oi.stick.getRawButtonPressed(10) && !isRecording){
       filename = SmartDashboard.getString("Path name", filename);
       pw = new PathWriter(filename+".csv");
+      pw.start();
     }
-    if(pw.isFinished()){
+    if(pw != null && pw.isFinished()){
       isRecording = false;
     }
  
