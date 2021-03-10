@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -34,7 +35,7 @@ public class DriveCMD extends Command {
   int currentPlayLine = 0;
   public String filenamePlay = "tmpName";
   public List<String> fileLines;
-  public List<Vector2d> inputLines;
+  public ArrayList<Vector2d> inputLines;
   
 
   private DriveSub ssDrive;
@@ -136,7 +137,9 @@ public class DriveCMD extends Command {
       isPlaying = false;
     }
 
+
     if (fileLines != null) {
+      inputLines= new ArrayList<Vector2d>();
       for (int i = 0; i < fileLines.size(); i++) {
         String[] values = fileLines.get(i).split(";");
         inputLines.add(new Vector2d(Double.parseDouble(values[0]), Double.parseDouble(values[1])));
