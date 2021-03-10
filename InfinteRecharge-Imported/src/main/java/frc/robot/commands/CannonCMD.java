@@ -135,9 +135,6 @@ public class CannonCMD extends Command {
 } else {
 
 
-  if(oi.stick.getRawButtonPressed(9)){
-    System.out.println(ssCannon.CalculateDistance(yCoord));
-  }
   //manual spin of turret
   if(oi.figthStick.getPOV() == 90 || oi.stick.getRawButton(12)){
     ssCannon.SpinTurret(-0.5);
