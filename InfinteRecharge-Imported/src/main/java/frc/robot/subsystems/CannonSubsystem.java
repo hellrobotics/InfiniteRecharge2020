@@ -59,6 +59,8 @@ public class CannonSubsystem extends Subsystem {
 
   private double ServPos = 0.5;
 
+  private double rpmMargin = 500;
+
   private static CannonSubsystem m_instance;
 	public static synchronized CannonSubsystem getInstance() {
 		if (m_instance == null){
@@ -97,29 +99,23 @@ public class CannonSubsystem extends Subsystem {
 
   //Run launcher wheel at a set RPM(0-3600RPM)
   public void RunShootWheelPID(double RPM) {
+    System.out.println("Target RPM = " + RPM + " RPM = " + wheelEncoder.getVelocity());
     wheelPID.setReference(-RPM, ControlType.kVelocity);
-
+    if(-RPM+rpmMargin > wheelEncoder.getVelocity() && wheelEncoder.getVelocity() > -RPM-rpmMargin){
+      Robot.readyToFire = true;
+      System.out.println("READY TO FIRE");
+    } else {
+      Robot.readyToFire = false;
+    }
   }
 
   public void setCameraPos(boolean state){
-    cameraFlipper.set(state);
+    cameraFlipper.set(!state);
   }
 
-  //Maybe redundant?
-  public void SetVissionServo(double pos){
-    VissionServ.set(pos);
-  }
-
-
-  //Maybe redundant?
-  public void SetVissionServoSpeed(double speed){
-    VissionServ.set(0.5+(speed/2));
-
-  }
-
-  //maybe redundant?
-  public double GetVissionServo(){
-    return VissionServ.get();
+  public void ToggleCam(){
+    cameraFlipper.set(!cameraFlipper.get());
+    System.out.println("FLIPPING CAMERA");
   }
 
   //Get current RPM of launcher wheel
@@ -128,12 +124,10 @@ public class CannonSubsystem extends Subsystem {
   }
 
 
-    //Function for finding speed of launcher wheel
-    public double calculateWheelSpeed(double x) {
-      return Math.max(0, Math.min(5800,(-112.12*Math.pow(x,4)+1655.75*Math.pow(x,3)-7795.24*Math.pow(x,2)+14296.42*x+-3141)));
-    }
-
-
+  //Function for finding speed of launcher wheel
+  public double calculateWheelSpeed(double x) {
+    return Math.max(0, Math.min(5800,(-112.12*Math.pow(x,4)+1655.75*Math.pow(x,3)-7795.24*Math.pow(x,2)+14296.42*x+-3141)));
+  }
 
   //Basic manual turning of turret wit endstops.
   public void SpinTurret(double speed){

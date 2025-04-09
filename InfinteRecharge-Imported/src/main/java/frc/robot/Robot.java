@@ -46,6 +46,7 @@ public class Robot extends TimedRobot {
   public static double centerY = 0;
   public static double distance = 0;
   public static boolean SensorA = false;
+  public static boolean readyToFire = false;
   public static double visionError = 0.0;
   public static double visionErrorY = 0.0;
   public static double CenteX = 0.0;

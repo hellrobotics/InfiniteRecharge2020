@@ -25,6 +25,8 @@ public class CannonCMD extends Command {
   private double yCoord = -1;
   private double xCoord = -1;
   private double extraPower = 0;
+
+  private boolean camToggleHold = false;
   /**
    * Creates a new CannonCMD.
    */
@@ -72,7 +74,15 @@ public class CannonCMD extends Command {
     SmartDashboard.putNumber("Servo pos", ServPos);
     SmartDashboard.putNumber("Target X", xCoord);
 
-
+    //Flip camera toggle
+    if(oi.figthStick.getRawAxis(3) > 0.1){
+      if(!camToggleHold){
+        camToggleHold = true;
+        ssCannon.ToggleCam();
+      }
+    } else {
+      camToggleHold = false;
+    }
 
   //Shoot cannon
   if(oi.stick.getRawButton(1)){

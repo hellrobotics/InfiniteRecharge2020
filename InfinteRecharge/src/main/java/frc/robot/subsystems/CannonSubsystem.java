@@ -35,7 +35,8 @@ public class CannonSubsystem extends Subsystem {
 
   private WPI_TalonSRX TurretSpinner = new WPI_TalonSRX(RobotMap.TURRETSPINNER);
 
-  public Servo VissionServ = new Servo(RobotMap.VISSIONSERVO);
+  //public Servo VissionServ = new Servo(RobotMap.VISSIONSERVO);
+  public Solenoid camSolenoid = new Solenoid(RobotMap.CAMERATURNER);
 
   private DigitalInput leftEnd = new DigitalInput(RobotMap.ENDSTOPCANNONLEFT);
   private DigitalInput rightEnd = new DigitalInput(RobotMap.ENDSTOPCANNONRIGHT);
@@ -86,22 +87,6 @@ public class CannonSubsystem extends Subsystem {
 
   }
 
-  //Maybe redundant?
-  public void SetVissionServo(double pos){
-    VissionServ.set(pos);
-  }
-
-
-  //Maybe redundant?
-  public void SetVissionServoSpeed(double speed){
-    VissionServ.set(0.5+(speed/2));
-
-  }
-
-  //maybe redundant?
-  public double GetVissionServo(){
-    return VissionServ.get();
-  }
 
   //Get current RPM of launcher wheel
   public double getWheelSpeed(){
@@ -115,20 +100,8 @@ public class CannonSubsystem extends Subsystem {
   }
 
 
-  //maybe redudant?
-  public void TrackServo(double target) {
-    if (target >= 0) {
-      double error = 360.0 - target;
-      double iteration_time = Timer.getFPGATimestamp() - last_time;
-      double integral = Math.max(10, Math.min(-10, integral_prior + error * iteration_time));
-      SmartDashboard.putNumber("Turret integral", integral);
-      double kp = 0.003*0.45;//0.00003*0.45;
-      double ki = (1.2*kp)/1;
-      //VissionServ.set(Math.max(0.4, Math.min(0.7, VissionServ.get()+(error*kp + integral*ki))));
-      SetVissionServoSpeed(error*kp + integral*ki*0);
-      integral_prior = integral;
-      last_time = Timer.getFPGATimestamp();
-    }
+  public void ToggleCam(){
+    camSolenoid.set(!camSolenoid.get());
   }
 
   //Basic manual turning of turret wit endstops.

@@ -1,0 +1,9 @@
+AUTROSHOT FUNKSJONER
+--------------------
+Sving turret (høyre/venstre) - (POV) høyre/venstre
+Skyt - trigger (1)
+Toggle Autoaim - (2) 
+Flip camera - (4)
+Toggle Tracking vision - (3)
+Toggle intake - (6)
+Kjør intake (inn/ut) - (POV) opp/ned

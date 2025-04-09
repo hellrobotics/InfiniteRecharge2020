@@ -35,6 +35,7 @@ public class RobotMap {
   //PCM
   public static int INTAKESOLENOID = 5;
   public static int HELPERSOLENOID = 6;
+  public static int CAMERATURNER = 7;
   public static int ELEVATORLOCK = 4;
   //public static int ELEVATORPUSHER = 4;
   //DIO

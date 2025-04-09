@@ -15,6 +15,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 public class StorageSub extends SubsystemBase {
@@ -58,8 +59,8 @@ public static synchronized StorageSub getInstance() {
 
     //runs the feeding motors
   public void RunFeeding(double speed){
-    Feeding1.set(ControlMode.PercentOutput, speed*-1);
-    Feeding2.set(ControlMode.PercentOutput, speed*-1);
+      Feeding1.set(ControlMode.PercentOutput, speed*-1);
+      Feeding2.set(ControlMode.PercentOutput, speed*-1);
     }
 
     public void TrackStorage(){

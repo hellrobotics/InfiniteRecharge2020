@@ -57,8 +57,8 @@ public class DriveCMD extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    SmartDashboard.putString("Path name", filename);
-    SmartDashboard.putString("Playback path name", filenamePlay);
+    //SmartDashboard.putString("Path name", filename);
+    //SmartDashboard.putString("Playback path name", filenamePlay);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -74,7 +74,7 @@ public class DriveCMD extends Command {
       driveDir = 1;
     }
 
-
+    /* OLD Autonomous route replay
     if(oi.stick.getRawButtonPressed(9) && !isRecording){
       if(!isPlaying){
         filenamePlay = SmartDashboard.getString("Playback path name", filenamePlay);
@@ -82,23 +82,23 @@ public class DriveCMD extends Command {
       } else {
         isPlaying = false;
       }
-    }
-
+    }*/
+    /*
     if(isPlaying){
       ssDrive.Arcade(inputLines.get(currentPlayLine).x, inputLines.get(currentPlayLine).y);
       currentPlayLine++;
       if(currentPlayLine > inputLines.size()){
         isPlaying = false;
       }
-    } else {
+    } else {*/
 
       //standard drivetrain code with adjustable speed
       ssDrive.Arcade(oi.stick.getRawAxis(1)*(oi.stick.getRawAxis(3)), oi.stick.getRawAxis(0)*(oi.stick.getRawAxis(3))*driveDir*0.75)  ;
  
-    }
+    //}
 
     
-
+    /* OLD Autonomous route recording
     if(oi.stick.getRawButtonPressed(10) && !isRecording){
       filename = SmartDashboard.getString("Path name", filename);
       pw = new PathWriter(filename+".csv");
@@ -106,7 +106,7 @@ public class DriveCMD extends Command {
     }
     if(pw != null && pw.isFinished()){
       isRecording = false;
-    }
+    }*/
  
   }
 

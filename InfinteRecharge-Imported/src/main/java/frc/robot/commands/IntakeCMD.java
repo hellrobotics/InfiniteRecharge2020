@@ -32,70 +32,50 @@ public class IntakeCMD extends Command {
   @Override
   public void initialize() {
     ssIntake.ConfigPID();
-
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  //Togle intake code
+    //Togle intake code
 
-    //Toggle intake secound driver
-     if(oi.figthStick.getRawButtonPressed(5)){
-       IntakeActive = !IntakeActive;
-       IntakeSplit = false;
+    //Toggle intake
+    if(oi.stick.getRawButtonPressed(6)){
+      IntakeActive = !IntakeActive;
+      IntakeSplit = false;
+    } 
 
-      } 
+    /*    //split intake secound driver
+    if(oi.figthStick.getRawButtonPressed(4)){
+      IntakeSplit = !IntakeSplit;
+      IntakeActive = false;
+    }*/
+    //Time of fligth sensor automation.
+    if(Robot.SensorA == true){
+      PIDspeed = 0;
+    }
+    else{
+      PIDspeed = 2000;
+    }
 
-       //split intake secound driver
-       if(oi.figthStick.getRawButtonPressed(4)){
-         IntakeSplit = !IntakeSplit;
-         IntakeActive = false;
-       }
-
-       //Time of fligth sensor automation.
-      if(Robot.SensorA == true){
-        PIDspeed = 0;
-      }
-      else{
-        PIDspeed = 2000;
-      }
-
-      //Cheack if split or not
-      if(IntakeActive == true && IntakeSplit == false){
-
+    //Cheack if split or not
+    if(IntakeActive == true && IntakeSplit == false){
       //Run motors as non split
       if(oi.stick.getPOV() == 0){
         ssIntake.RunIntake(-1);
         ssIntake.RunIntakePID(PIDspeed);
-
       } 
-      
       else if(oi.stick.getPOV() == 180){
         ssIntake.RunIntake(0.8);
         ssIntake.RunIntakePID(-PIDspeed);
-      }
-      
-      else if(oi.figthStick.getRawButton(1)){
-        ssIntake.RunIntake(0.8);
-        ssIntake.RunIntakePID(-PIDspeed);
-      }
-      
-      else if(oi.figthStick.getRawButton(2)){
-        ssIntake.RunIntake(-1);
-        ssIntake.RunIntakePID(PIDspeed);
-      }
-      
-       else {
+      } 
+      else {
         ssIntake.RunIntake(0);
         ssIntake.RunIntakePID(0);
       } 
-
-      
-
     }
-    
-
+    /* OLD, no longer any way to split intake
     //Cheack if in Split mode
     else if(IntakeActive == false && IntakeSplit == true){ 
 
@@ -121,7 +101,7 @@ public class IntakeCMD extends Command {
       ssIntake.RunIntake(0);
       ssIntake.RunIntakePID(0);
     }
-  }
+  } */
     
     //Put the intake in NON split position
     if(IntakeSplit == false){
