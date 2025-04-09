@@ -15,6 +15,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.wpi.first.wpilibj.SlewRateLimiter;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.drive.Vector2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -42,7 +44,15 @@ public class DriveCMD extends Command {
   private OI oi;
   private double driveDir;
 
-  
+  //STEAMDECK VARIABLES
+  double deadzoneMultiplier = 0.2;
+  double deadzonelimit = 0.01;
+  private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
+  private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(1);
+  public static final double kMaxSpeed = 1;
+  // PI/5 rotation per second.
+  public static final double kMaxAngularSpeed = Math.PI/5.0; 
+
 
   public DriveCMD() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -73,40 +83,38 @@ public class DriveCMD extends Command {
     else{
       driveDir = 1;
     }
+    double speed = 0;
+    double rotation = 0;
 
-    /* OLD Autonomous route replay
-    if(oi.stick.getRawButtonPressed(9) && !isRecording){
-      if(!isPlaying){
-        filenamePlay = SmartDashboard.getString("Playback path name", filenamePlay);
-        ReadCSV(filenamePlay);
-      } else {
-        isPlaying = false;
-      }
-    }*/
-    /*
-    if(isPlaying){
-      ssDrive.Arcade(inputLines.get(currentPlayLine).x, inputLines.get(currentPlayLine).y);
-      currentPlayLine++;
-      if(currentPlayLine > inputLines.size()){
-        isPlaying = false;
-      }
-    } else {*/
-
-      //standard drivetrain code with adjustable speed
-      ssDrive.Arcade(oi.stick.getRawAxis(1)*(oi.stick.getRawAxis(3)), oi.stick.getRawAxis(0)*(oi.stick.getRawAxis(3))*driveDir*0.75)  ;
- 
-    //}
-
+    //STEAMDECK
+    if(oi.xCon != null)
+    {
+      double rTrigger = oi.xCon.getTriggerAxis(Hand.kRight);
+      double lTrigger = oi.xCon.getTriggerAxis(Hand.kLeft);
+      double forward = (1-rTrigger)*deadzoneMultiplier + rTrigger;
+      double backward = (1-lTrigger)*deadzoneMultiplier + lTrigger;
     
-    /* OLD Autonomous route recording
-    if(oi.stick.getRawButtonPressed(10) && !isRecording){
-      filename = SmartDashboard.getString("Path name", filename);
-      pw = new PathWriter(filename+".csv");
-      pw.start();
+      if (rTrigger > deadzonelimit)
+      {
+        speed = m_speedLimiter.calculate(-forward * kMaxSpeed);
+      }
+      else if (lTrigger > deadzonelimit)
+      {
+        speed = m_speedLimiter.calculate(backward*kMaxSpeed);
+      }
+      else 
+      {
+        speed = m_speedLimiter.calculate(0);
+      }
+      rotation = oi.xCon.getX(Hand.kLeft)*kMaxAngularSpeed;
+
     }
-    if(pw != null && pw.isFinished()){
-      isRecording = false;
-    }*/
+
+    double fSpeed = oi.stick.getRawAxis(1)*(oi.stick.getRawAxis(3)) + speed;
+    double fRotation = oi.stick.getRawAxis(0)*(oi.stick.getRawAxis(3))*driveDir*0.75 + rotation;
+    
+    //standard drivetrain code with adjustable speed
+    ssDrive.Arcade(fSpeed, fRotation);
  
   }
 

@@ -118,10 +118,10 @@ public class CannonCMD extends Command {
     SmartDashboard.putNumber("Target X", xCoord);
 
     //manual spin of turret
-    if(oi.stick.getPOV() == 90){
+    if(oi.stick.getPOV() == 90 || oi.xCon.getPOV() == 90){
       isTracking = false;
       ssCannon.SpinTurret(-0.5);
-    } else if(oi.stick.getPOV() == 270){
+    } else if(oi.stick.getPOV() == 270 || oi.xCon.getPOV() == 270){
       isTracking = false;
       ssCannon.SpinTurret(0.5);
     } else if(!isTracking){
